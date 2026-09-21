@@ -1,0 +1,13 @@
+Deal ID,Customer,Deal Value,Created Date,Last Activity Date,Close Date,Current Stage,Status,Delay Reason,Follow Ups,Sales Rep,Lead Source,Industry,Product
+D-1001,Riverbend Services," $19,000.00 ",2026-09-10,2026-09-18,2026-09-18,Funding, Closed Won ,,5,Maya Chen,Outbound,Healthcare,Lease Financing
+D-1002,BluePeak Dental,,2026-09-02,2026-09-06,,Documentation,Open,Customer Unresponsive,3,Maya Chen,Partner,Retail,Lease Financing
+D-1003,Coastal Kitchens,not recorded,2026-08-25,2026-09-10,,Approval,Open,Customer Unresponsive,2,Maya Chen,Outbound,Healthcare,Lease Financing
+D-1005,Harbour Retail,42500,2026-05-30,2026-06-29,2026-06-29,Funding,Won,,5,Maya Chen,Referral,Professional Services,Term Loan
+D-1005,Harbour Retail,34500,2026-05-26,2026-09-13,,Proposal,Open,,2,Maya Chen,Outbound,Retail,Working Capital
+D-1006,Pacific Bistro,64000,not a date,2026-09-15,,Funding,Open,,0,Lucas Martin,Website,Healthcare,Working Capital
+D-1007,FreshFork Market,45000,2026-08-17,1900-01-01,2026-09-18,Funding,Won,Pricing / Terms,3,Jordan Patel,Website,Professional Services,Term Loan
+D-1008,Copper & Pine,59500,2026-05-22,2026-06-21,2026-06-21,Funding,Maybe,,1,Ava Thompson,Referral,Hospitality,Equipment Finance
+D-1009,Maple & Co.,25000,2026-06-04,2026-07-19,2026-07-19,Funding,Won,,-2,Ava Thompson,Outbound,Hospitality,Equipment Finance
+,Lighthouse Labs,73500,2026-06-09,2026-09-08,,Documentation,Open,Pricing / Terms,3,Jordan Patel,Website,Healthcare,Term Loan
+D-1011,Riverbend Services,-500,2026-06-28,2026-09-06,,Credit Review,Open,Missing Documents,3,Lucas Martin,Referral,Professional Services,Equipment Finance
+D-1012,Harbour Retail,67000,2026-06-01,2099-01-01,,Approval,Open,,3,Jordan Patel,Event,Professional Services,Term Loan
