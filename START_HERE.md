@@ -101,6 +101,27 @@ After **Check data** succeeds:
 
 The **Analysis / validation date** above Check data controls both validation and aging. Changing it requires checking the file again. Use a snapshot from the date you want to analyze; changing this date cannot reconstruct historical statuses. No closed deals means win rate is N/A, and no Open value means the percentage at risk is N/A.
 
+## Use the suggested next steps
+
+Below Pipeline overview, **Suggested next steps** explains what needs attention, the supporting deal count and value, and a practical follow-up. These are suggestions for your review; the app does not contact anyone or change the original file.
+
+- **Review first:** Critical opportunities and stages with the most stalled value.
+- **Complete details:** stalled deals with missing or unmapped owners or delay reasons.
+- **Watch:** Medium-risk deals approaching the stalled threshold.
+
+The same deal can appear in several suggestions. **Do not add these suggestion values together.** Revenue at risk remains the separate total of stalled Open deals. Missing optional columns are described as unavailable, not as proof that the original company record is incomplete.
+
+Select **Download action plan** to keep the evidence, suggested actions, supporting deal IDs, filters, date and threshold in a spreadsheet-friendly file. It includes all current suggestions.
+
+## Check the calculations without using Terminal
+
+1. Expand **Check these calculations** under the action plan.
+2. Click **Run calculation check**.
+3. A successful check says that all comparisons agree. You can download the comparison report.
+4. If you change filters or the stalled threshold, run the check again; previous results disappear so they cannot be mistaken for current results.
+
+Behind the scenes, a second method called SQL independently calculates the KPI totals, stage summaries, and each selected deal's age and risk. You do not need to learn SQL to use this button. Agreement checks the math against the same selected records; it cannot verify whether a spreadsheet reflects reality. If results disagree, keep the report and share it in this project task before relying on those results.
+
 ## Your next project step
 
-Try the sample with 30 days, then 60 days, and compare the stalled deals and value. Try a stage filter and download the analysis. No Terminal commands are needed online. The next development work is broader explainable recommendations, followed by SQL and portfolio/interview material. See [the progress record](docs/PROGRESS.md).
+Try the sample with 30 days, then 60 days, and compare the stalled deals and value. Try a stage filter and download the analysis. No Terminal commands are needed online. Try downloading the action plan and running the calculation check. Next, use the saved [demo walkthrough](docs/DEMO_WALKTHROUGH.md) to practice explaining the project. Close-date and stage-history analysis need additional agreed input fields before they can be built. See [the progress record](docs/PROGRESS.md).

@@ -2,7 +2,7 @@
 
 A portfolio application that helps teams turn their own sales-pipeline spreadsheets into useful analysis of stalled deals and operational delays.
 
-Upload or choose a sample, match columns, and check the entire file before exploring pipeline KPIs, deal aging, inactivity risk, and bottlenecks. Interactive filters, configurable stalled thresholds, and downloadable analyses make every result reviewable.
+Upload or choose a sample, match columns, and check the entire file before exploring pipeline KPIs, deal aging, inactivity risk, and bottlenecks. Interactive filters, configurable stalled thresholds, evidence-based suggestions, and downloadable analyses make every result reviewable. An optional DuckDB/SQL check independently recomputes selected results.
 
 ## Open the app online
 
@@ -36,6 +36,8 @@ For a guided first visit and troubleshooting, read [START_HERE.md](START_HERE.md
 - View pipeline and outcome KPIs, aging charts, Low/Medium/High/Critical inactivity categories, and revenue at risk.
 - Adjust the stalled threshold (default 30 days), apply dashboard filters, and review stage, representative, and recorded-delay summaries.
 - Download filtered deal analysis with calculation settings, or the stage summary.
+- Read suggested next steps and download an action plan with supporting deal IDs.
+- Run an independent SQL calculation check and download the comparison report.
 
 The checker keeps every row. It does not silently remove invalid or duplicate records to make a file pass.
 
@@ -54,7 +56,9 @@ Read the [data dictionary](docs/data_dictionary.md) for meanings and examples. T
 | Item | Purpose |
 | --- | --- |
 | `app.py` | The application you run |
-| `src/` | Reusable data-processing code |
+| `src/` | Reusable data-processing, analytics and recommendation code |
+| `sql/` | Saved independent age/risk, KPI and stage-summary queries |
+| `docs/SQL_ANALYSIS.md` | How the independent calculation check works |
 | `scripts/start.sh` | Starts the application using this project's Python environment |
 | `scripts/check.sh` | Runs the project checks |
 | `requirements.txt` | Records the Python packages needed by the project |
@@ -80,6 +84,6 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## What comes next
 
-The analytics milestone has 50 passing automated tests. Broader explainable recommendations, DuckDB/SQL, close-date or stage-history analysis, and resume packaging remain. GitHub publishing and Streamlit deployment are in place.
+The project has 69 passing automated tests, including independent SQL agreement and explainable action rules. Start with the [demo walkthrough](docs/DEMO_WALKTHROUGH.md) to prepare a portfolio demonstration. Close-date/stage-history analysis, portfolio screenshots, and tailored resume packaging remain. GitHub publishing and Streamlit deployment are in place.
 
 This is a hosted portfolio project using synthetic examples. It has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
