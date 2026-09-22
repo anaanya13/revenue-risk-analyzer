@@ -7,6 +7,7 @@ import plotly.express as px
 import streamlit as st
 
 from src.bottleneck_engine import summarize_bottlenecks
+from src.action_dashboard import render_actions
 from src.column_mapper import FIELD_LABELS
 from src.exports import csv_bytes
 from src.filters import FILTER_FIELDS, filter_deals, filter_options
@@ -128,6 +129,10 @@ def render_dashboard(cleaned, analysis_date, context_key):
         for column, (label, value, help_text) in zip(st.columns(4), row):
             column.metric(label, value, help=help_text)
     st.caption("Average inactivity among matching Open deals: {} days.".format(_number(kpis["average_inactivity"], 1)))
+
+    render_actions(filtered, analysis_date, threshold, {
+        "selections": selections, "created_from": start, "created_to": end,
+    })
 
     st.markdown("### Aging and risk")
     if not kpis["open_deals"]:
