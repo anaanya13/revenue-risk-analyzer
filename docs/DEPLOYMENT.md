@@ -1,6 +1,6 @@
 # Streamlit deployment
 
-**Deployed and verified on September 21, 2026.**
+**Analytics update deployed and verified on September 22, 2026.**
 
 - App: [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app/)
 - Code: [anaanya13/revenue-risk-analyzer](https://github.com/anaanya13/revenue-risk-analyzer)
@@ -21,7 +21,11 @@ The shared configuration does not force a localhost address. The optional local 
 
 ## Verification
 
-The hosted browser checks passed: original sample 120 deals and zero issues; alternate headers 12 deals and zero issues; messy sample 12 deals, 11 affected rows, and 11 issues. Both the full standardized CSV and the issue-report CSV downloaded successfully. Earlier local verification has 27 passing automated tests on Python 3.9.13; these are separate from the hosted browser checks.
+The analytics update is live. At analysis date September 22, 2026, the hosted sample showed 120 deals, 70 Open, 27 Won, 23 Lost, 54% win rate, and Open pipeline value 3,102,500. With a 30-day threshold, 14 stalled deals had a combined value of 647,000. A 3650-day threshold recalculated stalled count/value to zero without removing records. Clearing a filter showed no matches; Reset filters restored all 120. The filtered-analysis download succeeded, and the charts and stage summaries rendered.
+
+All 50 automated tests pass locally on Python 3.9.13. These include the original validation/upload/export checks plus 23 new calculation and analytics interaction cases. Hosted browser verification uses the deployed Python 3.12 environment; the full unittest suite was run locally.
+
+The initial deployment also verified alternate headers (12 deals, zero issues), messy data (12 deals, 11 affected rows/issues), and standardized/issue CSV downloads.
 
 ## Published files
 

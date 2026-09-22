@@ -8,7 +8,7 @@ The user specifically chose automated analysis of uploaded company data over a s
 
 The motivating business question is: **Which deals need attention, and how much potential value is associated with operational delays?** This is a proposed business use case, not evidence that the prototype has produced commercial results.
 
-## Current milestone: reliable data preparation
+## Completed data preparation
 
 The current application covers:
 
@@ -34,24 +34,32 @@ See the [data dictionary](data_dictionary.md) for supported fields. The cleaned 
 - The file describes a snapshot of a pipeline, rather than a history of every stage change.
 - All deal values use the same currency. This milestone does not perform currency conversion or verify exchange rates.
 - The user confirms how ambiguous day/month dates should be read.
-- The validation date is the date against which future-date checks are made; it is not yet an analytics dashboard date control.
+- The validation date is the date against which future-date checks are made; it also controls analytics aging and inactivity. A change requires revalidation and does not reconstruct historical statuses.
 - Current Stage is the current workflow step; Status describes whether the deal is open, won, or lost.
 - Unmapped additional columns are not automatically incorporated into analysis.
 
-## Proposed definitions for the next milestone
+## Implemented analytics definitions
 
-These are starting proposals for the analytics build. They have not been selected as final business rules by the user and are not implemented in this milestone.
+Calculations operate on the fully validated snapshot, then use one shared filtered population for all dashboard results and analysis downloads.
 
-| Proposed measure | Definition to implement and explain |
+| Measure | Definition |
 | --- | --- |
-| Deal count | Number of valid, unique deal records in the selected data |
-| Active pipeline value | Sum of Deal Value where normalized Status is Open |
-| Won deal value | Sum of Deal Value where normalized Status is Won |
-| Win rate | Won deal count divided by Won plus Lost deal count; show no result when there are no closed deals |
-| Open deal age | Analysis date minus Created Date, for Open deals |
-| Days inactive | Analysis date minus Last Activity Date, for Open deals |
-| Inactive deal flag | Open deal with at least 30 days of inactivity; make the threshold configurable in a later build |
-| Pipeline value flagged for review | Sum of Deal Value for Open deals meeting the stated inactivity rule |
+| Deal count | Number of unique records matching the filters |
+| Open pipeline value | Sum of Deal Value for Open deals |
+| Won / lost deal value | Sum of Deal Value for the respective status |
+| Average deal value | Total value divided by all matching deal records |
+| Win rate | Won count / (Won + Lost counts); N/A with no closed deals |
+| Open deal age | Analysis date minus Created Date in whole days, Open only |
+| Days inactive | Analysis date minus Last Activity Date in whole days, Open only |
+| Stalled deal | Open and inactive for at least T days; T defaults to 30 and is configurable from 1 to 3650 in the dashboard |
+| Revenue at risk | Full value of stalled Open deals |
+| Open value at risk | Revenue at risk / Open pipeline value; N/A if the denominator is zero |
+
+With threshold T, Low is inactivity below ceil(T/2); Medium is ceil(T/2) through T−1; High is T through 2T−1; Critical is 2T or more. High and Critical are stalled. T=1 leaves no Medium interval. Closed deals are labeled Closed with blank age and inactivity. Age buckets are 0–30, 31–60, 61–90 and 91+ days. Average age/inactivity use Open deals only; undefined averages are N/A.
+
+Bottleneck tables group Open deals by current stage, recorded delay reason or representative. They show Open/stalled counts, pipeline/exposed value, stalled percentage, average age/inactivity and follow-up coverage/average. Missing group values remain a separate blank group; missing counts are excluded from follow-up averages while recorded zero is included. Missing optional fields produce an explanation instead of a fabricated summary. Groups sort by exposed value then Open value. Stalled deal review sorts by severity, value, then inactivity.
+
+Filters include status, stage, severity, creation-date range (both ends inclusive), and available representative, lead source, industry and product. Filters intersect; clearing a selection means no matches. Reset restores all records. A status or severity filter also changes the win-rate denominator. No matching records displays an explanation. The full standardized export remains unfiltered; filtered analysis includes all matching rows and calculation date/threshold, irrespective of the review-table checkbox.
 
 “Won deal value” is the amount recorded against won deals, not audited or accounting-recognized revenue. A risk flag expresses exposure under a rule; it does not predict loss or calculate expected financial loss.
 
@@ -61,9 +69,9 @@ Keep deal age, inactivity, and time in a stage distinct. Created Date supports d
 
 | Stage | Intended result |
 | --- | --- |
-| KPI and aging calculations | Tested calculations using explicit definitions and valid records |
-| Bottleneck views | Open/stalled deal counts and value by stage; delay and follow-up summaries when supplied |
-| Interactive dashboard | Charts and filters that recalculate for the uploaded file |
+| KPI and aging calculations — complete | Tested calculations using explicit definitions and valid records |
+| Bottleneck views — complete | Open/stalled deal counts and value by stage; delay and follow-up summaries when supplied |
+| Interactive dashboard — complete | Charts and filters that recalculate for the uploaded file |
 | Insights and recommendations | Explainable text generated from rules, with supporting counts/values |
 | SQL | DuckDB queries for selected analysis after the Python app works |
 | Portfolio packaging | GitHub repository, screenshots, clear README, deployment, and truthful resume/interview material |
@@ -75,9 +83,9 @@ Optional fields should enable additional views when present. Missing optional fi
 - Current stage alone cannot measure stage residence time, stage-to-stage conversion, or a historical conversion funnel. Those require event history or stage-entry dates.
 - Time to close and monthly won-deal trends require suitable close dates. The original sample has an extra Close Date field, but this milestone does not map it.
 - Associations between follow-ups, delay reasons, and outcomes do not establish what caused a deal to be lost.
-- The current prototype has no risk scoring model, dashboard, automated recommendations, SQL layer, application user accounts, or database. The data-preparation prototype is deployed on Streamlit Community Cloud.
+- The prototype has rule-based severity categories and a dashboard, but no predictive risk model, broader automated recommendations, SQL layer, application user accounts, or database. It is deployed on Streamlit Community Cloud.
 
-Initial scope recommendations are to keep machine learning, AI APIs, complex accounts, and cloud infrastructure out of the first working product. Streamlit and Plotly remain the planned application/dashboard tools; the historical Power BI brief records an earlier concept.
+Initial scope recommendations are to keep machine learning, AI APIs, complex accounts, and cloud infrastructure out of the first working product. Streamlit and Plotly are the application/dashboard tools; the historical Power BI brief records an earlier concept.
 
 ## Evidence and history
 

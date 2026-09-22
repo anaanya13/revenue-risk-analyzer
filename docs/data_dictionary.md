@@ -67,3 +67,19 @@ The standardized preview and download become available only after **all records 
 CSV downloads protect text beginning with spreadsheet formula characters by adding a leading apostrophe. This applies to text fields such as IDs, not numeric amounts. Dates export as `YYYY-MM-DD`.
 
 The app checks a pipeline snapshot. It cannot reconstruct activity history or calculate how long a deal has been in its current stage from the required fields alone.
+
+## Derived analytics fields (filtered-analysis download)
+
+These are calculated after the whole file passes; they are not required upload columns.
+
+| Field | Meaning |
+| --- | --- |
+| deal_age_days | Days from creation to analysis date; blank for closed deals |
+| days_inactive | Days from last activity to analysis date; blank for closed deals |
+| is_stalled | True for Open deals at or above the inactivity threshold |
+| risk_severity | Low, Medium, High, Critical, or Closed |
+| age_bucket | Open ages 0–30, 31–60, 61–90, or 91+ days |
+| analysis_date | Date used in calculations |
+| stalled_threshold_days | Configured inactivity threshold |
+
+See [the specification](project_specification.md) for boundary rules. Summary CSV `stalled_share` is a fraction from 0 to 1; the dashboard displays it as a percentage. Amounts retain the file's single currency.
