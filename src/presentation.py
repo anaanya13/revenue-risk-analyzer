@@ -36,6 +36,7 @@ h2, h3, h4 { font-family: 'Manrope', sans-serif; letter-spacing: -.025em; color:
 [data-testid="stMetric"] { background: #fff; border: 1px solid #dae5ec; border-top: 3px solid #20a894;
     border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 4px 12px #142f4507; min-height: 108px; }
 [data-testid="stMetricLabel"] { color: #486276; font-weight: 500; }
+[data-testid="stMetricLabel"] p { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.35; }
 [data-testid="stMetricValue"] { font-family: 'Manrope', sans-serif; font-weight: 800;
     font-size: clamp(1.35rem, 2.1vw, 2rem); color: #123d4a; letter-spacing: -.04em; }
 [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p { color: #526b7c !important; }
