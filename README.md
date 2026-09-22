@@ -25,6 +25,10 @@ Keep Terminal open while using the app. If your browser does not open automatica
 
 For a guided first visit and troubleshooting, read [START_HERE.md](START_HERE.md).
 
+## Midnight & Teal interface
+
+A navy gradient backdrop, readable white KPI cards, coordinated charts and priority badges organize the analysis into **Data setup**, **Dashboard**, **Action plan** and **Verification** tabs. Shared controls live in the sidebar. After checking a sample or upload, open Dashboard to see the results. The visual refresh does not change the business rules.
+
 ## What works in version 1.0
 
 - Upload a CSV or Excel `.xlsx` file; choose the worksheet for Excel files.
@@ -84,7 +88,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 69 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 71 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).

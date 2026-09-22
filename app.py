@@ -13,6 +13,7 @@ from src.data_loader import DataLoadError, excel_sheet_names, load_pipeline
 from src.data_validator import validate_data
 from src.exports import csv_bytes
 from src.dashboard import render_dashboard
+from src.presentation import apply_theme, render_hero
 
 ROOT = Path(__file__).resolve().parent
 DEMO_FILES = {
@@ -24,15 +25,35 @@ DEMO_FILES = {
 
 def main():
     st.set_page_config(page_title="Revenue Risk Analyzer", page_icon="📊", layout="wide")
-    st.title("Revenue Risk & Deal Bottleneck Analyzer")
-    st.write("Check your sales pipeline, identify stalled deals and explore revenue exposure.")
-    st.caption("Upload → match columns → check quality → explore your dashboard.")
+    apply_theme()
+    render_hero()
+    setup, dashboard, actions, verification = st.tabs(["Data setup", "Dashboard", "Action plan", "Verification"])
+    with setup:
+        prepared = prepare_data()
+    if prepared is None:
+        for panel, heading, message in (
+            (dashboard, "Your pipeline, at a glance", "Choose a file or sample in Data setup, then click Check data to unlock your dashboard."),
+            (actions, "A focused plan for your next review", "Your evidence-backed action plan will appear after the entire file passes its data checks."),
+            (verification, "Confidence in every calculation", "Once your data is ready, compare the dashboard calculations with an independent SQL check here."),
+        ):
+            with panel:
+                st.subheader(heading)
+                st.info(message)
+        with st.sidebar:
+            st.markdown("### Your workspace")
+            st.caption("Filters become available after your data passes its checks.")
+        return
+    cleaned, as_of, analytics_key = prepared
+    render_dashboard(cleaned, as_of, analytics_key, dashboard, actions, verification)
+
+
+def prepare_data():
     with st.expander("Start here: quick guide and project notes"):
         st.markdown(
             "1. Choose **Try sample data** below, keep the Deals worksheet and suggested column matches.\n"
-            "2. Click **Check data**, then scroll to **Explore your pipeline**.\n"
+            "2. Click **Check data**, then open the **Dashboard** tab.\n"
             "3. Review the KPIs and **Suggested next steps**. Change the stalled threshold or filters to explore.\n"
-            "4. Download the action plan. Under **Check these calculations**, run the independent check.\n\n"
+            "4. Download the action plan. Open **Verification** to run the independent check.\n\n"
             "For the saved portfolio example, use **September 22, 2026** as the analysis date and **30 days** as the threshold. "
             "Risk here means pipeline exposure to review, not a forecast of lost revenue."
         )
@@ -73,7 +94,7 @@ def main():
 
     source_key = fingerprint + str(sheet)
     st.success("{} loaded: {:,} rows and {} columns.".format(filename, len(raw), len(raw.columns)))
-    with st.expander("Preview original data", expanded=True):
+    with st.expander("Preview original data", expanded=False):
         st.dataframe(raw.head(10).astype("string"), hide_index=True, width="stretch")
     st.subheader("2. Match your columns")
     st.write("Check the suggestions below. Each field must use a different column from your file.")
@@ -130,7 +151,7 @@ def main():
     col2.metric("Rows needing attention", result.invalid_row_count)
     col3.metric("Issues found", len(result.issues))
     if result.is_valid:
-        st.success("Your data passed all current checks. Your dashboard is ready below.")
+        st.success("Your data passed all current checks. Open the Dashboard tab to explore your results.")
     else:
         st.error("Some records need correction. Fix the listed issues in your source file, then upload it again.")
         st.caption("Source row counts the header as row 1. One row may have several different issues.")
@@ -153,7 +174,7 @@ def main():
             on_click="ignore", type="primary",
         )
         analytics_key = sha256(repr(signature).encode()).hexdigest()[:16]
-        render_dashboard(result.cleaned_data, as_of, analytics_key)
+        return result.cleaned_data, as_of, analytics_key
 
 
 if __name__ == "__main__":

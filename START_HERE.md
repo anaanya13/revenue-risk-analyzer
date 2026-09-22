@@ -1,5 +1,16 @@
 # Start here
 
+## The new layout
+
+The Midnight & Teal design separates the workflow into four tabs:
+
+- **Data setup:** upload or select a sample, map columns, check quality, and download the full standardized file.
+- **Dashboard:** KPI cards, aging/risk charts and bottleneck summaries.
+- **Action plan:** prioritized suggestions, deals to review and analysis downloads.
+- **Verification:** calculation definitions, the independent SQL check and its report.
+
+After Check data succeeds, select **Dashboard**. The left sidebar holds the stalled threshold and filters shared by all result tabs. If the sidebar is collapsed, use Streamlit's sidebar arrow to reopen it. All calculations and file formats are unchanged.
+
 ## Use the online app
 
 Open [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app/) and bookmark it. **No Terminal commands are needed for the online version.**
@@ -7,7 +18,7 @@ Open [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app
 1. Select **Try sample data**.
 2. Keep the **Deals** worksheet and suggested column matches.
 3. Click **Check data**. The sample should show **120 deals and 0 issues** with a validation date on or after September 18, 2026.
-4. Scroll to **Explore your pipeline** to see KPIs, aging, risk, bottlenecks, and deals to review.
+4. Open the **Dashboard** tab to see KPIs, aging, risk, bottlenecks, and deals to review.
 5. Try **Try messy test data** to see the issue report, or **Try alternate column names** to see another header format.
 
 Close the browser tab when finished. To request improvements, continue the project task where the app was built. The saved code is on [GitHub](https://github.com/anaanya13/revenue-risk-analyzer); code updates must be published there to update the online app.
@@ -92,10 +103,10 @@ After **Check data** succeeds:
 
 1. Review **Pipeline overview** for open pipeline value, won value, win rate, deal counts, and revenue at risk.
 2. Start with **30 days** in **Stalled after this many days without activity**. Change it to suit the workflow; the dashboard updates immediately.
-3. Expand **What do the numbers and risk levels mean?** for definitions. With 30 days selected: Low = 0–14 inactive days, Medium = 15–29, High = 30–59, Critical = 60+. High and Critical are stalled.
-4. Use **Filter the dashboard** to select status, stage, risk, and any supplied representative, lead source, industry or product. You can also filter by creation date. All dashboard results use these filters. Clearing a selection returns no deals; **Reset filters** brings them back.
+3. In **Verification**, expand **What do the numbers and risk levels mean?** for definitions. With 30 days selected: Low = 0–14 inactive days, Medium = 15–29, High = 30–59, Critical = 60+. High and Critical are stalled.
+4. Use **Filter the dashboard** in the sidebar to select status, stage, risk, and any supplied representative, lead source, industry or product. You can also filter by creation date. All dashboard results use these filters. Clearing a selection returns no deals; **Reset filters** brings them back.
 5. Read **Aging and risk** and **Where are open deals getting stuck?**. Optional delay reasons and representative summaries appear when those fields are mapped.
-6. Review the stalled deals under **Deals to review**. Download **filtered analysis** to keep all matching rows with their age, risk, analysis date and threshold, or download the **stage summary**. The earlier standardized download still contains the full validated file.
+6. Review the stalled deals under **Deals to review** in **Action plan**. Download **filtered analysis** to keep all matching rows with their age, risk, analysis date and threshold, or download the **stage summary**. The earlier standardized download still contains the full validated file.
 
 **Revenue at risk means the full value of stalled Open deals. It is exposure to review, not a forecast that this money will be lost.** Deal age counts days since creation; inactivity counts days since last activity. Current stage alone cannot tell us time spent in that stage. Won value is the amount in the spreadsheet, not accounting-recognized revenue.
 
@@ -103,7 +114,7 @@ The **Analysis / validation date** above Check data controls both validation and
 
 ## Use the suggested next steps
 
-Below Pipeline overview, **Suggested next steps** explains what needs attention, the supporting deal count and value, and a practical follow-up. These are suggestions for your review; the app does not contact anyone or change the original file.
+In the **Action plan** tab, **Suggested next steps** explains what needs attention, the supporting deal count and value, and a practical follow-up. These are suggestions for your review; the app does not contact anyone or change the original file.
 
 - **Review first:** Critical opportunities and stages with the most stalled value.
 - **Complete details:** stalled deals with missing or unmapped owners or delay reasons.
@@ -115,7 +126,7 @@ Select **Download action plan** to keep the evidence, suggested actions, support
 
 ## Check the calculations without using Terminal
 
-1. Expand **Check these calculations** under the action plan.
+1. Open the **Verification** tab.
 2. Click **Run calculation check**.
 3. A successful check says that all comparisons agree. You can download the comparison report.
 4. If you change filters or the stalled threshold, run the check again; previous results disappear so they cannot be mistaken for current results.
