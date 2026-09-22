@@ -19,6 +19,7 @@ The current application covers:
 5. Date-order and validation-date settings.
 6. Data standardization and validation.
 7. Row-level issue reporting, downloadable issues, and a cleaned-data download after every row passes.
+8. A hosted Streamlit app connected to the project's GitHub repository.
 
 Mapping suggestions must be reviewable by the user. Required fields must be mapped before checking data. A source column should not be assigned to more than one standard field.
 
@@ -74,7 +75,7 @@ Optional fields should enable additional views when present. Missing optional fi
 - Current stage alone cannot measure stage residence time, stage-to-stage conversion, or a historical conversion funnel. Those require event history or stage-entry dates.
 - Time to close and monthly won-deal trends require suitable close dates. The original sample has an extra Close Date field, but this milestone does not map it.
 - Associations between follow-ups, delay reasons, and outcomes do not establish what caused a deal to be lost.
-- The current prototype has no risk scoring model, dashboard, automated recommendations, SQL layer, user accounts, database, or deployment.
+- The current prototype has no risk scoring model, dashboard, automated recommendations, SQL layer, application user accounts, or database. The data-preparation prototype is deployed on Streamlit Community Cloud.
 
 Initial scope recommendations are to keep machine learning, AI APIs, complex accounts, and cloud infrastructure out of the first working product. Streamlit and Plotly remain the planned application/dashboard tools; the historical Power BI brief records an earlier concept.
 
