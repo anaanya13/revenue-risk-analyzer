@@ -49,4 +49,4 @@ Describe your own role accurately, including the AI-assisted development process
 - Why not time in stage? Current stage is only a snapshot; stage-entry history is required.
 - Why not monthly revenue trends? Close dates are not mapped yet, and won value is not accounting revenue.
 - What does SQL verification prove? That two implementations agree for the same selected validated data and rules. It does not prove the source data is true.
-- What would you improve next? Agree on close-date/history inputs, then add supported historical measures; finish portfolio screenshots and assess real workflow needs before adding persistence or accounts.
+- What would you improve next? Agree on close-date/history inputs, then add supported historical measures; assess real workflow needs before adding persistence or accounts. The version-1 screenshot gallery and handover are already saved.

@@ -19,7 +19,13 @@
 
 The shared configuration does not force a localhost address. The optional local start script still uses localhost.
 
-## Latest milestone verification
+## Version 1.0 release verification
+
+The in-app quick guide is deployed. A real Excel upload and the final live SQL comparison were verified. The code remains connected to GitHub main, with the same Streamlit entry point and dependencies. The complete 69-test suite also passes in GitHub on both Python 3.9 and 3.12; see [Project checks run 2](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35707160241).
+
+The workflow checks relevant code/query/data/dependency changes with read-only repository permissions. It does not deploy or block deployment. Documentation and screenshot-only commits do not rerun the calculation suite. Full release and scope details are saved in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+
+## Previous milestone verification
 
 The action-plan cards rendered with supporting counts, values and next steps. The action-plan CSV and calculation-check CSV both downloaded. At the September 22 sample date and 30-day threshold, the independent SQL check reported **all 555 comparisons agree**. Increasing the threshold to 3650 changed the suggestions to the no-stalled explanation and removed the earlier check result; the 30-day default was restored.
 

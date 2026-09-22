@@ -1,5 +1,15 @@
 # Project progress
 
+## September 22, 2026: portfolio version 1.0 completed
+
+Finished the defined snapshot-analysis portfolio release. Added an in-app quick guide, a clear project handover, a case study with truthful resume wording, interview notes, a screenshot gallery, and RELEASE_CHECKLIST.md. The optional local start script now checks every direct application dependency.
+
+The final local suite passes all 69 tests. Automatic GitHub checks also passed on both Python 3.9 and 3.12 in [run 2](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35707160241). Checks now run on relevant code, query, data and dependency changes. They report results; they do not gate or perform Streamlit deployment.
+
+Verified a real upload of the original Excel workbook, retained all 120 rows, and confirmed the live calculation check still reports all 555 comparisons agreeing. Captured the live app, KPI, recommendation, risk and verification views using synthetic data for portfolio evidence.
+
+The owner has no required coding or setup steps. Remaining personal steps are the short walkthrough, practicing the explanation, and reviewing resume wording against their actual role. Close-date analysis, stage history, accounts and persistent storage are optional future extensions requiring additional requirements/data, not unfinished version-1 features.
+
 ## September 22, 2026: action plans and independent SQL verification
 
 Added an explainable action plan with Critical-deal reviews, tied highest-exposure stages, missing-owner/reason prompts, and Medium-risk watch items. Every suggestion has a supporting count/value, next step, and downloadable deal IDs. Filters and threshold changes rebuild the plan; overlapping values are explicitly not additive. Closed-only and no-stalled selections receive appropriate explanations.
@@ -66,13 +76,11 @@ bash scripts/check.sh
 
 For the manual walkthrough, start the app and try the original sample, messy test data, alternate column names, and a file upload. Verify that the worksheet selector, mappings, report, and downloads correspond to the selected file.
 
-## Next unfinished work
+## Version 1.0 handover and optional extensions
 
-1. Use the saved demo walkthrough, capture portfolio screenshots, and tailor resume/interview material to the completed project.
-2. Agree on close-date or stage-event history inputs before building time-to-close, historical trends, or time-in-stage analysis. Current snapshot data cannot support these claims.
-3. If persistent saved analyses or company-specific workflows are needed, define those requirements before adding a database or accounts.
+The version-1 technical and portfolio deliverables are complete. See [PROJECT_HANDOVER.md](PROJECT_HANDOVER.md) for the owner's short checklist and [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for verification evidence.
 
-The application has no saved upload history, machine-learning loss prediction, or application-level user accounts. DuckDB is used temporarily for SQL verification, not persistent storage. Missing optional data does not create invented results.
+Optional extensions require suitable inputs: close dates for time-to-close/trends, event history for time-in-stage/conversion, or defined retention/access needs before persistent storage and accounts. The current app makes none of those claims.
 
 ## Where to resume
 

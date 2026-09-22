@@ -82,7 +82,7 @@ Undefined results compare as null. Numeric comparison tolerance is relative 1e-1
 | Interactive dashboard — complete | Charts and filters that recalculate for the uploaded file |
 | Insights and recommendations — complete | Explainable text generated from rules, with supporting counts/values |
 | SQL — complete | DuckDB queries for selected analysis after the Python app works |
-| Portfolio packaging | GitHub repository, screenshots, clear README, deployment, and truthful resume/interview material |
+| Portfolio packaging — complete for version 1.0 | GitHub repository, screenshots, clear README, deployment, and truthful resume/interview material |
 
 Optional fields should enable additional views when present. Missing optional fields must not cause fabricated results.
 
