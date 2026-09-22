@@ -122,6 +122,13 @@ Select **Download action plan** to keep the evidence, suggested actions, support
 
 Behind the scenes, a second method called SQL independently calculates the KPI totals, stage summaries, and each selected deal's age and risk. You do not need to learn SQL to use this button. Agreement checks the math against the same selected records; it cannot verify whether a spreadsheet reflects reality. If results disagree, keep the report and share it in this project task before relying on those results.
 
-## Your next project step
+## Your part now
 
-Try the sample with 30 days, then 60 days, and compare the stalled deals and value. Try a stage filter and download the analysis. No Terminal commands are needed online. Try downloading the action plan and running the calculation check. Next, use the saved [demo walkthrough](docs/DEMO_WALKTHROUGH.md) to practice explaining the project. Close-date and stage-history analysis need additional agreed input fields before they can be built. See [the progress record](docs/PROGRESS.md).
+The portfolio version is complete. You do not need to run commands, install packages, or provide real company data to finish it.
+
+1. Spend 5–10 minutes trying the sample and changing the threshold from 30 to 60 days.
+2. Download the action plan and run the independent calculation check.
+3. Practice the [five-minute demo](docs/DEMO_WALKTHROUGH.md).
+4. Review the [case study and resume wording](docs/PORTFOLIO_CASE_STUDY.md) so it accurately describes your participation.
+
+The [project handover](docs/PROJECT_HANDOVER.md) is your complete checklist. [Interview notes](docs/INTERVIEW_NOTES.md), [screenshots](docs/screenshots/README.md) and the [release record](docs/RELEASE_CHECKLIST.md) are saved. Additional historical analytics would be a future extension with additional date/history inputs, not unfinished work in this version.

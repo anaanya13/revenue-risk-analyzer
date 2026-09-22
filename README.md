@@ -25,7 +25,7 @@ Keep Terminal open while using the app. If your browser does not open automatica
 
 For a guided first visit and troubleshooting, read [START_HERE.md](START_HERE.md).
 
-## What works in this milestone
+## What works in version 1.0
 
 - Upload a CSV or Excel `.xlsx` file; choose the worksheet for Excel files.
 - Try the original sample, a deliberately messy test file, or a file with different column names.
@@ -82,8 +82,16 @@ bash scripts/check.sh
 
 The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
-## What comes next
+## Portfolio package and handover
 
-The project has 69 passing automated tests, including independent SQL agreement and explainable action rules. Start with the [demo walkthrough](docs/DEMO_WALKTHROUGH.md) to prepare a portfolio demonstration. Close-date/stage-history analysis, portfolio screenshots, and tailored resume packaging remain. GitHub publishing and Streamlit deployment are in place.
+**Portfolio version 1.0 is complete and deployed.** The project has 69 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
-This is a hosted portfolio project using synthetic examples. It has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
+- [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
+- [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
+- [Case study and resume wording](docs/PORTFOLIO_CASE_STUDY.md).
+- [Interview notes](docs/INTERVIEW_NOTES.md).
+- [Screenshot gallery](docs/screenshots/README.md).
+
+![Live risk chart using the synthetic sample](docs/screenshots/04-risk.png)
+
+Close-date trends, time-in-stage analysis, accounts and saved analysis history are optional extensions requiring additional data or requirements. They are outside this release. This hosted portfolio project has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
