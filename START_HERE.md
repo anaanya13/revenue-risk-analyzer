@@ -7,7 +7,8 @@ Open [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app
 1. Select **Try sample data**.
 2. Keep the **Deals** worksheet and suggested column matches.
 3. Click **Check data**. The sample should show **120 deals and 0 issues** with a validation date on or after September 18, 2026.
-4. Try **Try messy test data** to see the issue report, or **Try alternate column names** to see another header format.
+4. Scroll to **Explore your pipeline** to see KPIs, aging, risk, bottlenecks, and deals to review.
+5. Try **Try messy test data** to see the issue report, or **Try alternate column names** to see another header format.
 
 Close the browser tab when finished. To request improvements, continue the project task where the app was built. The saved code is on [GitHub](https://github.com/anaanya13/revenue-risk-analyzer); code updates must be published there to update the online app.
 
@@ -85,6 +86,21 @@ The installation command needs an internet connection. These recovery steps are 
 
 For another error, copy the message from Terminal and share it in this project task. Keep the project files so the problem can be reproduced and fixed.
 
+## Explore the new analytics dashboard
+
+After **Check data** succeeds:
+
+1. Review **Pipeline overview** for open pipeline value, won value, win rate, deal counts, and revenue at risk.
+2. Start with **30 days** in **Stalled after this many days without activity**. Change it to suit the workflow; the dashboard updates immediately.
+3. Expand **What do the numbers and risk levels mean?** for definitions. With 30 days selected: Low = 0–14 inactive days, Medium = 15–29, High = 30–59, Critical = 60+. High and Critical are stalled.
+4. Use **Filter the dashboard** to select status, stage, risk, and any supplied representative, lead source, industry or product. You can also filter by creation date. All dashboard results use these filters. Clearing a selection returns no deals; **Reset filters** brings them back.
+5. Read **Aging and risk** and **Where are open deals getting stuck?**. Optional delay reasons and representative summaries appear when those fields are mapped.
+6. Review the stalled deals under **Deals to review**. Download **filtered analysis** to keep all matching rows with their age, risk, analysis date and threshold, or download the **stage summary**. The earlier standardized download still contains the full validated file.
+
+**Revenue at risk means the full value of stalled Open deals. It is exposure to review, not a forecast that this money will be lost.** Deal age counts days since creation; inactivity counts days since last activity. Current stage alone cannot tell us time spent in that stage. Won value is the amount in the spreadsheet, not accounting-recognized revenue.
+
+The **Analysis / validation date** above Check data controls both validation and aging. Changing it requires checking the file again. Use a snapshot from the date you want to analyze; changing this date cannot reconstruct historical statuses. No closed deals means win rate is N/A, and no Open value means the percentage at risk is N/A.
+
 ## Your next project step
 
-Try the three built-in datasets and review the results. This milestone is the foundation for analysis. The next build will add agreed definitions for pipeline value, won deal value, win rate, and inactivity-based deal risk. See [the progress record](docs/PROGRESS.md).
+Try the sample with 30 days, then 60 days, and compare the stalled deals and value. Try a stage filter and download the analysis. No Terminal commands are needed online. The next development work is broader explainable recommendations, followed by SQL and portfolio/interview material. See [the progress record](docs/PROGRESS.md).

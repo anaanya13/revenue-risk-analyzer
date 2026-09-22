@@ -12,6 +12,7 @@ from src.column_mapper import (
 from src.data_loader import DataLoadError, excel_sheet_names, load_pipeline
 from src.data_validator import validate_data
 from src.exports import csv_bytes
+from src.dashboard import render_dashboard
 
 ROOT = Path(__file__).resolve().parent
 DEMO_FILES = {
@@ -24,8 +25,8 @@ DEMO_FILES = {
 def main():
     st.set_page_config(page_title="Revenue Risk Analyzer", page_icon="📊", layout="wide")
     st.title("Revenue Risk & Deal Bottleneck Analyzer")
-    st.write("Prepare your sales pipeline data for reliable revenue and bottleneck analysis.")
-    st.caption("Current build: upload, column mapping, cleaning and data-quality checks. Dashboard analysis is next.")
+    st.write("Check your sales pipeline, identify stalled deals and explore revenue exposure.")
+    st.caption("Upload → match columns → check quality → explore your dashboard.")
 
     st.subheader("1. Choose your data")
     source = st.radio("Data source", ["Upload a file"] + list(DEMO_FILES), horizontal=True)
@@ -90,8 +91,8 @@ def main():
         )
     with col2:
         as_of = st.date_input(
-            "Validation date", value=date.today(), key="as_of_" + source_key,
-            help="Created dates and last activity dates after this date will be flagged. For a historical file, use its snapshot date.",
+            "Analysis / validation date", value=date.today(), key="as_of_" + source_key,
+            help="Used for both date validation and deal aging. For a historical file, use its snapshot date. This does not reconstruct past statuses.",
         )
     st.caption(
         "Amounts use a dot for decimals and commas for thousands (12,500.50). Use one currency per file. "
@@ -114,7 +115,7 @@ def main():
     col2.metric("Rows needing attention", result.invalid_row_count)
     col3.metric("Issues found", len(result.issues))
     if result.is_valid:
-        st.success("Your data passed all current checks. The standardized file is ready for the next analysis stage.")
+        st.success("Your data passed all current checks. Your dashboard is ready below.")
     else:
         st.error("Some records need correction. Fix the listed issues in your source file, then upload it again.")
         st.caption("Source row counts the header as row 1. One row may have several different issues.")
@@ -125,7 +126,7 @@ def main():
         )
 
     if result.is_valid:
-        with st.expander("Review standardized data", expanded=True):
+        with st.expander("Review standardized data", expanded=False):
             st.caption(
                 "The first 50 rows are shown below. Use Download standardized data for the full dataset. "
                 "This contains your mapped fields; extra source columns remain in your original file. "
@@ -136,7 +137,8 @@ def main():
             "Download standardized data", csv_bytes(result.cleaned_data), "standardized_pipeline.csv", "text/csv",
             on_click="ignore", type="primary",
         )
-        st.info("Next project milestone: agree on the KPI definitions, then build the first analysis cards.")
+        analytics_key = sha256(repr(signature).encode()).hexdigest()[:16]
+        render_dashboard(result.cleaned_data, as_of, analytics_key)
 
 
 if __name__ == "__main__":

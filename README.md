@@ -1,8 +1,8 @@
 # Revenue Risk & Deal Bottleneck Analyzer
 
-A portfolio application that will help teams turn their own sales-pipeline spreadsheets into useful analysis of stalled deals and operational delays.
+A portfolio application that helps teams turn their own sales-pipeline spreadsheets into useful analysis of stalled deals and operational delays.
 
-The current milestone prepares the data: upload or choose a sample, match columns, check data quality, and download standardized data once the entire file passes. Revenue KPIs, risk calculations, charts, and automated recommendations are the next stages.
+Upload or choose a sample, match columns, and check the entire file before exploring pipeline KPIs, deal aging, inactivity risk, and bottlenecks. Interactive filters, configurable stalled thresholds, and downloadable analyses make every result reviewable.
 
 ## Open the app online
 
@@ -32,6 +32,10 @@ For a guided first visit and troubleshooting, read [START_HERE.md](START_HERE.md
 - Review the file and match its columns to the app's standard fields.
 - Choose how dates should be interpreted and the date used for validation.
 - Run data checks and review issues by row. Download the issue report, then download cleaned data once every row passes.
+
+- View pipeline and outcome KPIs, aging charts, Low/Medium/High/Critical inactivity categories, and revenue at risk.
+- Adjust the stalled threshold (default 30 days), apply dashboard filters, and review stage, representative, and recorded-delay summaries.
+- Download filtered deal analysis with calculation settings, or the stage summary.
 
 The checker keeps every row. It does not silently remove invalid or duplicate records to make a file pass.
 
@@ -76,6 +80,6 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## What comes next
 
-Define and test pipeline KPIs, deal aging, and an inactivity-based risk rule. Then add charts, filters, explainable insights, and recommendations. SQL with DuckDB and resume packaging come later. GitHub publishing and Streamlit deployment are complete.
+The analytics milestone has 50 passing automated tests. Broader explainable recommendations, DuckDB/SQL, close-date or stage-history analysis, and resume packaging remain. GitHub publishing and Streamlit deployment are in place.
 
-This is a hosted portfolio project using synthetic examples. It has not been evaluated with a live company's workflow. A flagged deal will represent pipeline exposure under a stated rule, not a prediction that its value will be lost.
+This is a hosted portfolio project using synthetic examples. It has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
