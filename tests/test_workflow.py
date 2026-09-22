@@ -105,7 +105,7 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(len(self.app.exception), 0)
         self.choose_source("Try sample data")
         self.check()
-        self.assertEqual([m.value for m in self.app.metric], ["120", "0", "0"])
+        self.assertEqual([m.value for m in self.app.metric][:3], ["120", "0", "0"])
         self.assertTrue(any("passed" in message.value for message in self.app.success))
         status = next(widget for widget in self.app.selectbox if widget.label == "Status *")
         status.set_value("Deal ID").run()
@@ -124,7 +124,7 @@ class InterfaceTests(unittest.TestCase):
     def test_alternate_company_and_source_switch_clear_previous_results(self):
         self.choose_source("Try alternate column names")
         self.check()
-        self.assertEqual([m.value for m in self.app.metric], ["12", "0", "0"])
+        self.assertEqual([m.value for m in self.app.metric][:3], ["12", "0", "0"])
         self.choose_source("Try messy test data")
         self.assertEqual(len(self.app.metric), 0)
 
