@@ -27,6 +27,21 @@ def main():
     st.title("Revenue Risk & Deal Bottleneck Analyzer")
     st.write("Check your sales pipeline, identify stalled deals and explore revenue exposure.")
     st.caption("Upload → match columns → check quality → explore your dashboard.")
+    with st.expander("Start here: quick guide and project notes"):
+        st.markdown(
+            "1. Choose **Try sample data** below, keep the Deals worksheet and suggested column matches.\n"
+            "2. Click **Check data**, then scroll to **Explore your pipeline**.\n"
+            "3. Review the KPIs and **Suggested next steps**. Change the stalled threshold or filters to explore.\n"
+            "4. Download the action plan. Under **Check these calculations**, run the independent check.\n\n"
+            "For the saved portfolio example, use **September 22, 2026** as the analysis date and **30 days** as the threshold. "
+            "Risk here means pipeline exposure to review, not a forecast of lost revenue."
+        )
+        st.markdown(
+            "[Beginner guide](https://github.com/anaanya13/revenue-risk-analyzer/blob/main/START_HERE.md) · "
+            "[Five-minute demo](https://github.com/anaanya13/revenue-risk-analyzer/blob/main/docs/DEMO_WALKTHROUGH.md) · "
+            "[Project handover](https://github.com/anaanya13/revenue-risk-analyzer/blob/main/docs/PROJECT_HANDOVER.md)"
+        )
+        st.caption("The app does not save an analysis history. Download any results you want to keep before closing or refreshing the session.")
 
     st.subheader("1. Choose your data")
     source = st.radio("Data source", ["Upload a file"] + list(DEMO_FILES), horizontal=True)
