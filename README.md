@@ -4,7 +4,15 @@ A portfolio application that will help teams turn their own sales-pipeline sprea
 
 The current milestone prepares the data: upload or choose a sample, match columns, check data quality, and download standardized data once the entire file passes. Revenue KPIs, risk calculations, charts, and automated recommendations are the next stages.
 
-## Start the app
+## Open the app online
+
+[Open Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app/)
+
+The app is hosted on Streamlit Community Cloud. Bookmark this link; you do not need Terminal or a running laptop to use it. Choose **Try sample data**, then **Check data** to explore the current build.
+
+The code and version history are saved in [the GitHub repository](https://github.com/anaanya13/revenue-risk-analyzer). Request future changes in the project task; publishing changes to GitHub updates the hosted app.
+
+## Run locally (optional)
 
 Open Terminal and run:
 
@@ -51,7 +59,7 @@ Read the [data dictionary](docs/data_dictionary.md) for meanings and examples. T
 | `docs/project_specification.md` | Product scope, definitions, and planned stages |
 | `docs/PROGRESS.md` | Work record and next milestone |
 | `docs/project_brief.pdf` | Historical brief for the earlier Excel/Power BI concept |
-| `docs/archive/` | Original application and the previous handoff text |
+| `docs/archive/` | Original application and handoff text, kept locally and excluded from GitHub |
 | `.venv/` | Local Python environment; do not edit its files |
 
 The historical brief is background material. The [current specification](docs/project_specification.md) describes the automated application being built now.
@@ -68,6 +76,6 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## What comes next
 
-Define and test pipeline KPIs, deal aging, and an inactivity-based risk rule. Then add charts, filters, explainable insights, and recommendations. SQL with DuckDB, GitHub, deployment, and resume packaging come later.
+Define and test pipeline KPIs, deal aging, and an inactivity-based risk rule. Then add charts, filters, explainable insights, and recommendations. SQL with DuckDB and resume packaging come later. GitHub publishing and Streamlit deployment are complete.
 
-This is a local portfolio project using synthetic examples. It has not yet been deployed or evaluated with a live company's workflow. A flagged deal will represent pipeline exposure under a stated rule, not a prediction that its value will be lost.
+This is a hosted portfolio project using synthetic examples. It has not been evaluated with a live company's workflow. A flagged deal will represent pipeline exposure under a stated rule, not a prediction that its value will be lost.

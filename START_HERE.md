@@ -1,8 +1,19 @@
 # Start here
 
-You do not need to edit Python code to use this version. The project files now hold the work; Terminal is used to start or stop the application.
+## Use the online app
 
-## 1. Open Terminal
+Open [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app/) and bookmark it. **No Terminal commands are needed for the online version.**
+
+1. Select **Try sample data**.
+2. Keep the **Deals** worksheet and suggested column matches.
+3. Click **Check data**. The sample should show **120 deals and 0 issues** with a validation date on or after September 18, 2026.
+4. Try **Try messy test data** to see the issue report, or **Try alternate column names** to see another header format.
+
+Close the browser tab when finished. To request improvements, continue the project task where the app was built. The saved code is on [GitHub](https://github.com/anaanya13/revenue-risk-analyzer); code updates must be published there to update the online app.
+
+The rest of this guide is for the optional local version on your computer. You do not need to edit Python code to use either version.
+
+## Optional local use: 1. Open Terminal
 
 Press **Command + Space**, type **Terminal**, and open it.
 
