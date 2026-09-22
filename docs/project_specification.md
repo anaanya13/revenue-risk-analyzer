@@ -65,6 +65,14 @@ Filters include status, stage, severity, creation-date range (both ends inclusiv
 
 Keep deal age, inactivity, and time in a stage distinct. Created Date supports deal age. Last Activity Date supports inactivity. Neither establishes how long a deal has occupied its current stage.
 
+## Implemented recommendations and SQL verification
+
+The action plan uses the assessed, filtered rows and never sends messages or edits data. Rules identify Critical deals (at least twice the threshold), stages tied for the greatest stalled value, stalled deals with unavailable owner/reason fields, and Medium deals that are approaching the threshold. Each rule gives counts, values, a next step, and supporting IDs in the download. Tied stages are all included; a combined evidence amount is labeled as combined. Zero-value stalled deals still appear. Closed-only, no-stalled and empty selections are handled explicitly. A rule is an operational review prompt, not evidence of causation or predicted recovery. Overlapping suggestion amounts must not be added.
+
+The optional calculation check uses a separate DuckDB in-memory connection and fixed saved queries. It receives the same selected raw columns, independently derives age, inactivity and severity from the shared date/threshold, and compares every KPI, every stage-summary cell, and each selected deal's age/inactivity/stalled/severity with Python. SQL does not consume Python-derived risk values. Both methods share validation and selected records; this check does not independently validate filtering, source truth, or business policy. Tests separately cover filtering.
+
+Undefined results compare as null. Numeric comparison tolerance is relative 1e-10 or absolute 1e-7; text/categories must agree. The check runs on request and its result clears on the next normal dashboard rerun. Disagreement is visible and never reported as success. The connection is closed after calculation; no uploaded data is saved in a database. See [SQL_ANALYSIS.md](SQL_ANALYSIS.md).
+
 ## Later stages
 
 | Stage | Intended result |
@@ -72,8 +80,8 @@ Keep deal age, inactivity, and time in a stage distinct. Created Date supports d
 | KPI and aging calculations — complete | Tested calculations using explicit definitions and valid records |
 | Bottleneck views — complete | Open/stalled deal counts and value by stage; delay and follow-up summaries when supplied |
 | Interactive dashboard — complete | Charts and filters that recalculate for the uploaded file |
-| Insights and recommendations | Explainable text generated from rules, with supporting counts/values |
-| SQL | DuckDB queries for selected analysis after the Python app works |
+| Insights and recommendations — complete | Explainable text generated from rules, with supporting counts/values |
+| SQL — complete | DuckDB queries for selected analysis after the Python app works |
 | Portfolio packaging | GitHub repository, screenshots, clear README, deployment, and truthful resume/interview material |
 
 Optional fields should enable additional views when present. Missing optional fields must not cause fabricated results.
@@ -83,7 +91,7 @@ Optional fields should enable additional views when present. Missing optional fi
 - Current stage alone cannot measure stage residence time, stage-to-stage conversion, or a historical conversion funnel. Those require event history or stage-entry dates.
 - Time to close and monthly won-deal trends require suitable close dates. The original sample has an extra Close Date field, but this milestone does not map it.
 - Associations between follow-ups, delay reasons, and outcomes do not establish what caused a deal to be lost.
-- The prototype has rule-based severity categories and a dashboard, but no predictive risk model, broader automated recommendations, SQL layer, application user accounts, or database. It is deployed on Streamlit Community Cloud.
+- The prototype has rule-based severity categories and a dashboard, with rule-based review suggestions and an in-memory DuckDB/SQL verification layer, but no predictive risk model, application user accounts, or persistent database. It is deployed on Streamlit Community Cloud.
 
 Initial scope recommendations are to keep machine learning, AI APIs, complex accounts, and cloud infrastructure out of the first working product. Streamlit and Plotly are the application/dashboard tools; the historical Power BI brief records an earlier concept.
 

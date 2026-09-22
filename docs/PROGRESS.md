@@ -1,5 +1,15 @@
 # Project progress
 
+## September 22, 2026: action plans and independent SQL verification
+
+Added an explainable action plan with Critical-deal reviews, tied highest-exposure stages, missing-owner/reason prompts, and Medium-risk watch items. Every suggestion has a supporting count/value, next step, and downloadable deal IDs. Filters and threshold changes rebuild the plan; overlapping values are explicitly not additive. Closed-only and no-stalled selections receive appropriate explanations.
+
+Added three saved SQL queries and an independent DuckDB calculation engine. The optional **Run calculation check** independently recomputes age/risk from raw selected columns, all 15 KPIs, and current-stage summaries. It compares values, displays disagreement, and exports a report with the settings and filters. Each check uses a fresh in-memory connection and does not persist uploads. The existing dashboard remains usable if the check cannot finish.
+
+**69 automated tests pass locally**: 50 existing tests plus 19 new recommendation, SQL, and interface tests. New coverage includes exact supporting IDs/amounts, missing optional columns, tied/zero-value stages, filter/threshold changes, empty/Open/closed populations, decimal amounts, the original sample, SQL-like input labels, deliberate disagreement, and error handling. DuckDB 1.4.5 is pinned alongside the existing dependencies.
+
+Saved beginner instructions in START_HERE.md, technical definitions in SQL_ANALYSIS.md and project_specification.md, and a portfolio demonstration in DEMO_WALKTHROUGH.md. Published to the existing Streamlit app and verified in the hosted Python 3.12 environment. The September 22 sample produced 3 Critical deals worth 138,000, a Documentation-stage review covering 5 stalled deals worth 180,000, and 20 Medium deals worth 799,000. Both action-plan and calculation-report downloads succeeded. The SQL check reported all 555 comparisons agreeing. Changing the threshold to 3650 showed the no-stalled explanation and cleared the old check result; the default 30 days was restored.
+
 ## September 22, 2026: analytics milestone completed and deployed
 
 Implemented the KPI engine, Open-deal age and inactivity, a configurable stalled threshold (default 30 days), revenue-at-risk exposure, four severity categories, and bottleneck summaries by current stage, recorded delay reason, and representative. Added dashboard cards, charts, filters, a prioritized deal list, and filtered-analysis/stage-summary CSV downloads. Existing uploads, worksheet selection, mapping, validation and full standardized downloads remain available.
@@ -58,12 +68,11 @@ For the manual walkthrough, start the app and try the original sample, messy tes
 
 ## Next unfinished work
 
-1. Add broader explainable recommendations with supporting counts and values; the current dashboard already identifies stages with the highest stalled value.
-2. Introduce DuckDB/SQL equivalents and check agreement with the Python calculations.
-3. Add suitable close dates or stage-event history before attempting time-to-close, historical trends, or time-in-stage analysis.
-4. Prepare portfolio screenshots, a demonstration walkthrough, and truthful resume/interview material.
+1. Use the saved demo walkthrough, capture portfolio screenshots, and tailor resume/interview material to the completed project.
+2. Agree on close-date or stage-event history inputs before building time-to-close, historical trends, or time-in-stage analysis. Current snapshot data cannot support these claims.
+3. If persistent saved analyses or company-specific workflows are needed, define those requirements before adding a database or accounts.
 
-The application has no database, saved upload history, machine-learning loss prediction, or application-level user accounts. Missing optional data does not create invented results.
+The application has no saved upload history, machine-learning loss prediction, or application-level user accounts. DuckDB is used temporarily for SQL verification, not persistent storage. Missing optional data does not create invented results.
 
 ## Where to resume
 
