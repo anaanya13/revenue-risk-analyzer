@@ -232,6 +232,22 @@ class AnalyticsInterfaceTests(unittest.TestCase):
         self.assertIn("Download filtered analysis", labels)
         self.assertIn("Download standardized data", labels)
 
+    def test_tabs_separate_setup_results_actions_and_verification(self):
+        self.assertEqual([tab.label for tab in self.app.tabs], ["Data setup", "Dashboard", "Action plan", "Verification"])
+        self.assertEqual([m.label for m in self.app.tabs[0].metric], ["Deals checked", "Rows needing attention", "Issues found"])
+        self.assertIn("Revenue at risk", [m.label for m in self.app.tabs[1].metric])
+        self.assertIn("Download action plan", [b.label for b in self.app.tabs[2].get("download_button")])
+        self.assertIn("Run calculation check", [b.label for b in self.app.tabs[3].button])
+        self.assertGreater(len(self.app.sidebar.multiselect), 0)
+        self.assertEqual(len(self.app.sidebar.number_input), 1)
+
+    def test_changed_source_clears_results_across_all_tabs_and_sidebar(self):
+        self.app.radio[0].set_value("Try messy test data").run()
+        self.assertEqual(len(self.app.tabs[1].metric), 0)
+        self.assertEqual(len(self.app.tabs[2].get("download_button")), 0)
+        self.assertEqual(len(self.app.tabs[3].button), 0)
+        self.assertEqual(len(self.app.sidebar.multiselect), 0)
+
     def test_closed_only_empty_and_reset_filters(self):
         self.select("Status", ["Won"])
         self.assertEqual(self.metric("Matching deals"), "27")
