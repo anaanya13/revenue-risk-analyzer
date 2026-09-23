@@ -9,6 +9,7 @@ import streamlit as st
 from src.bottleneck_engine import summarize_bottlenecks
 from src.action_dashboard import render_actions, render_verification
 from src.presentation import style_chart
+from src.explanation_views import render_kpi_analysis, render_delay_analysis
 from src.column_mapper import FIELD_LABELS
 from src.exports import csv_bytes
 from src.filters import FILTER_FIELDS, filter_deals, filter_options
@@ -119,6 +120,7 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
         render_verification(filtered, analysis_date, threshold, settings)
     with actions:
         render_actions(filtered, analysis_date, threshold, settings)
+        render_delay_analysis(filtered, analysis_date, threshold, settings)
     with dashboard:
         st.markdown("### Pipeline overview")
         for row in (
@@ -138,6 +140,7 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
             for column, (label, value, help_text) in zip(st.columns(4), row):
                 column.metric(label, value, help=help_text)
         st.caption("Average inactivity among matching Open deals: {} days.".format(_number(kpis["average_inactivity"], 1)))
+        render_kpi_analysis(filtered)
 
         st.markdown("### Aging and risk")
         if not kpis["open_deals"]:
