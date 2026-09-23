@@ -102,3 +102,11 @@ The original workbook is preserved at `data/sample/revenue_risk_sample_data.xlsx
 The original workbook dictionary called Last Activity Date “Recommended.” The current required-field schema supersedes that designation because inactivity analysis depends on this date.
 
 `docs/project_brief.pdf` is the historical Excel/Power BI brief. `docs/archive/` preserves the original application and the prior handoff. These are background records; current behavior is defined by the working code and this specification.
+
+## KPI and recorded-delay explanations
+
+KPI explanations reuse the filtered KPI engine outputs and display the denominator, plain-language meaning and suggested review. No target, historical trend or good/bad grading is invented. The four status count cards are explained together. Undefined rates/averages remain N/A.
+
+The delay explorer groups selected Open records by their entire recorded reason, preserving blanks. Within-group stalled share is stalled count / Open count; share of exposure is group stalled value / total selected stalled value, undefined when total exposure is zero. Group value/ordering reuse the existing bottleneck calculation. Supporting IDs include stalled Open records only. The exported report includes all selected reason groups with IDs, calculation date, threshold and filters; fraction columns are 0–1.
+
+Mitigations match a small explicit set of labels after case/whitespace normalization. The recorded categories are not merged or split. Unknown/combined labels use a general owner-review checklist; missing reasons prompt clarification. Suggestions do not establish causation, prescribe unapproved commercial/credit decisions, guarantee recovery, or send messages. Users record actions externally and re-upload a changed snapshot to reassess.

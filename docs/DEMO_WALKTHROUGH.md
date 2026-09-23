@@ -41,7 +41,7 @@ Open **Verification**, select **Run calculation check**, and show that the indep
 
 ## Portfolio wording you can support
 
-“Built and deployed a Streamlit sales-pipeline analyzer with configurable column mapping, validation, inactivity-based revenue-risk analysis, interactive filters, evidence-backed action plans, and independent DuckDB SQL verification; covered calculations and workflows with 71 automated tests.”
+“Built and deployed a Streamlit sales-pipeline analyzer with configurable column mapping, validation, inactivity-based revenue-risk analysis, interactive filters, evidence-backed action plans, and independent DuckDB SQL verification; covered calculations and workflows with 79 automated tests.”
 
 Describe your own role accurately, including the AI-assisted development process and how you reviewed requirements and tested the user experience. Do not claim commercial revenue recovery, predictive model accuracy, or time saved at a company: this version was demonstrated with synthetic data.
 

@@ -36,7 +36,7 @@ Describe the business problem and requirements you selected, the workflow decisi
 
 **Where is the data stored?** The application processes the active file and does not create a persistent upload/analysis database. DuckDB uses a temporary in-memory connection for each check. The user must download outputs to keep them. GitHub holds the code and synthetic examples.
 
-**How was it tested?** The 71-test suite covers inputs, cleaning, mappings, rules, boundaries, filters, exports, recommendation evidence and app interactions. A deliberately incorrect Python-derived assessment is caught by the SQL comparison test. The live sample check produced 555 agreeing comparisons.
+**How was it tested?** The 79-test suite covers inputs, cleaning, mappings, rules, boundaries, filters, exports, recommendation evidence and app interactions. A deliberately incorrect Python-derived assessment is caught by the SQL comparison test. The live sample check produced 555 agreeing comparisons.
 
 **What is the main limitation?** It is a snapshot tool tested with synthetic examples. Without mapped close dates or stage-entry history, it cannot support time-to-close, monthly outcome trends or historical conversion claims. There is no predictive model.
 

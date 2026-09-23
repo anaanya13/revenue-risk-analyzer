@@ -1,5 +1,13 @@
 # Project progress
 
+## September 23, 2026: KPI interpretation and user guidance
+
+Added an always-available in-app guide above the tabs, current-selection explanations for the KPI cards and inactivity average, and a delay explorer in Action plan. Delay guidance explains grouping and threshold logic, both denominators (within-reason stalled count share versus overall exposed-value share), exact supporting stalled IDs, mitigation suggestions and follow-up checks. A new CSV includes all selected groups and calculation settings.
+
+Known recorded labels receive explicit review playbooks; unknown/combined labels get a general checklist and blank reasons remain unknown. No new causes, recovery predictions, benchmarks or historical comparisons are inferred. Missing optional columns and zero exposure are explained explicitly.
+
+Added eight calculation/interface tests. The full local suite passes 79 tests covering evidence reconciliation, threshold/filter changes, undefined denominators, known/unknown/missing reason handling, nonmutation, and availability only after validation. Hosted verification is recorded in DEPLOYMENT.md.
+
 ## September 22, 2026: Midnight & Teal visual refresh
 
 Added a navy/teal gradient backdrop, Manrope headings and DM Sans body text (with sans-serif fallbacks), consistent white KPI cards, matching Plotly styling, and priority badges. The workflow now has Data setup, Dashboard, Action plan and Verification tabs. Shared filters and the stalled threshold live in the sidebar. Calculation rules, validation gates and downloads remain unchanged.

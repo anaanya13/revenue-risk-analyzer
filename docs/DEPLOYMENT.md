@@ -1,6 +1,12 @@
 # Streamlit deployment
 
-**Action plans and SQL verification deployed and verified on September 22, 2026.**
+**KPI explanations, dashboard guide and delay guidance deployed and verified on September 23, 2026.**
+
+## September 23: guidance verification
+
+Verified the guide before loading data, then validated the 120-row synthetic sample. The Dashboard explained the 54% win rate as 27 Won divided by 50 closed deals. In Action plan, selecting Missing Documents showed 8 Open deals, 1 stalled deal, 50,000 exposed value, 12.5% within-group stalled share and 7.7% of selected exposure at September 23 and a 30-day threshold. The document checklist and progress-review instructions rendered, and the delay-guidance CSV download started successfully.
+
+All 79 tests pass locally. [GitHub run 9](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35927901490) also passed on Python 3.9 and 3.12. Tests include calculation reconciliation, filters, threshold changes, missing reasons and Streamlit guide/explorer workflows. See [KPI_AND_DELAY_GUIDE.md](KPI_AND_DELAY_GUIDE.md) for definitions and the walkthrough.
 
 - App: [Revenue Risk Analyzer](https://anaanya-revenue-risk-analyzer.streamlit.app/)
 - Code: [anaanya13/revenue-risk-analyzer](https://github.com/anaanya13/revenue-risk-analyzer)

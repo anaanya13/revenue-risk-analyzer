@@ -61,7 +61,7 @@ Python and pandas handle loading, cleaning and analysis. Streamlit provides the 
 
 ## Testing and delivery
 
-The test suite has 71 calculation and interface tests covering validation, mapping, uploads, exports, thresholds, missing data, filters, recommendations and SQL agreement. The hosted sample check produced 555 agreeing comparisons. Detailed release and environment evidence is in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+The test suite has 79 calculation and interface tests covering validation, mapping, uploads, exports, thresholds, missing data, filters, recommendations and SQL agreement. The hosted sample check produced 555 agreeing comparisons. Detailed release and environment evidence is in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
 
 The app is deployed to Streamlit Community Cloud and code is published on GitHub. It uses synthetic examples and is a portfolio version, not a validated enterprise CRM replacement.
 
@@ -72,7 +72,7 @@ Use the version that matches your actual participation. Review the role descript
 **Business/data analyst emphasis:**
 
 - Defined requirements and KPI/risk rules for an AI-assisted sales-pipeline analytics project, delivered as a deployed Streamlit app with configurable inactivity thresholds, stage bottlenecks and traceable action plans.
-- Demonstrated the analysis on a 120-deal synthetic pipeline and validated the sample through 555 Python/SQL comparisons; the project includes 71 automated calculation and workflow tests.
+- Demonstrated the analysis on a 120-deal synthetic pipeline and validated the sample through 555 Python/SQL comparisons; the project includes 79 automated calculation and workflow tests.
 
 **Short project entry:**
 
