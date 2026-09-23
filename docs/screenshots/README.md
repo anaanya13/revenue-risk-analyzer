@@ -4,6 +4,14 @@ Captured from the deployed application on September 22, 2026. Analysis images us
 
 These images illustrate a portfolio demonstration; they are not results from a real company.
 
+## Midnight & Teal redesign
+
+The refreshed interface separates the workflow into tabs, moves filters into the sidebar, and uses a navy backdrop with white KPI cards and teal accents. The two images below show the current visual design; the remaining images document the original version-1 interface.
+
+![Midnight and Teal dashboard](06-midnight-dashboard.png)
+
+![Midnight and Teal action plan](07-midnight-actions.png)
+
 ## Start and upload
 
 ![Application start and file selection](01-start.png)
