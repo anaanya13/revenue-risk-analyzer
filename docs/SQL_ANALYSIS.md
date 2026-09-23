@@ -29,6 +29,6 @@ Changing dashboard controls removes the previous check result; run it again for 
 
 ## Developer verification
 
-Run `bash scripts/check.sh` from the project folder. The complete suite currently has 69 tests. New tests cover hand-calculated results, thresholds 1/3/30/60/61/3650, date changes, empty and closed-only selections, zero values, absent follow-ups, decimal amounts, sample data, filtered populations, query-like labels, deliberate mismatches and UI failure paths.
+Run `bash scripts/check.sh` from the project folder. The complete suite currently has 71 tests. New tests cover hand-calculated results, thresholds 1/3/30/60/61/3650, date changes, empty and closed-only selections, zero values, absent follow-ups, decimal amounts, sample data, filtered populations, query-like labels, deliberate mismatches and UI failure paths.
 
 DuckDB 1.4.5 is pinned in `requirements.txt` and tested locally with Python 3.9.13. The hosted application uses Python 3.12. For implementation background, see the official [DuckDB Python API documentation](https://duckdb.org/docs/lts/clients/python/overview) and [installation instructions](https://duckdb.org/docs/lts/guides/python/install).

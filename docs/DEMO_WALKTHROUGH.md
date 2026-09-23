@@ -14,6 +14,8 @@ The sample has 120 deals and zero issues. Explain that a file must pass every ch
 
 ## 3. Explain the results
 
+Open the **Dashboard** tab. Threshold and filter controls are in the left sidebar.
+
 With all filters selected and a 30-day threshold, the sample shows:
 
 | Measure | Expected result on September 22, 2026 |
@@ -29,17 +31,17 @@ Explain: “Revenue at risk is the full value of Open deals inactive for at leas
 
 ## 4. Demonstrate an action
 
-Read one **Suggested next steps** card. Show its supporting count/value and practical next step. Download the action plan; its supporting IDs let someone trace the suggestion to actual rows. Explain that several cards can reference the same deal, so their values should not be added.
+Open **Action plan** and read one **Suggested next steps** card. Show its supporting count/value and practical next step. Download the action plan; its supporting IDs let someone trace the suggestion to actual rows. Explain that several cards can reference the same deal, so their values should not be added.
 
 Change the stalled threshold to 60 days and observe the updated results. Apply a stage filter, then **Reset filters** and restore the threshold to 30. Explain that deal age and inactivity are different: an old deal with recent activity may have Low inactivity risk.
 
 ## 5. Demonstrate verification
 
-Expand **Check these calculations**, select **Run calculation check**, and show that the independent calculations agree. Explain that SQL derives age/risk again from the selected base dates, then checks KPIs and stage summaries against Python. Download the comparison report if useful.
+Open **Verification**, select **Run calculation check**, and show that the independent calculations agree. Explain that SQL derives age/risk again from the selected base dates, then checks KPIs and stage summaries against Python. Download the comparison report if useful.
 
 ## Portfolio wording you can support
 
-“Built and deployed a Streamlit sales-pipeline analyzer with configurable column mapping, validation, inactivity-based revenue-risk analysis, interactive filters, evidence-backed action plans, and independent DuckDB SQL verification; covered calculations and workflows with 69 automated tests.”
+“Built and deployed a Streamlit sales-pipeline analyzer with configurable column mapping, validation, inactivity-based revenue-risk analysis, interactive filters, evidence-backed action plans, and independent DuckDB SQL verification; covered calculations and workflows with 71 automated tests.”
 
 Describe your own role accurately, including the AI-assisted development process and how you reviewed requirements and tested the user experience. Do not claim commercial revenue recovery, predictive model accuracy, or time saved at a company: this version was demonstrated with synthetic data.
 

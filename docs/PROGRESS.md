@@ -1,5 +1,11 @@
 # Project progress
 
+## September 22, 2026: Midnight & Teal visual refresh
+
+Added a navy/teal gradient backdrop, Manrope headings and DM Sans body text (with sans-serif fallbacks), consistent white KPI cards, matching Plotly styling, and priority badges. The workflow now has Data setup, Dashboard, Action plan and Verification tabs. Shared filters and the stalled threshold live in the sidebar. Calculation rules, validation gates and downloads remain unchanged.
+
+The existing 69 tests pass, plus two navigation/state tests for a total of 71. These verify tab separation, sidebar placement, and clearing stale results when the source changes. Previewed the sample Dashboard and Action plan. Guidance was updated for the new tab navigation. Deployment and live visual verification are recorded in DEPLOYMENT.md. On September 23, confirmed the final GitHub run passed on both Python versions and published the completed live preview screenshots.
+
 ## September 22, 2026: portfolio version 1.0 completed
 
 Finished the defined snapshot-analysis portfolio release. Added an in-app quick guide, a clear project handover, a case study with truthful resume wording, interview notes, a screenshot gallery, and RELEASE_CHECKLIST.md. The optional local start script now checks every direct application dependency.

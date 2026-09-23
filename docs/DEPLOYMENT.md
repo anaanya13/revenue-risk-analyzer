@@ -19,6 +19,10 @@
 
 The shared configuration does not force a localhost address. The optional local start script still uses localhost.
 
+## Midnight & Teal visual refresh
+
+Published the navy/teal presentation, four workflow tabs, sidebar filters, KPI cards, coordinated charts and priority badges. The live sample Dashboard rendered correctly and the Verification tab returned all 555 comparisons agreeing. The local suite passes 71 tests, including two new navigation/state checks. Screenshot examples are saved in the gallery. The underlying calculation engines and data formats are unchanged. Final GitHub checks passed on both Python 3.9 and 3.12 in [run 6](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35796468337). The finished live previews were saved on September 23 with the fixed September 22 sample analysis date.
+
 ## Version 1.0 release verification
 
 The in-app quick guide is deployed. A real Excel upload and the final live SQL comparison were verified. The code remains connected to GitHub main, with the same Streamlit entry point and dependencies. The complete 69-test suite also passes in GitHub on both Python 3.9 and 3.12; see [Project checks run 2](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35707160241).

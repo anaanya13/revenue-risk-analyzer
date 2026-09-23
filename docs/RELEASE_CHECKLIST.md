@@ -4,6 +4,10 @@ Release date: September 22, 2026.
 
 **Status: the defined snapshot-analysis portfolio version is complete and deployed.** Personal demo practice and review of resume wording remain with the project owner. Historical analytics, accounts and persistent storage are optional extensions, not requirements for this release.
 
+## Presentation update
+
+The Midnight & Teal refresh adds four tabs and shared sidebar controls. All 71 local tests pass (the original 69 plus two tab/state checks), and the live SQL check still reports 555 agreeing comparisons. Historical version-1 test counts below describe the original release. See DEPLOYMENT.md and the screenshot gallery for the refreshed interface.
+
 ## Delivered scope
 
 - [x] CSV/Excel upload, sheet selection, preview and configurable column mapping.
