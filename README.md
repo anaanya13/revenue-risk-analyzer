@@ -96,6 +96,6 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 - [Interview notes](docs/INTERVIEW_NOTES.md).
 - [Screenshot gallery](docs/screenshots/README.md).
 
-![Live risk chart using the synthetic sample](docs/screenshots/04-risk.png)
+![Midnight and Teal dashboard using the synthetic sample](docs/screenshots/06-midnight-dashboard.png)
 
 Close-date trends, time-in-stage analysis, accounts and saved analysis history are optional extensions requiring additional data or requirements. They are outside this release. This hosted portfolio project has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
