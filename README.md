@@ -42,6 +42,7 @@ A navy gradient backdrop, readable white KPI cards, coordinated charts and prior
 - Download filtered deal analysis with calculation settings, or the stage summary.
 - Read suggested next steps and download an action plan with supporting deal IDs.
 - Run an independent SQL calculation check and download the comparison report.
+- Read current-selection KPI interpretations, follow the in-app walkthrough, and explore recorded-delay evidence with mitigation guidance.
 
 The checker keeps every row. It does not silently remove invalid or duplicate records to make a file pass.
 
@@ -88,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 71 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 79 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).

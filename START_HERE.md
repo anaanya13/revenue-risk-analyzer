@@ -1,5 +1,14 @@
 # Start here
 
+## New: help while you use the app
+
+- Open **Your dashboard guide — start here** above the tabs at any time. It walks through setup, filters, results, downloads and common questions.
+- In **Dashboard**, use **Understand your KPIs** to see the current formula, interpretation and suggested review. Expand **Explain every KPI** for the full list.
+- In **Action plan**, open **Understand delays and plan a response**. Select a recorded reason to see Open/stalled counts, exposed value, supporting deal IDs, a suggested mitigation and how to check progress.
+- **Download delay analysis and guidance** keeps all reason groups and settings, not just the reason currently displayed.
+
+The delay reason comes from your file. The app does not infer a cause from the stage or inactivity. Actions are suggestions to confirm with the owner; no messages are sent and no tasks are marked complete automatically. See [the explanation guide](docs/KPI_AND_DELAY_GUIDE.md).
+
 ## The new layout
 
 The Midnight & Teal design separates the workflow into four tabs:

@@ -14,6 +14,7 @@ from src.data_validator import validate_data
 from src.exports import csv_bytes
 from src.dashboard import render_dashboard
 from src.presentation import apply_theme, render_hero
+from src.explanation_views import render_user_guide
 
 ROOT = Path(__file__).resolve().parent
 DEMO_FILES = {
@@ -27,6 +28,7 @@ def main():
     st.set_page_config(page_title="Revenue Risk Analyzer", page_icon="📊", layout="wide")
     apply_theme()
     render_hero()
+    render_user_guide()
     setup, dashboard, actions, verification = st.tabs(["Data setup", "Dashboard", "Action plan", "Verification"])
     with setup:
         prepared = prepare_data()
