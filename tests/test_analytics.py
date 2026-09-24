@@ -233,7 +233,7 @@ class AnalyticsInterfaceTests(unittest.TestCase):
         self.assertIn("Download standardized data", labels)
 
     def test_tabs_separate_setup_results_actions_and_verification(self):
-        self.assertEqual([tab.label for tab in self.app.tabs], ["Data setup", "Dashboard", "Action plan", "Verification"])
+        self.assertEqual([tab.label for tab in self.app.tabs], ["Data setup", "Dashboard", "Action plan", "Verification", "Ask AI"])
         self.assertEqual([m.label for m in self.app.tabs[0].metric], ["Deals checked", "Rows needing attention", "Issues found"])
         self.assertIn("Revenue at risk", [m.label for m in self.app.tabs[1].metric])
         self.assertIn("Download action plan", [b.label for b in self.app.tabs[2].get("download_button")])
