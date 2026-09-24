@@ -60,3 +60,7 @@ Open the app's saved link to use it. Request changes in this project task. Chang
 Initial publishing used GitHub's browser interface. This local folder has not been initialized as a Git checkout or configured with push credentials. Future updates can use the same authenticated browser interface, or set up a local Git connection when needed. The deployed app already uses the remote repository.
 
 Official instructions: [Deploy on Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy).
+
+## September 23: optional Ask AI release
+
+Added the fifth Ask AI tab, current-filter aggregate context, private session key entry, explicit sharing consent, summary preview, suggested questions and a bounded conversation. The local suite passes 87 tests with mocked AI responses; no paid live provider request has been made. Full activation requires the visitor's own API key and API account access. See [AI_ASSISTANT.md](AI_ASSISTANT.md).
