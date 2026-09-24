@@ -89,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 79 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 87 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
@@ -100,3 +100,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 ![Midnight and Teal dashboard using the synthetic sample](docs/screenshots/06-midnight-dashboard.png)
 
 Close-date trends, time-in-stage analysis, accounts and saved analysis history are optional extensions requiring additional data or requirements. They are outside this release. This hosted portfolio project has not been evaluated with a live company's workflow. A flagged deal represents pipeline exposure under a stated rule, not a prediction that its value will be lost.
+
+### Optional AI assistant
+
+The Ask AI tab explains current filtered analysis through OpenAI, using each visitor's own API key and explicit sharing consent. See [setup and limits](docs/AI_ASSISTANT.md).

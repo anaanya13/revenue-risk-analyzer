@@ -29,10 +29,15 @@ def main():
     apply_theme()
     render_hero()
     render_user_guide()
-    setup, dashboard, actions, verification = st.tabs(["Data setup", "Dashboard", "Action plan", "Verification"])
+    setup, dashboard, actions, verification, assistant = st.tabs(["Data setup", "Dashboard", "Action plan", "Verification", "Ask AI"])
     with setup:
         prepared = prepare_data()
     if prepared is None:
+        from src.assistant_view import reset_assistant
+        reset_assistant()
+        with assistant:
+            st.subheader("Ask your dashboard")
+            st.info("Choose your data and click Check data in Data setup to unlock the assistant.")
         for panel, heading, message in (
             (dashboard, "Your pipeline, at a glance", "Choose a file or sample in Data setup, then click Check data to unlock your dashboard."),
             (actions, "A focused plan for your next review", "Your evidence-backed action plan will appear after the entire file passes its data checks."),
@@ -46,7 +51,7 @@ def main():
             st.caption("Filters become available after your data passes its checks.")
         return
     cleaned, as_of, analytics_key = prepared
-    render_dashboard(cleaned, as_of, analytics_key, dashboard, actions, verification)
+    render_dashboard(cleaned, as_of, analytics_key, dashboard, actions, verification, assistant)
 
 
 def prepare_data():

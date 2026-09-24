@@ -152,3 +152,7 @@ The portfolio version is complete. You do not need to run commands, install pack
 4. Review the [case study and resume wording](docs/PORTFOLIO_CASE_STUDY.md) so it accurately describes your participation.
 
 The [project handover](docs/PROJECT_HANDOVER.md) is your complete checklist. [Interview notes](docs/INTERVIEW_NOTES.md), [screenshots](docs/screenshots/README.md) and the [release record](docs/RELEASE_CHECKLIST.md) are saved. Additional historical analytics would be a future extension with additional date/history inputs, not unfinished work in this version.
+
+## Ask questions with AI
+
+Open **Ask AI** after checking your data. Connect your own OpenAI API key in the private field, preview the analysis summary, agree to sharing, then ask a question. No Terminal commands are needed. API use has separate charges; never share your key in chat. See [the simple setup and privacy guide](docs/AI_ASSISTANT.md).
