@@ -43,12 +43,12 @@ def _table(data):
     return display.rename(columns=LABELS)
 
 
-def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, actions=None, verification=None):
+def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, actions=None, verification=None, assistant=None):
     if dashboard is None:
         dashboard, actions, verification = st.tabs(["Dashboard", "Action plan", "Verification"])
     with st.sidebar:
         st.markdown("### Refine your view")
-        st.caption("Adjust the rule and filters. All three result tabs update together.")
+        st.caption("Adjust the rule and filters. All result tabs update together.")
         threshold = st.number_input(
             "Stalled after this many days without activity", min_value=1, max_value=3650, value=30, step=1,
             key="threshold_" + context_key,
@@ -114,6 +114,10 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
             st.caption("{:,} of {:,} validated deals · Analysis date: {} · Stalled after {} days".format(len(filtered), len(assessed), analysis_date, threshold))
             if filtered.empty:
                 st.info("No deals match these filters. Change the selections or use Reset filters.")
+    if assistant is not None:
+        with assistant:
+            from src.assistant_view import render_assistant
+            render_assistant(filtered, analysis_date, threshold, context_key + repr(settings))
     if filtered.empty:
         return
     with verification:
