@@ -1,5 +1,12 @@
 # Project progress
 
+## September 23, 2026: optional AI assistant
+
+The full local suite passes 87 tests, including eight new assistant tests with a mocked provider. No paid provider call has been made.
+
+Added an Ask AI tab using current-selection aggregate evidence, suggested questions and session-only conversation. Visitors supply their own key and explicitly agree to share the previewed summary with OpenAI. No public shared billing key, raw rows, owner names or deal IDs are sent. Filter/data changes clear conversation and consent; errors leave analytics usable. See [AI_ASSISTANT.md](AI_ASSISTANT.md) for setup, limits and the remaining live-key activation check.
+
+
 ## September 23, 2026: KPI interpretation and user guidance
 
 Added an always-available in-app guide above the tabs, current-selection explanations for the KPI cards and inactivity average, and a delay explorer in Action plan. Delay guidance explains grouping and threshold logic, both denominators (within-reason stalled count share versus overall exposed-value share), exact supporting stalled IDs, mitigation suggestions and follow-up checks. A new CSV includes all selected groups and calculation settings.
