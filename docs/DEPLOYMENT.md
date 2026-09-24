@@ -64,3 +64,7 @@ Official instructions: [Deploy on Streamlit Community Cloud](https://docs.stream
 ## September 23: optional Ask AI release
 
 Added the fifth Ask AI tab, current-filter aggregate context, private session key entry, explicit sharing consent, summary preview, suggested questions and a bounded conversation. The local suite passes 87 tests with mocked AI responses; no paid live provider request has been made. Full activation requires the visitor's own API key and API account access. See [AI_ASSISTANT.md](AI_ASSISTANT.md).
+
+[GitHub run 12](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35947097261) passed on both Python 3.9 and 3.12. Streamlit needed a reboot after publishing to replace a cached older dashboard function signature.
+
+After reboot, validated the hosted 120-row sample and opened Ask AI successfully. Confirmed setup instructions, password field, summary preview, sharing disclosure, suggestions and question field render; Ask AI remains disabled without a key and consent. This verifies the deployed interface, not an authenticated provider answer.
