@@ -156,3 +156,14 @@ The [project handover](docs/PROJECT_HANDOVER.md) is your complete checklist. [In
 ## Ask questions with AI
 
 Open **Ask AI** after checking your data. Connect your own OpenAI API key in the private field, preview the analysis summary, agree to sharing, then ask a question. No Terminal commands are needed. API use has separate charges; never share your key in chat. See [the simple setup and privacy guide](docs/AI_ASSISTANT.md).
+
+## Import a workbook with your own business labels
+
+1. Upload your file. Review **Match your columns**; recognized headers are suggestions you can change. **Review column suggestions and coverage** explains each suggestion and lists ignored columns.
+2. Under **Confirm outcome meanings**, choose what each unfamiliar label means. For the regional example, choose **Signed → Won** and **Not proceeding → Lost**. These are your choices for this file, not global rules.
+3. Open **Review owner-name variants**. Keep names separate, or explicitly choose a common spelling for capitalization variants. No deals are combined.
+4. Map **Next Contact** if you want planned follow-up analysis. Future dates are allowed. Dates before creation must be corrected; overdue dates remain valid.
+5. Click **Check data** again after any mapping or name change. Read the coverage explanation beside the results. Ignored columns are not validated.
+6. Open **Action plan → Planned follow-ups** for Open deals that are overdue, due today, upcoming or not scheduled. Download the follow-up plan to keep it.
+
+Overdue means the planned date is before the analysis date. A date today is due today. This measure does not change inactivity risk and does not prove a contact was missed. The SQL check continues to cover original KPIs, stage summaries and inactivity risk; planned follow-ups have separate automated tests.

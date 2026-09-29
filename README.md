@@ -89,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 87 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 94 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
@@ -104,3 +104,7 @@ Close-date trends, time-in-stage analysis, accounts and saved analysis history a
 ### Optional AI assistant
 
 The Ask AI tab explains current filtered analysis through OpenAI, using each visitor's own API key and explicit sharing consent. See [setup and limits](docs/AI_ASSISTANT.md).
+
+### Flexible business imports
+
+Review transparent header suggestions, confirm outcome meanings, optionally merge owner capitalization variants, and map planned Next Contact dates. Action plan includes overdue, due-today, upcoming and unscheduled Open follow-ups with a downloadable plan. Validation results explicitly identify ignored columns and coverage limits.

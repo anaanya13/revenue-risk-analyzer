@@ -120,6 +120,9 @@ def prepare_data():
                     key="map_{}_{}".format(source_key, field),
                 )
 
+    from src.import_views import review_import, show_coverage
+    from src.import_choices import apply_choices
+    outcomes, owners, choice_audit, ignored = review_import(raw, mapping, source_key)
     errors = mapping_errors(raw.columns, mapping)
     for error in errors:
         st.warning(error)
@@ -139,9 +142,9 @@ def prepare_data():
         )
     st.caption(
         "Amounts use a dot for decimals and commas for thousands (12,500.50). Use one currency per file. "
-        "Known Open, Won and Lost status variations are standardized. Unknown statuses need correction."
+        "Confirm outcome meanings above. Blank outcomes still need correction in the source."
     )
-    signature = (source_key, tuple(mapping.items()), date_order, str(as_of))
+    signature = (source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
     if as_of is None:
         st.warning("Choose a validation date before checking the file.")
     if st.button("Check data", type="primary", disabled=bool(errors) or as_of is None):
@@ -149,7 +152,7 @@ def prepare_data():
     if errors or as_of is None or st.session_state.get("checked_signature") != signature:
         return
 
-    mapped = standardize_columns(raw, mapping)
+    mapped = apply_choices(standardize_columns(raw, mapping), outcomes, owners)
     result = validate_data(mapped, day_first=date_order.startswith("Day"), as_of_date=as_of)
     st.divider()
     st.subheader("Your data-quality results")
@@ -157,10 +160,14 @@ def prepare_data():
     col1.metric("Deals checked", len(raw))
     col2.metric("Rows needing attention", result.invalid_row_count)
     col3.metric("Issues found", len(result.issues))
+    show_coverage(mapping, ignored)
+    if choice_audit:
+        with st.expander("Review applied outcome and owner choices"):
+            st.dataframe(choice_audit, hide_index=True, width="stretch")
     if result.is_valid:
         st.success("Your data passed all current checks. Open the Dashboard tab to explore your results.")
     else:
-        st.error("Some records need correction. Fix the listed issues in your source file, then upload it again.")
+        st.error("Some records need correction. Review outcome choices above; fix remaining source-data errors in your file, then upload it again.")
         st.caption("Source row counts the header as row 1. One row may have several different issues.")
         st.dataframe(result.issues, hide_index=True, width="stretch")
         st.download_button(
