@@ -1,5 +1,13 @@
 # Project progress
 
+## September 29, 2026: real-world import improvements
+
+Implemented explicit per-file outcome choices, transparent exact-alias header suggestions, opt-in owner capitalization merges, optional planned-contact validation and follow-up analysis, and visible validation coverage. Decisions invalidate earlier results. Regional corrected data now passes after explicit outcome confirmation; raw data retains seven issues, including the previously unchecked Next Contact error. The corrected selection has 8 overdue, 1 due today, 39 upcoming and 3 unscheduled Open follow-ups. Existing risk value remains CAD 292,450 and all 465 core SQL comparisons agree. Deployment evidence is recorded in DEPLOYMENT.md.
+
+## September 29, 2026: unfamiliar real-world export testing
+
+Tested two supplied 100-record workbooks in the live app. All fields required manual matching. Raw validation reported 55 issues across 54 rows; corrected validation reported 49 status-vocabulary issues. The app has no custom outcome mapping yet, and does not check Next Contact. Recorded automatic cleanup and the owner-capitalization limitation. In a separate local test with explicitly translated statuses, corrected data passed and all 465 SQL comparisons agreed; threshold and stage-filter UI checks passed. Originals and application code remain unchanged. See [REGIONAL_EXPORT_TEST.md](REGIONAL_EXPORT_TEST.md) for findings and next improvements.
+
 ## September 23, 2026: optional AI assistant
 
 The full local suite passes 87 tests, including eight new assistant tests with a mocked provider. No paid provider call has been made.
