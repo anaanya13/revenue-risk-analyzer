@@ -125,6 +125,8 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
     with actions:
         render_actions(filtered, analysis_date, threshold, settings)
         render_delay_analysis(filtered, analysis_date, threshold, settings)
+        from src.followup_view import render_followups
+        render_followups(filtered, analysis_date)
     with dashboard:
         st.markdown("### Pipeline overview")
         for row in (

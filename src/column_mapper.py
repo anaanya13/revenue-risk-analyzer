@@ -10,6 +10,7 @@ REQUIRED_FIELDS = {
 OPTIONAL_FIELDS = {
     "delay_reason": "Delay Reason", "follow_ups": "Follow Ups", "sales_rep": "Sales Representative",
     "lead_source": "Lead Source", "industry": "Industry", "product": "Product",
+    "next_contact_date": "Next Contact",
 }
 FIELD_LABELS = {**REQUIRED_FIELDS, **OPTIONAL_FIELDS}
 ALIASES = {
@@ -26,6 +27,18 @@ ALIASES = {
     "product": ("solution", "product name"),
 }
 
+# Explicit header vocabulary only. Outcomes are confirmed separately.
+for _field, _labels in {
+    "deal_id": ("opportunity ref",), "deal_value": ("expected contract amount cad", "expected contract amount"),
+    "created_date": ("first entered",), "last_activity_date": ("latest touchpoint",),
+    "stage": ("where things stand",), "status": ("outcome so far",),
+    "sales_rep": ("account handler",), "delay_reason": ("what's holding it up",),
+    "follow_ups": ("chases so far",), "lead_source": ("came from",),
+    "industry": ("business type",), "product": ("package interested in",),
+    "next_contact_date": ("next contact", "next contact date", "next follow up date", "next followup date"),
+}.items():
+    ALIASES[_field] = ALIASES.get(_field, ()) + _labels
+
 
 def _normalize(text):
     return re.sub(r"[^a-z0-9]", "", str(text).casefold())
@@ -33,12 +46,14 @@ def _normalize(text):
 
 def suggest_mapping(columns):
     """Suggest only unambiguous matches; the user can change every suggestion."""
-    mapping = {}
-    for field, label in FIELD_LABELS.items():
-        aliases = {_normalize(v) for v in (field, label) + ALIASES[field]}
-        matches = [column for column in columns if _normalize(column) in aliases]
-        mapping[field] = matches[0] if len(matches) == 1 else None
-    return mapping
+    return {field: candidates[0] if len(candidates) == 1 else None
+            for field in FIELD_LABELS
+            for candidates in [mapping_candidates(columns, field)]}
+
+
+def mapping_candidates(columns, field):
+    aliases = {_normalize(v) for v in (field, FIELD_LABELS[field]) + ALIASES[field]}
+    return [column for column in columns if _normalize(column) in aliases]
 
 
 def mapping_errors(columns, mapping):

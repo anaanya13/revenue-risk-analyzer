@@ -89,6 +89,7 @@ def validate_data(
     created_dates = []
     activity_dates = []
     follow_ups = []
+    next_contacts = []
 
     for position in range(len(raw)):
         row = raw.iloc[position]
@@ -111,7 +112,7 @@ def validate_data(
         if status is not None and status not in ("Open", "Won", "Lost"):
             add_issue(
                 position, "status",
-                "Unrecognized status. Use Open, Active, In Progress, Won, Closed Won, Lost, or Closed Lost.",
+                "Unrecognized status. Confirm its outcome meaning in Data setup, or use Open, Active, In Progress, Won, Closed Won, Lost, or Closed Lost.",
                 row["status"],
             )
         statuses.append(status)
@@ -138,6 +139,14 @@ def validate_data(
                 row["last_activity_date"],
             )
 
+        if "next_contact_date" in raw:
+            planned, planned_error = parse_date(row["next_contact_date"], day_first=day_first)
+            next_contacts.append(planned)
+            if planned_error:
+                add_issue(position, "next_contact_date", planned_error, row["next_contact_date"])
+            elif pd.notna(planned) and pd.notna(created) and planned < created:
+                add_issue(position, "next_contact_date", "Next contact date is before the created date.", row["next_contact_date"])
+
         if "follow_ups" in raw:
             count, count_error = parse_follow_ups(row["follow_ups"])
             follow_ups.append(count)
@@ -150,6 +159,9 @@ def validate_data(
     cleaned["last_activity_date"] = pd.Series(activity_dates, dtype="datetime64[ns]")
     if "follow_ups" in raw:
         cleaned["follow_ups"] = pd.Series(follow_ups, dtype="Int64")
+
+    if "next_contact_date" in raw:
+        cleaned["next_contact_date"] = pd.Series(next_contacts, dtype="datetime64[ns]")
 
     duplicates = cleaned["deal_id"].notna() & cleaned["deal_id"].duplicated(keep=False)
     for position in cleaned.index[duplicates]:
