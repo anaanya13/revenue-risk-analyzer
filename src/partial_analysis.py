@@ -25,6 +25,12 @@ def partition_validated(result, uploaded_rows):
         used_ids.add(identifier)
     usable['stage'] = usable.stage.fillna('Not recorded')
     incomplete = int(usable.data_quality_notes.ne('').sum())
+    reasons = {row: '; '.join(group.field + ': ' + group.issue)
+               for row, group in blocking.groupby('source_row')}
+    originals = {row: '; '.join(group.field + ' = ' + group.value.astype(str))
+                 for row, group in blocking.groupby('source_row')}
+    quarantined['exclusion_reason'] = quarantined.source_row.map(reasons)
+    quarantined['original_flagged_values'] = quarantined.source_row.map(originals)
     coverage = {'uploaded_rows': uploaded_rows, 'included_rows':len(include), 'excluded_rows':len(exclude),
                 'incomplete_rows': incomplete,
                 'analysis_scope': 'Partial: included rows with field-level limits' if exclude or incomplete else 'Complete validated file'}
