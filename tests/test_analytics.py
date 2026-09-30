@@ -282,7 +282,7 @@ class AnalyticsInterfaceTests(unittest.TestCase):
         self.app.radio[0].set_value("Try messy test data").run()
         self.app.button[0].click().run()
         self.assertEqual(len(self.app.number_input), 0)
-        self.assertEqual(len(self.app.multiselect), 0)
+        self.assertEqual(len(self.app.sidebar.multiselect), 0)
         self.assertEqual(len(self.app.get("plotly_chart")), 0)
 
     def test_date_filter_excludes_every_deal_without_crashing(self):
