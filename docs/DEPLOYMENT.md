@@ -68,3 +68,11 @@ Added the fifth Ask AI tab, current-filter aggregate context, private session ke
 [GitHub run 12](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/35947097261) passed on both Python 3.9 and 3.12. Streamlit needed a reboot after publishing to replace a cached older dashboard function signature.
 
 After reboot, validated the hosted 120-row sample and opened Ask AI successfully. Confirmed setup instructions, password field, summary preview, sharing disclosure, suggestions and question field render; Ask AI remains disabled without a key and consent. This verifies the deployed interface, not an authenticated provider answer.
+
+## September 29: business mappings and planned follow-ups
+
+Published all five import improvements. The full local suite passes 94 tests. [GitHub run 15](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36640951222) passed. No source workbooks or private export evidence were published.
+
+Live verification used the original regional workbooks without editing them, at analysis date September 29, 2026. All 13 supported columns were suggested. Signed and Not proceeding remained unconfirmed until explicitly selected as Won and Lost. Corrected data then passed with 100 rows and zero issues; the page identified Client / Business and Internal Comments as ignored. Action plan showed 8 overdue, 1 due today, 39 upcoming and 3 unscheduled Open follow-ups. The follow-up CSV download succeeded. Original independent SQL verification reported all 465 comparisons agreeing.
+
+For the raw workbook, confirmed outcome meanings (including lowercase signed) and reviewed the owner variant group. Keep separate was the default; selecting Mei-Lin Zhao explicitly chose that common spelling. Validation retained seven issues across seven rows, including row 78's Next Contact before creation. No deal rows were merged or dropped. Original files remain unchanged. The earlier baseline test report is preserved as historical evidence and marked as superseded by this release.

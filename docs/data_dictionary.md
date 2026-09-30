@@ -83,3 +83,11 @@ These are calculated after the whole file passes; they are not required upload c
 | stalled_threshold_days | Configured inactivity threshold |
 
 See [the specification](project_specification.md) for boundary rules. Summary CSV `stalled_share` is a fraction from 0 to 1; the dashboard displays it as a percentage. Amounts retain the file's single currency.
+
+## Next Contact (optional)
+
+Map a planned follow-up date, such as Next Contact, Next Contact Date or Next Follow Up Date, to `next_contact_date`. Blank means no plan recorded. Future planned dates are valid. A supplied date must parse under the selected date order and cannot precede Created Date. It may precede Last Activity Date because a recorded plan can be overdue. Only Open deals contribute to follow-up counts. Overdue is strictly before the analysis date; today is a separate category. Next Contact does not affect inactivity risk.
+
+## Explicit vocabulary choices
+
+Confirm unfamiliar outcome labels in Data setup; Signed and Not proceeding have no global defaults. Owner names differing only by case/spacing are offered for review, with no automatic capitalization merge. Changing these choices requires Check data again. Ignored source columns are listed and remain outside validation and analytics.

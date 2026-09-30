@@ -2,6 +2,8 @@
 
 ## September 29, 2026: real-world import improvements
 
+All 94 local tests pass, and GitHub run 15 passed. Hosted regional uploads and follow-up CSV download were verified.
+
 Implemented explicit per-file outcome choices, transparent exact-alias header suggestions, opt-in owner capitalization merges, optional planned-contact validation and follow-up analysis, and visible validation coverage. Decisions invalidate earlier results. Regional corrected data now passes after explicit outcome confirmation; raw data retains seven issues, including the previously unchecked Next Contact error. The corrected selection has 8 overdue, 1 due today, 39 upcoming and 3 unscheduled Open follow-ups. Existing risk value remains CAD 292,450 and all 465 core SQL comparisons agree. Deployment evidence is recorded in DEPLOYMENT.md.
 
 ## September 29, 2026: unfamiliar real-world export testing
