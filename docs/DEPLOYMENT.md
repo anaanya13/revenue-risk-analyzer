@@ -1,6 +1,13 @@
 # Streamlit deployment
 
-**KPI explanations, dashboard guide and delay guidance deployed and verified on September 23, 2026.**
+**Partial analysis for messy files deployed and verified on September 30, 2026.**
+
+
+## September 30: partial analysis for messy files
+
+Published the default usable-row analysis, coverage labels, excluded-record download and optional strict check. Tested the raw regional workbook in the hosted app at a fixed September 29 analysis date and 30-day threshold. Before approving proposed outcomes, 45 of 100 rows reached Dashboard. After explicit synonym approval, 93 rows were included and seven excluded. Dashboard showed open pipeline 1,282,200, revenue at risk 250,550 and win rate 56.2%, all explicitly limited to included rows. Action plan rendered recommendations and planned follow-ups. Verification returned all 437 comparisons agreeing. The excluded-record CSV download started successfully. Optional strict mode correctly blocked analysis on the seven remaining issues; partial mode was restored afterward.
+
+All 101 local tests passed. [GitHub run 23](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36785004079) passed on Python 3.9 and 3.12. Uploaded workbooks are unchanged and are not published in the repository. No paid AI call was made. Unresolved records can be corrected in Data setup; unknown outcomes still require confirmation rather than a global business assumption.
 
 ## September 23: guidance verification
 

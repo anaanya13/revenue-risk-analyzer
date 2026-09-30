@@ -1,5 +1,9 @@
 # Project progress
 
+## September 30, 2026: partial analysis for messy uploads
+
+Partial analysis is now the default: validated rows can reach all result tabs while unresolved records remain in an issue list and excluded-record download. Every result tab shows coverage. Exports and AI summary context carry coverage; no amounts, dates or outcomes are invented. Both duplicate-ID records are quarantined. Optional strict mode preserves whole-file gating. All 101 tests pass locally. The raw regional workbook at September 29 yields 45 included rows without outcome approval and 93 included after approval, with seven unresolved rows; all 437 core SQL comparisons agree for the approved subset. Live verification reproduced the 93/100 partial Dashboard, action plan, excluded-record download and 437 agreeing SQL comparisons. GitHub run 23 passed on Python 3.9 and 3.12. See DEPLOYMENT.md for hosted verification.
+
 ## September 29, 2026: guided normalization and correction flow
 
 All 98 local tests passed. The hosted raw file showed the precise seven-issue blocking message and correction controls; the corrected file unlocked Dashboard after synonym approval. A local full raw-file repair using the supplied answer key produced all 465 agreeing SQL comparisons.
