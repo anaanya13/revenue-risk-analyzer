@@ -167,3 +167,14 @@ Open **Ask AI** after checking your data. Connect your own OpenAI API key in the
 6. Open **Action plan → Planned follow-ups** for Open deals that are overdue, due today, upcoming or not scheduled. Download the follow-up plan to keep it.
 
 Overdue means the planned date is before the analysis date. A date today is due today. This measure does not change inactivity risk and does not prove a contact was missed. The SQL check continues to cover original KPIs, stage summaries and inactivity risk; planned follow-ups have separate automated tests.
+
+## Uploaded, blocked or ready?
+
+- **✅ File uploaded** confirms the file has loaded. It does not mean its records have passed validation.
+- **Use these suggested outcome meanings for this file** approves the displayed synonym table, such as Signed → Won and Not proceeding → Lost. Check the business meanings first; individual dropdowns can override suggestions. There is no global rule that Signed always means Won.
+- For other owner aliases, open **Review owner-name variants**, select the aliases and choose the shared name. These choices do not combine deal rows.
+- Click **Check data**. If blocked, each result tab states how many issues remain and points you to the correction step.
+- Open **Fix flagged records here — no workbook editing needed**. Enter verified corrections, then click **Apply corrections and recheck**. Missing money, real identifiers and impossible dates must be supplied accurately; the app cannot recover their true values by guessing.
+- **✅ Ready for analysis** means the Dashboard, Action plan and Verification are unlocked. Download standardized data and any correction history you want to keep.
+
+Whitespace and parseable numeric formats are cleaned automatically. Business synonyms and owner aliases need your approval. Corrections are stored for the current file/settings in session memory only. Changing column/outcome/owner choices or the analysis date starts a fresh correction set; your original workbook is never overwritten. Discard corrections returns to the original mapped records and revalidates them.

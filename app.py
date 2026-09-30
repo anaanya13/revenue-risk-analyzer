@@ -30,6 +30,7 @@ def main():
     render_hero()
     render_user_guide()
     setup, dashboard, actions, verification, assistant = st.tabs(["Data setup", "Dashboard", "Action plan", "Verification", "Ask AI"])
+    st.session_state["import_notice"] = "Choose a file or sample in Data setup, then click Check data."
     with setup:
         prepared = prepare_data()
     if prepared is None:
@@ -37,7 +38,7 @@ def main():
         reset_assistant()
         with assistant:
             st.subheader("Ask your dashboard")
-            st.info("Choose your data and click Check data in Data setup to unlock the assistant.")
+            st.info(st.session_state["import_notice"])
         for panel, heading, message in (
             (dashboard, "Your pipeline, at a glance", "Choose a file or sample in Data setup, then click Check data to unlock your dashboard."),
             (actions, "A focused plan for your next review", "Your evidence-backed action plan will appear after the entire file passes its data checks."),
@@ -45,7 +46,7 @@ def main():
         ):
             with panel:
                 st.subheader(heading)
-                st.info(message)
+                st.info(st.session_state["import_notice"])
         with st.sidebar:
             st.markdown("### Your workspace")
             st.caption("Filters become available after your data passes its checks.")
@@ -100,7 +101,8 @@ def prepare_data():
         return
 
     source_key = fingerprint + str(sheet)
-    st.success("{} loaded: {:,} rows and {} columns.".format(filename, len(raw), len(raw.columns)))
+    st.success("✅ File uploaded: {} — {:,} rows and {} columns.".format(filename, len(raw), len(raw.columns)))
+    st.session_state["import_notice"] = "Your file is uploaded. Review its column and outcome choices in Data setup, then click Check data to validate it."
     with st.expander("Preview original data", expanded=False):
         st.dataframe(raw.head(10).astype("string"), hide_index=True, width="stretch")
     st.subheader("2. Match your columns")
@@ -126,6 +128,8 @@ def prepare_data():
     errors = mapping_errors(raw.columns, mapping)
     for error in errors:
         st.warning(error)
+    if errors:
+        st.session_state["import_notice"] = "Your file is uploaded, but column mapping needs attention in Data setup. " + " ".join(errors)
 
     st.subheader("3. Check data quality")
     col1, col2 = st.columns(2)
@@ -153,7 +157,9 @@ def prepare_data():
         return
 
     mapped = apply_choices(standardize_columns(raw, mapping), outcomes, owners)
-    result = validate_data(mapped, day_first=date_order.startswith("Day"), as_of_date=as_of)
+    from src.repair_view import repair_and_validate
+    repair_key = sha256(repr(signature).encode()).hexdigest()[:16]
+    result = repair_and_validate(mapped, repair_key, date_order.startswith("Day"), as_of)
     st.divider()
     st.subheader("Your data-quality results")
     col1, col2, col3 = st.columns(3)
@@ -165,9 +171,10 @@ def prepare_data():
         with st.expander("Review applied outcome and owner choices"):
             st.dataframe(choice_audit, hide_index=True, width="stretch")
     if result.is_valid:
-        st.success("Your data passed all current checks. Open the Dashboard tab to explore your results.")
+        st.success("✅ Ready for analysis: your data passed all current checks. Dashboard, Action plan and Verification are unlocked.")
     else:
-        st.error("Some records need correction. Review outcome choices above; fix remaining source-data errors in your file, then upload it again.")
+        st.session_state["import_notice"] = "Your file is uploaded, but analysis is blocked by {} issues across {} rows. In Data setup, approve or adjust outcome meanings and use Fix flagged records here, then apply corrections and recheck. No records have been dropped.".format(len(result.issues), result.invalid_row_count)
+        st.error("Some records need correction. Review outcome choices above, then use Fix flagged records here and Apply corrections and recheck.")
         st.caption("Source row counts the header as row 1. One row may have several different issues.")
         st.dataframe(result.issues, hide_index=True, width="stretch")
         st.download_button(
