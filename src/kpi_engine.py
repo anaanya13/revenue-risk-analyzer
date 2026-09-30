@@ -5,7 +5,7 @@ import math
 
 def sum_value(values):
     try:
-        total = math.fsum(float(value) for value in values)
+        total = math.fsum(float(value) for value in values.dropna())
     except OverflowError as error:
         raise ValueError("The total deal value is too large to calculate. Check the source amounts.") from error
     if not math.isfinite(total):
@@ -32,7 +32,7 @@ def calculate_kpis(data):
         "deal_count": len(data), "open_deals": len(active), "won_deals": len(won), "lost_deals": len(lost),
         "total_deal_value": total_value, "open_pipeline_value": pipeline,
         "won_deal_value": sum_value(won["deal_value"]), "lost_deal_value": sum_value(lost["deal_value"]),
-        "average_deal_value": total_value / len(data) if len(data) else None,
+        "average_deal_value": total_value / data["deal_value"].count() if data["deal_value"].count() else None,
         "win_rate": len(won) / closed_count if closed_count else None,
         "average_open_age": _average(active["deal_age_days"]),
         "average_inactivity": _average(active["days_inactive"]),

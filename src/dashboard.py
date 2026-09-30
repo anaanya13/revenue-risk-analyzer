@@ -25,7 +25,7 @@ LABELS = {
     "average_open_age": "Average open age (days)", "average_inactivity": "Average inactivity (days)",
     "follow_ups_recorded": "Deals with follow-up counts", "average_follow_ups": "Average follow-ups",
 }
-COLORS = {"Low": "#15803d", "Medium": "#b45309", "High": "#dc2626", "Critical": "#7e22ce"}
+COLORS = {"Low": "#15803d", "Medium": "#b45309", "High": "#dc2626", "Critical": "#7e22ce", "Unknown": "#64748b"}
 
 
 def _number(value, decimals=0):
@@ -73,7 +73,7 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
                 st.caption("At a one-day stalled threshold, the Medium interval is empty: 0 days is Low, 1 High, and 2+ Critical.")
             st.caption("A historical analysis date does not reconstruct past statuses. Use a file captured on the date you want to analyze.")
     try:
-        assessed = assess_deals(cleaned, analysis_date, int(threshold))
+        assessed = assess_deals(cleaned, analysis_date, int(threshold), allow_missing=True)
     except ValueError as error:
         st.error(str(error))
         return
@@ -97,8 +97,9 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
         use_dates = st.checkbox("Filter by created date", key=prefix + "use_dates")
         start = end = None
         if use_dates:
-            start = st.date_input("Created on or after", assessed.created_date.min().date(), key=prefix + "from")
-            end = st.date_input("Created on or before", assessed.created_date.max().date(), key=prefix + "to")
+            st.caption("Created-date filters omit rows whose creation date is not recorded.")
+            start = st.date_input("Created on or after", assessed.created_date.min().date() if assessed.created_date.notna().any() else analysis_date, key=prefix + "from")
+            end = st.date_input("Created on or before", assessed.created_date.max().date() if assessed.created_date.notna().any() else analysis_date, key=prefix + "to")
             if start is None or end is None:
                 st.warning("Choose both created dates.")
                 return
@@ -108,11 +109,15 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
     except ValueError as error:
         st.warning(str(error))
         return
-    coverage = {key: cleaned.iloc[0][key] for key in ('analysis_scope','uploaded_rows','included_rows','excluded_rows') if key in cleaned and len(cleaned)}
-    settings = {"selections": selections, "created_from": start, "created_to": end, "data_coverage": coverage}
+    coverage = {key: cleaned.iloc[0][key] for key in ('analysis_scope','uploaded_rows','included_rows','excluded_rows','incomplete_rows') if key in cleaned and len(cleaned)}
+    from src.missing_values import show_missing_coverage, missing_coverage
+    for panel in (dashboard, actions, verification, assistant):
+        with panel:
+            show_missing_coverage(filtered)
+    settings = {"selections": selections, "created_from": start, "created_to": end, "data_coverage": coverage, "field_coverage": missing_coverage(filtered)}
     for panel in (dashboard, actions, verification):
         with panel:
-            st.caption("{:,} of {:,} validated deals · Analysis date: {} · Stalled after {} days".format(len(filtered), len(assessed), analysis_date, threshold))
+            st.caption("{:,} of {:,} included deals · Analysis date: {} · Stalled after {} days".format(len(filtered), len(assessed), analysis_date, threshold))
             if filtered.empty:
                 st.info("No deals match these filters. Change the selections or use Reset filters.")
     if assistant is not None:
@@ -134,7 +139,7 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
             (("Open pipeline value", _number(kpis["open_pipeline_value"], 2), "Open deals only."),
              ("Won deal value", _number(kpis["won_deal_value"], 2), "Value recorded on Won deals."),
              ("Win rate", _percent(kpis["win_rate"]), "Won count divided by Won plus Lost count in these filters."),
-             ("Average deal value", _number(kpis["average_deal_value"], 2), "All deals matching these filters.")),
+             ("Average deal value", _number(kpis["average_deal_value"], 2), "Average of recorded amounts only; blank amounts are not zero.")),
             (("Matching deals", str(kpis["deal_count"]), "All matching statuses."),
              ("Open deals", str(kpis["open_deals"]), "Currently Open."),
              ("Won deals", str(kpis["won_deals"]), "Currently Won."),
@@ -209,9 +214,9 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
         st.markdown("### Deals to review")
         show_all = st.checkbox("Show all matching deals, including closed deals", key="show_all_" + context_key)
         review = filtered.copy() if show_all else filtered.loc[filtered.is_stalled].copy()
-        review["_priority"] = review.risk_severity.map({"Critical": 0, "High": 1, "Medium": 2, "Low": 3, "Closed": 4})
+        review["_priority"] = review.risk_severity.map({"Critical": 0, "High": 1, "Medium": 2, "Low": 3, "Unknown": 4, "Closed": 5})
         review = review.sort_values(["_priority", "deal_value", "days_inactive"], ascending=[True, False, False], kind="stable").drop(columns="_priority")
-        columns = [c for c in ("deal_id", "deal_value", "stage", "status", "sales_rep", "deal_age_days", "days_inactive", "risk_severity", "is_stalled", "delay_reason", "follow_ups") if c in review]
+        columns = [c for c in ("deal_id", "deal_value", "stage", "status", "sales_rep", "deal_age_days", "days_inactive", "risk_severity", "is_stalled", "delay_reason", "follow_ups", "data_quality_notes") if c in review]
         st.caption("Default: stalled Open deals, ordered by severity, then deal value and inactivity. Closed deals have no inactivity assessment.")
         if review.empty:
             st.info("No stalled deals in this selection. Select Show all matching deals to inspect the other records.")

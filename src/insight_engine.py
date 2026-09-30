@@ -26,11 +26,11 @@ def generate_insights(data):
     stalled = opened.loc[opened.is_stalled]
     if opened.empty:
         add("no_open", "Information", "No Open deals in this selection", opened,
-            "The selected records are closed, so current inactivity risk is not assessed.",
+            "No selected records have a confirmed Open outcome; missing outcomes are not assumed closed.",
             "Include Open in the Status filter to review current opportunities.")
     elif stalled.empty:
         add("no_stalled", "Information", "No deals meet the stalled rule", opened,
-            "None of these Open deals reaches the selected inactivity threshold. This does not guarantee a sale.",
+            "No assessed Open deal reaches the selected inactivity threshold. Missing activity dates remain Unknown, not Low risk. This does not guarantee a sale.",
             "Continue the normal review schedule and keep activity dates current.")
     else:
         critical = stalled.loc[stalled.risk_severity.eq("Critical")]

@@ -83,7 +83,7 @@ def render_user_guide():
 **First visit — about five minutes**
 
 1. In **Data setup**, choose **Try sample data**, keep the **Deals** sheet and review the suggested column matches. For a repeatable example, set the analysis date to **September 22, 2026**.
-2. Click **Check data**. By default, usable rows unlock partial analysis while unresolved rows remain in the issue list. Read the included/excluded counts. Approve outcome meanings and correct flagged cells to bring more rows into analysis. Turn on **Require every row to pass before analysis** if you need strict validation.
+2. Click **Check data**. By default, records with missing fields remain in analysis and contribute wherever the needed details are available. Missing amounts are unknown, missing outcomes stay unclassified, and missing activity dates give Unknown risk. Invalid values and duplicate IDs remain in the issue list. Read the included/excluded counts. Approve outcome meanings and correct flagged cells to bring more rows into analysis. Turn on **Require every row to pass before analysis** if you need strict validation.
 3. Open **Dashboard**. Start with Open pipeline value, Revenue at risk and Win rate. Expand **Understand your KPIs** for the arithmetic, meaning and next step.
 4. Use the **sidebar** to change the stalled threshold or select a stage, owner or other filter. If hidden, reopen it with the sidebar arrow. All result tabs use the same selection; **Reset filters** restores all records but does not change the threshold.
 5. Open **Action plan** for review priorities. Under **Understand delays and plan a response**, choose a recorded reason, read how it was calculated, and agree a task with the owner.

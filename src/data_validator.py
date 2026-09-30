@@ -36,6 +36,7 @@ def validate_data(
     frame: pd.DataFrame,
     day_first: bool = False,
     as_of_date: Optional[Any] = None,
+    allow_missing: bool = False,
 ) -> ValidationResult:
     """Return cleaned values and blocking issues without changing the input.
 
@@ -72,7 +73,7 @@ def validate_data(
             "field": field,
             "issue": message,
             "value": "" if is_missing(value) else str(value),
-            "severity": "Error",
+            "severity": "Warning" if allow_missing and message == "Required value is missing." else "Error",
         })
 
     if raw.empty:
@@ -175,6 +176,6 @@ def validate_data(
     return ValidationResult(
         cleaned_data=cleaned,
         issues=issue_frame,
-        is_valid=issue_frame.empty,
-        invalid_row_count=int(issue_frame["source_row"].nunique()),
+        is_valid=not issue_frame.severity.eq("Error").any(),
+        invalid_row_count=int(issue_frame.loc[issue_frame.severity.eq("Error"), "source_row"].nunique()),
     )

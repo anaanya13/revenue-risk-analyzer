@@ -33,7 +33,7 @@ def sql_analysis(data, analysis_date, threshold):
         raise ValueError("SQL analysis requires all mapped required fields.")
     raw = data[columns + (["follow_ups"] if "follow_ups" in data else [])].copy()
     if len(raw):
-        result = validate_data(raw, as_of_date=reference)
+        result = validate_data(raw, as_of_date=reference, allow_missing="data_quality_notes" in data)
         if not result.is_valid:
             raise ValueError("Resolve data-quality issues before checking calculations.")
         raw = result.cleaned_data

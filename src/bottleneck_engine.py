@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from src.kpi_engine import sum_value
+from src.kpi_engine import sum_value, _average
 
 SUMMARY_COLUMNS = (
     "open_deals", "open_value", "stalled_deals", "revenue_at_risk", "stalled_share",
@@ -24,8 +24,8 @@ def summarize_bottlenecks(data, field="stage"):
             field: label, "open_deals": len(group), "open_value": sum_value(group["deal_value"]),
             "stalled_deals": len(stalled), "revenue_at_risk": sum_value(stalled["deal_value"]),
             "stalled_share": len(stalled) / len(group),
-            "average_open_age": float(group["deal_age_days"].mean()),
-            "average_inactivity": float(group["days_inactive"].mean()),
+            "average_open_age": _average(group["deal_age_days"]),
+            "average_inactivity": _average(group["days_inactive"]),
             "follow_ups_recorded": len(counts),
             "average_follow_ups": float(counts.mean()) if len(counts) else None,
         })
