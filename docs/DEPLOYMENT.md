@@ -1,7 +1,15 @@
 # Streamlit deployment
 
-**Partial analysis for messy files deployed and verified on September 30, 2026.**
+**Missing-field records included in default analysis; deployed September 30, 2026.**
 
+
+## September 30: missing-field inclusion
+
+The hosted app now retains incomplete records, shows field-coverage notes and a review table on every result tab, and independently verifies null-aware calculations. Missing amounts contribute to counts but not monetary sums; averages use recorded amounts. Missing outcomes stay unclassified. Missing Open activity dates give Unknown risk. Duplicate IDs and invalid values remain excluded. Strict whole-file validation is still available.
+
+Tested the supplied excluded-record CSV live: 3 of 7 rows included, all three marked with missing details, 2/3 amounts recorded and one outcome missing. All 37 independent comparisons agreed. Reuploading the full regional workbook replaced that selection. At September 29 with approved outcome meanings, hosted and local calculations include 95/100 rows (46 Open, 27 Won, 21 Lost, one unknown outcome), 11 stalled deals and known-value exposure 250,550. One stalled deal has an unknown amount. All 445 hosted and local comparisons agree. The hosted note shows 94/95 recorded amounts and one missing outcome. The earlier 93/100 record below is historical and superseded.
+
+All 106 automated tests pass locally. [GitHub run 28](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36786273221) passed on Python 3.9 and 3.12. No original workbook was changed or published, and no paid AI call was made.
 
 ## September 30: partial analysis for messy files
 

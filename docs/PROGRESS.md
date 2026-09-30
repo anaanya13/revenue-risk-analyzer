@@ -1,5 +1,12 @@
 # Project progress
 
+## September 30, 2026: include records with missing fields
+
+Added default field-level analysis: missing required values no longer exclude a row. Amount averages use recorded values, missing outcomes remain unclassified, and Open deals without activity dates have Unknown risk. Included missing-detail tables and metric-input counts appear in every result tab; downloads and aggregate AI context carry coverage. Reuploading the full updated file replaces the current analysis. Invalid values and duplicate IDs remain quarantined; strict mode is preserved.
+
+All 106 local tests pass, including missing amounts/outcomes/dates/IDs/stages, zero vs missing, all-null inputs, distributions, SQL agreement, source immutability, date filtering and reanalysis. The raw regional file includes 95/100 rows with 445 agreeing SQL comparisons after outcome approval. The supplied seven-row excluded-record CSV includes three rows with 37 agreeing comparisons; its blank creation date was previously an invalid date in the original workbook. Hosted verification confirmed both file selections and 445/37 agreeing comparisons. GitHub run 28 passed on Python 3.9 and 3.12. See DEPLOYMENT.md for hosted verification.
+
+
 ## September 30, 2026: partial analysis for messy uploads
 
 Partial analysis is now the default: validated rows can reach all result tabs while unresolved records remain in an issue list and excluded-record download. Every result tab shows coverage. Exports and AI summary context carry coverage; no amounts, dates or outcomes are invented. Both duplicate-ID records are quarantined. Optional strict mode preserves whole-file gating. All 101 tests pass locally. The raw regional workbook at September 29 yields 45 included rows without outcome approval and 93 included after approval, with seven unresolved rows; all 437 core SQL comparisons agree for the approved subset. Live verification reproduced the 93/100 partial Dashboard, action plan, excluded-record download and 437 agreeing SQL comparisons. GitHub run 23 passed on Python 3.9 and 3.12. See DEPLOYMENT.md for hosted verification.
