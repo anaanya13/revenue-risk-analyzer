@@ -13,7 +13,7 @@ WITH totals AS (
         coalesce(fsum(deal_value) FILTER (WHERE is_stalled), 0) AS revenue_at_risk
     FROM assessed
 )
-SELECT *, total_deal_value / nullif(deal_count, 0) AS average_deal_value,
+SELECT *, total_deal_value / nullif((SELECT count(deal_value) FROM assessed), 0) AS average_deal_value,
     won_deals::DOUBLE / nullif(won_deals + lost_deals, 0) AS win_rate,
     revenue_at_risk / nullif(open_pipeline_value, 0) AS revenue_at_risk_share
 FROM totals;

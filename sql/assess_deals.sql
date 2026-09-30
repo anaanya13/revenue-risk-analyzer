@@ -10,8 +10,9 @@ ages AS (
     FROM input_deals CROSS JOIN settings
 )
 SELECT *,
-    status = 'Open' AND coalesce(days_inactive >= threshold, false) AS is_stalled,
-    CASE WHEN status <> 'Open' THEN 'Closed'
+    coalesce(status = 'Open' AND days_inactive >= threshold, false) AS is_stalled,
+    CASE WHEN status IS NULL OR (status = 'Open' AND days_inactive IS NULL) THEN 'Unknown'
+         WHEN status <> 'Open' THEN 'Closed'
          WHEN days_inactive >= 2 * threshold THEN 'Critical'
          WHEN days_inactive >= threshold THEN 'High'
          WHEN days_inactive >= ceil(threshold / 2.0) THEN 'Medium'

@@ -1,4 +1,4 @@
-SELECT stage, count(*) AS open_deals, fsum(deal_value) AS open_value,
+SELECT stage, count(*) AS open_deals, coalesce(fsum(deal_value), 0) AS open_value,
     count(*) FILTER (WHERE is_stalled) AS stalled_deals,
     coalesce(fsum(deal_value) FILTER (WHERE is_stalled), 0) AS revenue_at_risk,
     count(*) FILTER (WHERE is_stalled)::DOUBLE / count(*) AS stalled_share,
