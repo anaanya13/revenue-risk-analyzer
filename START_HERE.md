@@ -184,6 +184,21 @@ Whitespace and parseable numeric formats are cleaned automatically. Business syn
 
 Partial analysis is now the default. Upload, review mappings, and click **Check data**. If some rows pass, Dashboard, Action plan and Verification open for that subset. Every result tab shows the included and excluded row counts. Filters can narrow the included subset further.
 
-Approve the proposed status synonyms to include more records; uncertain outcomes are not guessed. Rows with unresolved problems remain excluded, including both occurrences of a duplicate ID. Download the issue report and excluded records to review them. The excluded-record download uses standardized values; original problematic values are in the issue report. Missing amounts are never filled with zero to make a row pass.
+Approve the proposed status synonyms to include more records; uncertain outcomes are not guessed. Missing fields alone no longer exclude records. Invalid values and duplicate IDs remain excluded, including both occurrences of a duplicate ID. Download the issue report and excluded records to review them. The excluded-record download uses standardized values; original problematic values are in the issue report. Missing amounts are never filled with zero to make a row pass.
 
 The partial totals and win rate are not whole-file results. If no rows are usable, the app explains what to resolve first. Choose **Require every row to pass before analysis** to restore strict behavior. Corrections are revalidated before records can rejoin the analysis.
+
+
+### Missing details no longer remove a deal
+
+Leave the strict check off (the default). A deal with blank fields stays in analysis. It contributes to every calculation for which the necessary information is available:
+
+- Missing amount: the deal is counted, but its value is unknown. Monetary cards show recorded-amount subtotals. A displayed zero with no recorded amounts is not a claim that the business value is zero.
+- Missing outcome: included in total records and known total value, but not Open/Won/Lost counts or win rate.
+- Missing activity date: an Open deal has **Unknown** risk, never automatically Low risk.
+- Missing creation date: no age can be calculated; other available details still count. Applying a created-date filter omits records without that date.
+- Missing stage or ID: a visible “Not recorded” stage or a source-row reference identifies the record; these are not guessed business values.
+
+Each result tab has a missing-details note, field counts and a review table. Downloads retain the missing-field notes. Average value uses recorded amounts, including genuine zeros. Blank optional fields remain not recorded and do not exclude deals. Duplicate IDs, impossible dates and invalid numbers still need review. The original file is unchanged.
+
+When new details become available, upload your **full updated file** and click **Check data** again. This replaces the current analysis; it does not append or duplicate the earlier upload. You can also use the existing in-app correction table.

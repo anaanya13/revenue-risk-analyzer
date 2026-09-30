@@ -151,9 +151,9 @@ def prepare_data():
         )
     st.caption(
         "Amounts use a dot for decimals and commas for thousands (12,500.50). Use one currency per file. "
-        "Confirm outcome meanings above. Blank outcomes still need correction in the source."
+        "Confirm outcome meanings above. Blank values stay unknown and limit only the calculations that need them."
     )
-    strict = st.checkbox("Require every row to pass before analysis", value=False, key="strict_" + source_key, help="Off: analyze valid rows now and keep unresolved rows in the issue list. On: block all analysis until every row passes.")
+    strict = st.checkbox("Require every row to pass before analysis", value=False, key="strict_" + source_key, help="Off: include records with missing details and use available fields; quarantine invalid values and duplicate IDs. On: block all analysis until every row passes.")
     signature = (strict, source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
     if as_of is None:
         st.warning("Choose a validation date before checking the file.")
@@ -180,7 +180,7 @@ def prepare_data():
         st.success("✅ Ready for analysis: your data passed all current checks. Dashboard, Action plan and Verification are unlocked.")
     else:
         st.session_state["import_notice"] = "Your file is uploaded, but analysis is blocked by {} issues across {} rows. In Data setup, approve or adjust outcome meanings and use Fix flagged records here, then apply corrections and recheck. No records have been dropped.".format(len(result.issues), result.invalid_row_count)
-        st.error("Some records need correction. Review outcome choices above, then use Fix flagged records here and Apply corrections and recheck.")
+        (st.error if strict else st.warning)("Data-quality notes: missing values can remain in analysis. Invalid values and duplicate IDs still need review. Use Fix flagged records here or reupload an updated file when details become available.")
         st.caption("Source row counts the header as row 1. One row may have several different issues.")
         st.dataframe(result.issues, hide_index=True, width="stretch")
         st.download_button(
@@ -197,9 +197,11 @@ def prepare_data():
             st.warning(st.session_state["import_notice"])
         else:
             st.warning("Partial analysis is ready: {} of {} rows included; {} unresolved rows excluded. Totals and win rate describe only included rows, not the whole file.".format(len(usable), len(raw), len(quarantined)))
-            st.caption("Every row with a blocking issue is quarantined, including both copies of a duplicate ID. Fixing a row brings it back into analysis after revalidation. No values are guessed. Unknown outcomes still need a confirmed meaning.")
+            st.caption("Only rows with invalid values or duplicate IDs are quarantined, including both copies of a duplicate ID. Missing fields alone do not exclude a row. Fixing a row brings it back into analysis after revalidation. No values are guessed. Unknown outcomes still need a confirmed meaning.")
             st.caption('Excluded-record downloads contain standardized values; the issue report preserves the original problematic values and source-row references.')
             st.download_button('Download excluded records', csv_bytes(quarantined), 'excluded_records.csv', 'text/csv', on_click='ignore')
+    if not strict and coverage.get("incomplete_rows", 0):
+        st.info("{} included records have missing details. They remain in deal counts and contribute wherever the needed fields are available. Review the field-coverage notes in each analysis tab.".format(coverage["incomplete_rows"]))
     if result.is_valid or (not strict and not usable.empty):
         with st.expander("Review standardized data", expanded=False):
             st.caption(

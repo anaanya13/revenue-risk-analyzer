@@ -89,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 101 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 106 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
@@ -110,3 +110,5 @@ The Ask AI tab explains current filtered analysis through OpenAI, using each vis
 Review transparent header suggestions, confirm outcome meanings, optionally merge owner capitalization variants, and map planned Next Contact dates. Action plan includes overdue, due-today, upcoming and unscheduled Open follow-ups with a downloadable plan. Validation results explicitly identify ignored columns and coverage limits.
 
 The import flow distinguishes uploaded, blocked and analysis-ready states. Approve proposed status synonyms and correct flagged cells in the website, with full revalidation and a downloadable correction history.
+
+Missing required cells now stay in default analysis, with field-level coverage and Unknown risk where needed. Recorded-amount subtotals and averages do not impute blanks as zero; duplicates and invalid values still require review. See START_HERE.md.
