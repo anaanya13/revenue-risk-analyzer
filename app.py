@@ -194,7 +194,7 @@ def prepare_data():
             "Download standardized data", csv_bytes(result.cleaned_data), "standardized_pipeline.csv", "text/csv",
             on_click="ignore", type="primary",
         )
-        analytics_key = sha256(repr(signature).encode()).hexdigest()[:16]
+        analytics_key = sha256((repr(signature) + repr(st.session_state.get("repairs_" + repair_key, {}))).encode()).hexdigest()[:16]
         return result.cleaned_data, as_of, analytics_key
 
 
