@@ -1,5 +1,9 @@
 # Project progress
 
+## September 29, 2026: guided normalization and correction flow
+
+Added a visible upload tick and distinct ready-for-analysis state. Blocked Dashboard/Action plan/Verification/AI tabs now explain current validation issues. Suggested status synonyms can be approved per file and overridden individually; arbitrary owner aliases can also be explicitly combined. Flagged records can be edited in the app, revalidated, discarded and audited through a correction-history download. No missing amounts, IDs or dates are guessed, and original files remain unchanged. See START_HERE.md for the guided workflow and DEPLOYMENT.md for live verification.
+
 ## September 29, 2026: real-world import improvements
 
 All 94 local tests pass, and GitHub run 15 passed. Hosted regional uploads and follow-up CSV download were verified.
