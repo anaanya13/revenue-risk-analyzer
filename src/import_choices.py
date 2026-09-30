@@ -21,3 +21,15 @@ def apply_choices(frame, outcomes=None, owners=None):
         if field in result:
             result[field] = result[field].map(lambda v: (choices or {}).get(normalize_text(v), v))
     return result
+
+
+OUTCOME_SUGGESTIONS = {
+    'signed': 'Won', 'contract signed': 'Won', 'successful': 'Won', 'converted': 'Won',
+    'not proceeding': 'Lost', 'declined': 'Lost', 'unsuccessful': 'Lost', 'closed unsuccessful': 'Lost',
+    'ongoing': 'Open', 'in pipeline': 'Open', 'pending': 'Open', 'in negotiation': 'Open',
+}
+
+
+def suggest_outcome(label):
+    text = normalize_text(label)
+    return OUTCOME_SUGGESTIONS.get(text.casefold()) if text else None

@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from src.column_mapper import FIELD_LABELS, mapping_candidates
 from src.data_cleaner import normalize_status
-from src.import_choices import observed_labels, owner_variant_groups
+from src.import_choices import observed_labels, owner_variant_groups, suggest_outcome
 
 
 def review_import(raw, mapping, source_key):
@@ -26,13 +26,24 @@ def review_import(raw, mapping, source_key):
     if mapping.get('status') in raw:
         with st.expander('Confirm outcome meanings', expanded=True):
             st.caption('Confirm how each nonblank source outcome should be interpreted for this file. Unknown outcomes have no default. Blank outcomes must still be corrected in the source.')
-            for label in observed_labels(raw[mapping['status']]):
+            labels = observed_labels(raw[mapping['status']])
+            proposals = [{'Source outcome': label, 'Suggested meaning': suggest_outcome(label)}
+                         for label in labels if suggest_outcome(label)]
+            use_suggestions = False
+            if proposals:
+                st.dataframe(pd.DataFrame(proposals), hide_index=True, width='stretch')
+                st.caption('These are proposed synonyms, not verified business facts. Approve them for this file only or choose each meaning below.')
+                suggestion_key = sha256((source_key + str(mapping['status'])).encode()).hexdigest()[:20]
+                use_suggestions = st.checkbox('Use these suggested outcome meanings for this file', key='synonyms_' + suggestion_key)
+            for label in labels:
                 known = normalize_status(label)
+                if use_suggestions and suggest_outcome(label):
+                    known = suggest_outcome(label)
                 options = ['Open', 'Won', 'Lost'] if known in ('Open', 'Won', 'Lost') else [None, 'Open', 'Won', 'Lost']
                 key = sha256((source_key + str(mapping['status']) + label).encode()).hexdigest()[:20]
                 target = st.selectbox('Outcome: ' + label, options,
                     index=options.index(known) if known in options else 0,
-                    format_func=lambda v: 'Choose meaning' if v is None else v, key='outcome_' + key)
+                    format_func=lambda v: 'Choose meaning' if v is None else v, key='outcome_' + key + str(use_suggestions))
                 if target:
                     outcomes[label] = target
                     audit.append({'Field': 'Outcome', 'Source label': label, 'Confirmed value': target})
@@ -50,6 +61,19 @@ def review_import(raw, mapping, source_key):
                     for label in labels:
                         owners[label] = target
                         audit.append({'Field': 'Owner', 'Source label': label, 'Confirmed value': target})
+            all_owners = observed_labels(raw[mapping['sales_rep']])
+            st.markdown('**Other names for the same owner**')
+            st.caption('For aliases beyond capitalization, select the source names and the name to use. Confirm they represent the same person; no fuzzy merge is applied automatically.')
+            custom_key = sha256((source_key + str(mapping['sales_rep'])).encode()).hexdigest()[:20]
+            aliases = st.multiselect('Owner aliases to combine', all_owners, key='owner_aliases_' + custom_key)
+            canonical = st.selectbox('Use this owner name', [None] + all_owners,
+                                     format_func=lambda v: 'Choose a name' if v is None else v,
+                                     key='owner_canonical_' + custom_key)
+            if aliases and canonical:
+                for label in aliases:
+                    owners[label] = canonical
+                    audit = [row for row in audit if not (row['Field'] == 'Owner' and row['Source label'] == label)]
+                    audit.append({'Field':'Owner','Source label':label,'Confirmed value':canonical})
     return outcomes, owners, audit, ignored
 
 
