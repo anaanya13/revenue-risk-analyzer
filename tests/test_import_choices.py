@@ -88,6 +88,7 @@ class ImportTests(unittest.TestCase):
         with patch('src.data_loader.load_pipeline',return_value=records()):
             a=AppTest.from_file('app.py',default_timeout=30).run()
             a.radio[0].set_value('Try sample data').run()
+            next(c for c in a.checkbox if c.label == "Require every row to pass before analysis").check().run()
             a.date_input[0].set_value(ASOF).run()
             next(b for b in a.button if b.label=='Check data').click().run()
             self.assertEqual([m.value for m in a.metric],['5','2','2'])

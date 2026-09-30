@@ -94,6 +94,7 @@ class InterfaceTests(unittest.TestCase):
 
     def choose_source(self, source):
         self.app.radio[0].set_value(source).run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.assertEqual(len(self.app.exception), 0)
 
     def check(self):

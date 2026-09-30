@@ -210,6 +210,7 @@ class AnalyticsInterfaceTests(unittest.TestCase):
     def setUp(self):
         self.app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
         self.app.radio[0].set_value("Try sample data").run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.app.date_input[0].set_value(AS_OF).run()
         self.app.button[0].click().run()
         self.assertEqual(len(self.app.exception), 0)
@@ -243,6 +244,7 @@ class AnalyticsInterfaceTests(unittest.TestCase):
 
     def test_changed_source_clears_results_across_all_tabs_and_sidebar(self):
         self.app.radio[0].set_value("Try messy test data").run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.assertEqual(len(self.app.tabs[1].metric), 0)
         self.assertEqual(len(self.app.tabs[2].get("download_button")), 0)
         self.assertEqual(len(self.app.tabs[3].button), 0)
@@ -275,11 +277,13 @@ class AnalyticsInterfaceTests(unittest.TestCase):
 
     def test_alternate_file_missing_optional_fields_and_invalid_file(self):
         self.app.radio[0].set_value("Try alternate column names").run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.app.button[0].click().run()
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.metric("Matching deals"), "12")
         self.assertTrue(any("Map Delay Reason" in info.value for info in self.app.info))
         self.app.radio[0].set_value("Try messy test data").run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.app.button[0].click().run()
         self.assertEqual(len(self.app.number_input), 0)
         self.assertEqual(len(self.app.sidebar.multiselect), 0)

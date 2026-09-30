@@ -30,6 +30,7 @@ class RepairTests(unittest.TestCase):
         with patch('src.data_loader.load_pipeline',return_value=records()):
             app=AppTest.from_file('app.py',default_timeout=30).run()
             app.radio[0].set_value('Try sample data').run()
+            next(c for c in app.checkbox if c.label == "Require every row to pass before analysis").check().run()
             app.date_input[0].set_value(date(2026,9,29)).run()
             self.assertTrue(any('File uploaded' in x.value for x in app.success))
             next(b for b in app.button if b.label=='Check data').click().run()
@@ -45,6 +46,7 @@ class RepairTests(unittest.TestCase):
         with patch('src.data_loader.load_pipeline',return_value=raw):
             app=AppTest.from_file('app.py',default_timeout=30).run()
             app.radio[0].set_value('Try sample data').run()
+            next(c for c in app.checkbox if c.label == "Require every row to pass before analysis").check().run()
             app.date_input[0].set_value(date(2026,9,29)).run()
             next(c for c in app.checkbox if c.label=='Use these suggested outcome meanings for this file').check().run()
             next(b for b in app.button if b.label=='Check data').click().run()

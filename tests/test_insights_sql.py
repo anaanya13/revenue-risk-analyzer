@@ -196,6 +196,7 @@ class ActionInterfaceTests(unittest.TestCase):
 
     def test_invalid_data_has_no_action_plan_or_check(self):
         self.app.radio[0].set_value("Try messy test data").run()
+        next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.app.button[0].click().run()
         self.assertNotIn("Run calculation check", [b.label for b in self.app.button])
         self.assertNotIn("Download action plan", [b.label for b in self.app.get("download_button")])
