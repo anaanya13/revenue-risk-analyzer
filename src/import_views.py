@@ -25,7 +25,7 @@ def review_import(raw, mapping, source_key):
     outcomes, owners, audit = {}, {}, []
     if mapping.get('status') in raw:
         with st.expander('Confirm outcome meanings', expanded=True):
-            st.caption('Confirm how each nonblank source outcome should be interpreted for this file. Unknown outcomes have no default. Blank outcomes must still be corrected in the source.')
+            st.caption('Confirm how each nonblank source outcome should be interpreted for this file. Unknown outcomes have no default. Blank outcomes remain unclassified in default analysis; add them later when known. They are excluded from outcome-specific KPIs, not from the record count.')
             labels = observed_labels(raw[mapping['status']])
             proposals = [{'Source outcome': label, 'Suggested meaning': suggest_outcome(label)}
                          for label in labels if suggest_outcome(label)]
