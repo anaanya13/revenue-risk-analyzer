@@ -52,6 +52,11 @@ def main():
             st.caption("Filters become available after your data passes its checks.")
         return
     cleaned, as_of, analytics_key = prepared
+    coverage = st.session_state.get('analysis_coverage', {})
+    if coverage.get('excluded_rows', 0):
+        for panel in (dashboard, actions, verification, assistant):
+            with panel:
+                st.warning("PARTIAL ANALYSIS — {} of {} uploaded rows included; {} excluded. All figures and recommendations describe the included rows only. Review the issue list in Data setup. Filters may reduce this further.".format(coverage['included_rows'], coverage['uploaded_rows'], coverage['excluded_rows']))
     render_dashboard(cleaned, as_of, analytics_key, dashboard, actions, verification, assistant)
 
 
@@ -148,7 +153,8 @@ def prepare_data():
         "Amounts use a dot for decimals and commas for thousands (12,500.50). Use one currency per file. "
         "Confirm outcome meanings above. Blank outcomes still need correction in the source."
     )
-    signature = (source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
+    strict = st.checkbox("Require every row to pass before analysis", value=False, key="strict_" + source_key, help="Off: analyze valid rows now and keep unresolved rows in the issue list. On: block all analysis until every row passes.")
+    signature = (strict, source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
     if as_of is None:
         st.warning("Choose a validation date before checking the file.")
     if st.button("Check data", type="primary", disabled=bool(errors) or as_of is None):
@@ -182,20 +188,32 @@ def prepare_data():
             on_click="ignore",
         )
 
-    if result.is_valid:
+    from src.partial_analysis import partition_validated
+    usable, quarantined, coverage = partition_validated(result, len(raw))
+    st.session_state['analysis_coverage'] = coverage
+    if not result.is_valid and not strict:
+        if usable.empty:
+            st.session_state["import_notice"] = "Your file is uploaded, but no rows currently meet the analysis requirements. Approve outcome meanings or correct flagged records in Data setup."
+            st.warning(st.session_state["import_notice"])
+        else:
+            st.warning("Partial analysis is ready: {} of {} rows included; {} unresolved rows excluded. Totals and win rate describe only included rows, not the whole file.".format(len(usable), len(raw), len(quarantined)))
+            st.caption("Every row with a blocking issue is quarantined, including both copies of a duplicate ID. Fixing a row brings it back into analysis after revalidation. No values are guessed. Unknown outcomes still need a confirmed meaning.")
+            st.caption('Excluded-record downloads contain standardized values; the issue report preserves the original problematic values and source-row references.')
+            st.download_button('Download excluded records', csv_bytes(quarantined), 'excluded_records.csv', 'text/csv', on_click='ignore')
+    if result.is_valid or (not strict and not usable.empty):
         with st.expander("Review standardized data", expanded=False):
             st.caption(
                 "The first 50 rows are shown below. Use Download standardized data for the full dataset. "
                 "This contains your mapped fields; extra source columns remain in your original file. "
-                "No deal rows are removed."
+                "This download contains the included analysis rows, with original source-row numbers and coverage. Unresolved records remain in the issue list."
             )
-            st.dataframe(result.cleaned_data.head(50), hide_index=True, width="stretch")
+            st.dataframe(usable.head(50), hide_index=True, width="stretch")
         st.download_button(
-            "Download standardized data", csv_bytes(result.cleaned_data), "standardized_pipeline.csv", "text/csv",
+            "Download standardized data", csv_bytes(usable), "standardized_pipeline.csv", "text/csv",
             on_click="ignore", type="primary",
         )
         analytics_key = sha256((repr(signature) + repr(st.session_state.get("repairs_" + repair_key, {}))).encode()).hexdigest()[:16]
-        return result.cleaned_data, as_of, analytics_key
+        return usable, as_of, analytics_key
 
 
 if __name__ == "__main__":

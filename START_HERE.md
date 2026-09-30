@@ -71,7 +71,7 @@ Match your headers to the app's fields. For example, your `Opportunity Amount` c
 
 Use one row per deal and one currency per file. Choose the correct date order for dates such as `04/05/2026`: this can mean April 5 or May 4. Then click **Check data**.
 
-If issues appear, use the row-level report to locate them in your original file. Correct the source file and upload it again. The cleaned download becomes available only when **every row passes**. The checker does not remove any records.
+If issues appear, the default mode analyzes usable rows and keeps unresolved rows in the issue list. The standardized download contains included rows and coverage columns. Correct flagged cells inside the app, or upload a corrected workbook. Turn on **Require every row to pass before analysis** for strict validation.
 
 ## 5. Stop or restart
 
@@ -178,3 +178,12 @@ Overdue means the planned date is before the analysis date. A date today is due 
 - **✅ Ready for analysis** means the Dashboard, Action plan and Verification are unlocked. Download standardized data and any correction history you want to keep.
 
 Whitespace and parseable numeric formats are cleaned automatically. Business synonyms and owner aliases need your approval. Corrections are stored for the current file/settings in session memory only. Changing column/outcome/owner choices or the analysis date starts a fresh correction set; your original workbook is never overwritten. Discard corrections returns to the original mapped records and revalidates them.
+
+
+## Messy files: analyze what is usable now
+
+Partial analysis is now the default. Upload, review mappings, and click **Check data**. If some rows pass, Dashboard, Action plan and Verification open for that subset. Every result tab shows the included and excluded row counts. Filters can narrow the included subset further.
+
+Approve the proposed status synonyms to include more records; uncertain outcomes are not guessed. Rows with unresolved problems remain excluded, including both occurrences of a duplicate ID. Download the issue report and excluded records to review them. The excluded-record download uses standardized values; original problematic values are in the issue report. Missing amounts are never filled with zero to make a row pass.
+
+The partial totals and win rate are not whole-file results. If no rows are usable, the app explains what to resolve first. Choose **Require every row to pass before analysis** to restore strict behavior. Corrections are revalidated before records can rejoin the analysis.

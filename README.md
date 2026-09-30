@@ -35,7 +35,7 @@ A navy gradient backdrop, readable white KPI cards, coordinated charts and prior
 - Try the original sample, a deliberately messy test file, or a file with different column names.
 - Review the file and match its columns to the app's standard fields.
 - Choose how dates should be interpreted and the date used for validation.
-- Run data checks and review issues by row. Download the issue report, then download cleaned data once every row passes.
+- Run data checks and review issues by row. Download the issue report and analyze usable rows with explicit coverage; strict whole-file validation is optional.
 
 - View pipeline and outcome KPIs, aging charts, Low/Medium/High/Critical inactivity categories, and revenue at risk.
 - Adjust the stalled threshold (default 30 days), apply dashboard filters, and review stage, representative, and recorded-delay summaries.
@@ -44,7 +44,7 @@ A navy gradient backdrop, readable white KPI cards, coordinated charts and prior
 - Run an independent SQL calculation check and download the comparison report.
 - Read current-selection KPI interpretations, follow the in-app walkthrough, and explore recorded-delay evidence with mitigation guidance.
 
-The checker keeps every row. It does not silently remove invalid or duplicate records to make a file pass.
+The checker accounts for every row. Partial analysis explicitly separates unresolved rows and reports coverage; both occurrences of a duplicate ID are excluded until corrected.
 
 The app supports compatible sales-pipeline data. Column mapping helps it understand different headers; it does not make every arbitrary spreadsheet suitable for analysis.
 
@@ -89,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 98 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 101 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
