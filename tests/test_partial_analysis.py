@@ -19,6 +19,8 @@ class PartialTests(unittest.TestCase):
         included,excluded,coverage=partition_validated(result,5)
         self.assertEqual(included.source_row.tolist(),[5,6])
         self.assertEqual(excluded.source_row.tolist(),[2,3,4])
+        self.assertIn('Duplicate deal ID', excluded.iloc[0].exclusion_reason)
+        self.assertIn('bad', excluded.iloc[2].original_flagged_values)
         self.assertEqual(coverage['included_rows']+coverage['excluded_rows'],5)
         self.assertEqual(calculate_kpis(assess_deals(included,date(2026,9,29)))['open_pipeline_value'],900)
 
@@ -41,6 +43,7 @@ class PartialTests(unittest.TestCase):
             self.assertIn('Revenue at risk',[m.label for m in a.tabs[1].metric])
             for index in [1,2,3,4]:
                 self.assertTrue(any('3 of 5' in x.value for x in a.tabs[index].warning))
+                self.assertTrue(any('Reason excluded' in d.value.columns for d in a.tabs[index].dataframe))
             self.assertIn('Download excluded records',[b.label for b in a.get('download_button')])
             next(c for c in a.checkbox if c.label=='Require every row to pass before analysis').check().run()
             next(b for b in a.button if b.label=='Check data').click().run()
