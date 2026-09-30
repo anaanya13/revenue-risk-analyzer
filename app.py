@@ -57,6 +57,11 @@ def main():
         for panel in (dashboard, actions, verification, assistant):
             with panel:
                 st.warning("PARTIAL ANALYSIS — {} of {} uploaded rows included; {} excluded. All figures and recommendations describe the included rows only. Review the issue list in Data setup. Filters may reduce this further.".format(coverage['included_rows'], coverage['uploaded_rows'], coverage['excluded_rows']))
+                st.markdown("**Why these records are excluded**")
+                st.caption("Missing fields alone do not exclude a deal. The table lists invalid values or unresolved meanings that need review; both copies of a duplicate ID are excluded to avoid double counting. Row numbers refer to the uploaded sheet, with the header as row 1.")
+                st.dataframe(st.session_state['exclusion_details'], hide_index=True, width="stretch")
+                st.caption("To include these records, open Data setup → Fix flagged records here, enter verified corrections, then Apply corrections and recheck. You can also reupload the corrected full file.")
+
     render_dashboard(cleaned, as_of, analytics_key, dashboard, actions, verification, assistant)
 
 
@@ -191,6 +196,7 @@ def prepare_data():
     from src.partial_analysis import partition_validated
     usable, quarantined, coverage = partition_validated(result, len(raw))
     st.session_state['analysis_coverage'] = coverage
+    st.session_state['exclusion_details'] = quarantined[['source_row', 'deal_id', 'original_flagged_values', 'exclusion_reason']].rename(columns={'source_row': 'Source row', 'deal_id': 'Deal ID', 'original_flagged_values': 'Original flagged values', 'exclusion_reason': 'Reason excluded'})
     if not result.is_valid and not strict:
         if usable.empty:
             st.session_state["import_notice"] = "Your file is uploaded, but no rows currently meet the analysis requirements. Approve outcome meanings or correct flagged records in Data setup."
@@ -198,7 +204,7 @@ def prepare_data():
         else:
             st.warning("Partial analysis is ready: {} of {} rows included; {} unresolved rows excluded. Totals and win rate describe only included rows, not the whole file.".format(len(usable), len(raw), len(quarantined)))
             st.caption("Only rows with invalid values or duplicate IDs are quarantined, including both copies of a duplicate ID. Missing fields alone do not exclude a row. Fixing a row brings it back into analysis after revalidation. No values are guessed. Unknown outcomes still need a confirmed meaning.")
-            st.caption('Excluded-record downloads contain standardized values; the issue report preserves the original problematic values and source-row references.')
+            st.caption('Excluded-record downloads contain standardized values; the download also includes exclusion reasons and original flagged values, with source-row references.')
             st.download_button('Download excluded records', csv_bytes(quarantined), 'excluded_records.csv', 'text/csv', on_click='ignore')
     if not strict and coverage.get("incomplete_rows", 0):
         st.info("{} included records have missing details. They remain in deal counts and contribute wherever the needed fields are available. Review the field-coverage notes in each analysis tab.".format(coverage["incomplete_rows"]))

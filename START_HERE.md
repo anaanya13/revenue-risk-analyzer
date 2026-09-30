@@ -202,3 +202,8 @@ Leave the strict check off (the default). A deal with blank fields stays in anal
 Each result tab has a missing-details note, field counts and a review table. Downloads retain the missing-field notes. Average value uses recorded amounts, including genuine zeros. Blank optional fields remain not recorded and do not exclude deals. Duplicate IDs, impossible dates and invalid numbers still need review. The original file is unchanged.
 
 When new details become available, upload your **full updated file** and click **Check data** again. This replaces the current analysis; it does not append or duplicate the earlier upload. You can also use the existing in-app correction table.
+
+
+### Why a record is excluded
+
+Below the partial-analysis notice, each results tab now lists the excluded source rows, deal IDs, original flagged values and reasons. The excluded-record CSV also carries `exclusion_reason` and `original_flagged_values`. This matters for invalid dates: the standardized date can be blank, but the original invalid text is retained in the reason columns. Missing values alone are still included in default analysis. Use Data setup → Fix flagged records here to enter verified corrections, or reupload a corrected full workbook.
