@@ -2,6 +2,8 @@
 
 ## September 29, 2026: guided normalization and correction flow
 
+All 98 local tests passed. The hosted raw file showed the precise seven-issue blocking message and correction controls; the corrected file unlocked Dashboard after synonym approval. A local full raw-file repair using the supplied answer key produced all 465 agreeing SQL comparisons.
+
 Added a visible upload tick and distinct ready-for-analysis state. Blocked Dashboard/Action plan/Verification/AI tabs now explain current validation issues. Suggested status synonyms can be approved per file and overridden individually; arbitrary owner aliases can also be explicitly combined. Flagged records can be edited in the app, revalidated, discarded and audited through a correction-history download. No missing amounts, IDs or dates are guessed, and original files remain unchanged. See START_HERE.md for the guided workflow and DEPLOYMENT.md for live verification.
 
 ## September 29, 2026: real-world import improvements
