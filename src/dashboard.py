@@ -108,7 +108,8 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
     except ValueError as error:
         st.warning(str(error))
         return
-    settings = {"selections": selections, "created_from": start, "created_to": end}
+    coverage = {key: cleaned.iloc[0][key] for key in ('analysis_scope','uploaded_rows','included_rows','excluded_rows') if key in cleaned and len(cleaned)}
+    settings = {"selections": selections, "created_from": start, "created_to": end, "data_coverage": coverage}
     for panel in (dashboard, actions, verification):
         with panel:
             st.caption("{:,} of {:,} validated deals · Analysis date: {} · Stalled after {} days".format(len(filtered), len(assessed), analysis_date, threshold))
@@ -187,7 +188,7 @@ def render_dashboard(cleaned, analysis_date, context_key, dashboard=None, action
             chart.update_layout(yaxis={"categoryorder": "array", "categoryarray": stages.stage.tolist(), "autorange": "reversed"})
             st.plotly_chart(style_chart(chart), use_container_width=True, theme=None, config={"displaylogo": False})
             st.dataframe(_table(stages).round(2), hide_index=True, width="stretch")
-            stage_export = stages.assign(analysis_date=analysis_date, stalled_threshold_days=int(threshold))
+            stage_export = stages.assign(analysis_date=analysis_date, stalled_threshold_days=int(threshold), **coverage)
             st.download_button("Download stage summary", csv_bytes(stage_export), "stage_bottlenecks.csv", "text/csv", on_click="ignore")
         else:
             st.caption("Stage summaries are empty because there are no matching Open deals.")

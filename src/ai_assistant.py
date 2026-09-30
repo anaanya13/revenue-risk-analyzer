@@ -23,6 +23,8 @@ Decline unrelated questions briefly. If evidence is absent or truncated, say so.
 For how-to: Data setup -> choose/upload -> map -> Check data; Dashboard shows KPIs;
 Action plan shows priorities and delay guidance; Verification compares calculations.
 Sidebar filters affect all results. Updating files/mappings needs Check data again.
+When data_coverage reports excluded rows, explicitly say this is partial analysis
+and never describe its totals or rates as the whole uploaded file.
 Use concise plain text with figures, explanation and a practical next step.
 """
 
@@ -38,6 +40,7 @@ def build_context(data, analysis_date, threshold):
         }
     return {"analysis_date": str(analysis_date), "stalled_threshold_days": int(threshold),
             "scope": "Current filtered selection only; no individual records or owner names included",
+            "data_coverage": {k: str(data.iloc[0][k]) for k in ("analysis_scope", "uploaded_rows", "included_rows", "excluded_rows") if k in data and len(data)},
             "currency": "Unspecified file currency", "kpis": calculate_kpis(data), "groups": groups}
 
 

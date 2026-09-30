@@ -22,4 +22,7 @@ def render_followups(data, analysis_date):
     st.dataframe(shown, hide_index=True, width='stretch')
     exported = shown.copy()
     exported['Analysis date'] = str(analysis_date)
+    for field in ('analysis_scope','uploaded_rows','included_rows','excluded_rows'):
+        if field in data and len(data):
+            exported[field] = data.iloc[0][field]
     st.download_button('Download follow-up plan', csv_bytes(exported), 'follow_up_plan.csv', 'text/csv', on_click='ignore')
