@@ -52,7 +52,7 @@ The app supports compatible sales-pipeline data. Column mapping helps it underst
 
 Required: **Deal ID, Deal Value, Created Date, Last Activity Date, Current Stage, Status**.
 
-Optional: **Delay Reason, Follow Ups, Sales Representative, Lead Source, Industry, Product**.
+Optional: **Delay Reason, Follow Ups, Sales Representative, Lead Source, Industry, Product, Next Contact**.
 
 Read the [data dictionary](docs/data_dictionary.md) for meanings and examples. The original synthetic workbook contains 120 deals, 14 columns, and two worksheets: `Deals` and `Data Dictionary`.
 
