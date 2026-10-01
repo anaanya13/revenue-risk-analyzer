@@ -139,3 +139,8 @@ Require every row to pass before analysis enables the previous strict behavior. 
 ## September 30: field-level missingness
 
 Default analysis retains rows whose only issues are missing required values. Strict validation remains opt-in. Missing amount is unknown: count the row, sum only recorded amounts, and average over non-null amounts (including zero). Missing status remains null and is outside outcome KPIs; Open activity missingness yields Unknown risk and no affirmative stalled flag. Missing creation dates do not contribute to ages. Stage blanks get a display label; missing IDs receive collision-safe source-row references. Raw inputs remain unchanged, and data_quality_notes preserves absent fields. Metric coverage is shown on every result tab and sent in aggregate AI context. Invalid values, unknown nonblank outcomes and duplicate IDs remain quarantined. Date filters explicitly omit unknown creation dates. SQL independently uses the same null semantics.
+
+
+## Flexible business imports
+
+Header vocabulary covers CRM and business synonyms; normalized currency annotations are accepted on amount headings without converting currency. Unmatched headings get review-only spelling alternatives with examples; ambiguous mappings stay unselected and one-to-one mapping checks remain. Whole core fields may be explicitly marked absent, with at least two mapped core fields including amount or status; resulting nulls follow the missing-value rules. CSV separators may be comma, semicolon, tab or pipe. Outcome proposals and delay-group proposals require per-file approval; custom stage/delay grouping is opt-in and audited. Interpretation changes invalidate results. No semantic model/API call is required for imports. Source workbooks remain unchanged.

@@ -104,3 +104,10 @@ The hosted corrected workbook also passed with one synonym-approval checkbox and
 ## Visible exclusion reasons
 
 Verified the live regional Dashboard after outcome approval: 95/100 rows included and a reason table directly beneath the partial-analysis notice. The table retains original invalid values, including created_date = 2026-02-30, both OP-3161 duplicates, the planned-contact date preceding creation, and future historical activity. CSV exports include exclusion_reason and original_flagged_values. All 106 local tests pass; [GitHub run 31](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36788487625) passed on Python 3.9 and 3.12.
+
+
+## Flexible company exports
+
+Published broader business-header synonyms, review-only spelling alternatives with examples, explicit absent-core-field handling, outcome/delay vocabulary proposals, manual stage/delay grouping and comma/semicolon/tab/pipe CSV support. Added the fictional data/test/flexible_business_export.csv. All 113 local tests passed; seven focused flexible-import tests also passed after the compatibility adjustment. Import processing does not call a paid AI service or modify source files.
+
+Live verification: the fictional semicolon export uploaded as six rows and nine columns; all six core headings mapped automatically. Approved outcome and delay suggestions retained all six rows, with three incomplete records, 5/6 recorded amounts, one missing outcome and one Open deal lacking activity. At September 29 and a 30-day threshold, win rate was 50%, known-value exposure was 12,000 and the pricing delay selected Commercial clarification guidance. All 59 independent SQL comparisons agreed. [GitHub run 35](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36824224737) passed on Python 3.9 and 3.12.

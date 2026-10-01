@@ -1,5 +1,10 @@
 # Project progress
 
+## Flexible company exports
+
+Expanded header vocabulary, review-only spelling alternatives with examples, approved delay synonyms and custom stage/delay grouping, explicit absent-core-field handling, and common CSV separators. Added a six-record fictional export covering unfamiliar headings and missing details. Regression checks cover ambiguity, manual mapping persistence, explicit outcomes, missing-column calculations and SQL agreement. All 113 local tests pass, and the focused compatibility check passes all seven flexible-import tests. No paid AI call or new dependency is required. Live verification included all six practice rows, rendered the approved pricing guidance and returned 59 agreeing SQL comparisons. GitHub run 35 passed on Python 3.9 and 3.12. See START_HERE.md for the workflow.
+
+
 ## September 30, 2026: visible exclusion reasons
 
 Added the excluded-row reasons directly beneath the partial-analysis notice on every results tab, including original flagged values and instructions for corrections. Excluded-record CSVs now retain both reasons and original problematic values, preventing invalid dates standardized to blank from looking like simple missing values. The latest regional exclusion file contains row 34 (invalid February 30 creation date), rows 59/60 (duplicate OP-3161), row 78 (planned contact before creation) and row 92 (future historical activity). Missing-value inclusion and calculation rules are unchanged. All 106 local tests pass, with coverage for displayed reasons and original-value export. GitHub run 31 passed on Python 3.9 and 3.12.
