@@ -2,24 +2,27 @@
 from hashlib import sha256
 import pandas as pd
 import streamlit as st
-from src.column_mapper import FIELD_LABELS, mapping_candidates
+from src.column_mapper import FIELD_LABELS, mapping_candidates, suggested_alternatives
 from src.data_cleaner import normalize_status
-from src.import_choices import observed_labels, owner_variant_groups, suggest_outcome
+from src.import_choices import observed_labels, owner_variant_groups, suggest_outcome, suggest_delay
 
 
-def review_import(raw, mapping, source_key):
+def review_import(raw, mapping, source_key, include_categories=False):
     selected = {v for v in mapping.values() if v}
     ignored = [c for c in raw.columns if c not in selected]
-    with st.expander('Review column suggestions and coverage'):
+    with st.expander('Review column suggestions and coverage', expanded=any(not mapping.get(f) for f in ('deal_id','deal_value','created_date','last_activity_date','stage','status'))):
         rows = []
         for field, label in FIELD_LABELS.items():
             candidates = mapping_candidates(raw.columns, field)
             reason = ('Recognized header spelling' if len(candidates) == 1 else
                       'Several recognized headers; choose manually' if candidates else 'No recognized header; choose manually')
-            rows.append({'Dashboard field': label, 'Recognized candidates': ', '.join(candidates) or 'None',
+            alternatives = suggested_alternatives(raw.columns, field) if not candidates else []
+            examples = {str(c): [str(v)[:80] for v in raw[c].head(3)] for c in candidates or [c for c, _ in alternatives]}
+            rows.append({'Review-only alternatives': ', '.join(str(c) for c, _ in alternatives) or 'None',
+                         'Example values (first three rows)': str(examples), 'Dashboard field': label, 'Recognized candidates': ', '.join(candidates) or 'None',
                          'Your selection': mapping.get(field) or 'Not mapped', 'Suggestion basis': reason})
         st.dataframe(pd.DataFrame(rows), hide_index=True, width='stretch')
-        st.caption('Suggestions match a published vocabulary of header spellings, ignoring punctuation and case. They do not inspect values or infer business meanings. Your choices take priority.')
+        st.caption('Recognized headings use business synonyms, punctuation/case normalization and currency annotations on amount headers. Review-only alternatives use spelling similarity, not verified meaning; inspect the examples before choosing a column. Planned contact dates must not be mapped as historical activity. Your manual choices take priority.')
         st.write('Ignored source columns: ' + (', '.join(ignored) or 'None'))
         st.caption('Ignored columns are not checked, analyzed or included in standardized downloads. They remain in the original workbook.')
     outcomes, owners, audit = {}, {}, []
@@ -74,7 +77,37 @@ def review_import(raw, mapping, source_key):
                     owners[label] = canonical
                     audit = [row for row in audit if not (row['Field'] == 'Owner' and row['Source label'] == label)]
                     audit.append({'Field':'Owner','Source label':label,'Confirmed value':canonical})
-    return outcomes, owners, audit, ignored
+    categories = {}
+    for field in ('stage', 'delay_reason'):
+        if mapping.get(field) not in raw:
+            continue
+        with st.expander('Combine equivalent ' + FIELD_LABELS[field].lower() + ' labels'):
+            labels = observed_labels(raw[mapping[field]])
+            st.caption('Different wording can split summaries. Select labels only when they mean the same thing for your company. Outcomes are confirmed separately; no rows are merged.')
+            variants = owner_variant_groups(raw[mapping[field]])
+            if variants:
+                st.write('Capitalization/spacing variants to review: ' + '; '.join(' / '.join(g) for g in variants))
+            key = source_key + field + str(mapping[field])
+            choices = {}
+            if field == 'delay_reason':
+                proposals = {label: suggest_delay(label) for label in labels if suggest_delay(label)}
+                if proposals:
+                    st.dataframe(pd.DataFrame([{'Source label': k, 'Suggested delay group': v} for k,v in proposals.items()]), hide_index=True, width='stretch')
+                    if st.checkbox('Use these suggested delay meanings for this file', key='delay_meanings_' + key):
+                        choices.update(proposals)
+                from src.explanations import PLAYBOOKS
+                targets = sorted(set(labels) | {name.title() for name in PLAYBOOKS})
+            else:
+                targets = labels
+            aliases = st.multiselect('Labels to combine: ' + FIELD_LABELS[field], labels, key='category_alias_' + key)
+            canonical = st.selectbox('Use this label: ' + FIELD_LABELS[field], [None] + targets,
+                                     format_func=lambda v: 'Keep separate' if v is None else v, key='category_target_' + key)
+            if aliases and canonical:
+                choices.update({alias: canonical for alias in aliases})
+            if choices:
+                categories[field] = choices
+                audit.extend({'Field': FIELD_LABELS[field], 'Source label': alias, 'Confirmed value': value} for alias, value in choices.items())
+    return (outcomes, owners, audit, ignored, categories) if include_categories else (outcomes, owners, audit, ignored)
 
 
 def show_coverage(mapping, ignored):

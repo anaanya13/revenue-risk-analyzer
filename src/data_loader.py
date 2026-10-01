@@ -55,7 +55,15 @@ def load_pipeline(content, filename, sheet_name=None):
                 decoded = content.decode("utf-8-sig")
             except UnicodeDecodeError as error:
                 raise DataLoadError("Save this file as CSV UTF-8 in Excel and upload that copy.") from error
-            rows = list(csv.reader(StringIO(decoded), strict=True))
+            try:
+                dialect = csv.Sniffer().sniff(decoded[:65536], delimiters=",;\t|")
+                delimiter = dialect.delimiter
+            except csv.Error:
+                try:
+                    delimiter = csv.Sniffer().sniff(decoded.splitlines()[0], delimiters=",;\t|").delimiter
+                except csv.Error:
+                    delimiter = ','
+            rows = list(csv.reader(StringIO(decoded), delimiter=delimiter, strict=True))
             if not rows:
                 raise DataLoadError("This CSV has no header row.")
             headers = _headers(rows[0])
@@ -66,7 +74,7 @@ def load_pipeline(content, filename, sheet_name=None):
                 if len(row) != len(headers):
                     raise DataLoadError(
                         "Record {} has a different number of columns than the header. "
-                        "Save the table as a comma-separated CSV and try again.".format(row_number)
+                        "Use a consistent comma, semicolon, tab or pipe separator and try again.".format(row_number)
                     )
                 records.append(row)
             frame = pd.DataFrame(records, columns=headers, dtype=object)

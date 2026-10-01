@@ -40,6 +40,45 @@ for _field, _labels in {
     ALIASES[_field] = ALIASES.get(_field, ()) + _labels
 
 
+
+# Recognized business vocabulary; broad/generic words are deliberately avoided
+# where they could confuse planned events with historical activity or stage with outcome.
+for _field, _labels in {
+    'deal_id': ('opportunity identifier', 'opp id', 'opp ref', 'deal reference', 'deal ref', 'record id', 'crm id'),
+    'deal_value': ('deal amount', 'contract value', 'contract amount', 'estimated value', 'estimated revenue', 'expected revenue', 'pipeline value', 'sales value'),
+    'created_date': ('created on', 'date created', 'creation date', 'opened on', 'opportunity opened', 'record created'),
+    'last_activity_date': ('last contacted', 'last contacted on', 'last touch', 'last touch date', 'most recent activity', 'most recent contact', 'last engagement date'),
+    'next_contact_date': ('next touchpoint', 'next touch date', 'follow up due', 'follow up due date', 'scheduled follow up', 'next outreach date'),
+    'stage': ('deal stage', 'opportunity stage', 'funnel stage', 'sales phase', 'pipeline phase'),
+    'status': ('deal outcome', 'opportunity status', 'sales outcome', 'win loss', 'win loss status', 'result'),
+    'sales_rep': ('assigned to', 'assigned rep', 'salesperson', 'sales person', 'account executive', 'relationship manager', 'representative'),
+    'delay_reason': ('delay cause', 'hold reason', 'stalled reason', 'reason stalled', 'blocker reason', 'bottleneck', 'obstacle'),
+    'follow_ups': ('follow ups count', 'followups', 'number of followups', 'contact attempts', 'outreach attempts'),
+    'lead_source': ('lead channel', 'source channel', 'marketing channel', 'origin'),
+    'industry': ('customer industry', 'business sector', 'vertical'),
+    'product': ('service', 'offering', 'solution name', 'product service'),
+}.items():
+    ALIASES[_field] += _labels
+
+
+def _heading(text):
+    # Currency annotation affects units, not field meaning; never convert amounts.
+    return re.sub(r'\b(?:usd|cad|gbp|eur|inr|aud|nzd)\b', '', str(text), flags=re.I)
+
+
+def suggested_alternatives(columns, field):
+    """Review-only spelling suggestions; never silently replace a manual mapping."""
+    from difflib import SequenceMatcher
+    vocabulary = [_normalize(v) for v in (field, FIELD_LABELS[field]) + ALIASES[field]]
+    matches = []
+    for column in columns:
+        key = _normalize(_heading(column) if field == 'deal_value' else column)
+        score = max(SequenceMatcher(None, key, alias).ratio() for alias in vocabulary)
+        if len(key) >= 5 and score >= 0.78:
+            matches.append((column, score))
+    return sorted(matches, key=lambda item: (-item[1], str(item[0])))[:3]
+
+
 def _normalize(text):
     return re.sub(r"[^a-z0-9]", "", str(text).casefold())
 
@@ -53,14 +92,17 @@ def suggest_mapping(columns):
 
 def mapping_candidates(columns, field):
     aliases = {_normalize(v) for v in (field, FIELD_LABELS[field]) + ALIASES[field]}
-    return [column for column in columns if _normalize(column) in aliases]
+    return [column for column in columns if _normalize(_heading(column) if field == "deal_value" else column) in aliases or _normalize(column) in aliases]
 
 
-def mapping_errors(columns, mapping):
+def mapping_errors(columns, mapping, allow_absent=False):
     errors = []
     for field, label in REQUIRED_FIELDS.items():
-        if not mapping.get(field):
+        if not mapping.get(field) and not allow_absent:
             errors.append("Choose a column for {}.".format(label))
+    if allow_absent and (sum(bool(mapping.get(f)) for f in REQUIRED_FIELDS) < 2
+                         or not any(mapping.get(f) for f in ('status', 'deal_value'))):
+        errors.append("Map at least two core fields, including Status or Deal Value, to identify a usable pipeline table.")
     selected = [value for field, value in mapping.items() if field in FIELD_LABELS and value]
     for value in selected:
         if value not in columns:
@@ -71,11 +113,17 @@ def mapping_errors(columns, mapping):
     return errors
 
 
-def standardize_columns(frame, mapping):
-    errors = mapping_errors(frame.columns, mapping)
+def standardize_columns(frame, mapping, allow_absent=False):
+    errors = mapping_errors(frame.columns, mapping, allow_absent=allow_absent)
     if errors:
         raise ValueError(" ".join(errors))
     selected = {field: column for field, column in mapping.items() if field in FIELD_LABELS and column}
-    return frame[list(selected.values())].rename(
+    result = frame[list(selected.values())].rename(
         columns={column: field for field, column in selected.items()}
     ).copy()
+
+    if allow_absent:
+        for field in REQUIRED_FIELDS:
+            if field not in result:
+                result[field] = None
+    return result
