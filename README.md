@@ -89,7 +89,7 @@ The verification record is in [PROGRESS.md](docs/PROGRESS.md).
 
 ## Portfolio package and handover
 
-**Portfolio version 1.0 is complete and deployed.** The project has 106 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
+**Portfolio version 1.0 is complete and deployed.** The project has 113 passing automated tests; GitHub checks passed on Python 3.9 and 3.12. The hosted sample produced 555 agreeing Python/SQL comparisons. See the [release record](docs/RELEASE_CHECKLIST.md).
 
 - [Your remaining personal steps](docs/PROJECT_HANDOVER.md): no coding or Terminal needed.
 - [Five-minute demo](docs/DEMO_WALKTHROUGH.md).
@@ -112,3 +112,5 @@ Review transparent header suggestions, confirm outcome meanings, optionally merg
 The import flow distinguishes uploaded, blocked and analysis-ready states. Approve proposed status synonyms and correct flagged cells in the website, with full revalidation and a downloadable correction history.
 
 Missing required cells now stay in default analysis, with field-level coverage and Unknown risk where needed. Recorded-amount subtotals and averages do not impute blanks as zero; duplicates and invalid values still require review. See START_HERE.md.
+
+Flexible imports recognize additional business synonyms and currency-tagged amount headers, suggest spelling alternatives for review, accept common CSV separators, and support explicit absent-field and stage/delay grouping choices. Try data/test/flexible_business_export.csv.

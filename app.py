@@ -134,8 +134,13 @@ def prepare_data():
 
     from src.import_views import review_import, show_coverage
     from src.import_choices import apply_choices
-    outcomes, owners, choice_audit, ignored = review_import(raw, mapping, source_key)
-    errors = mapping_errors(raw.columns, mapping)
+    outcomes, owners, choice_audit, ignored, categories = review_import(raw, mapping, source_key, include_categories=True)
+    allow_absent = st.checkbox('My file does not contain some core fields — keep them unknown', key='absent_' + source_key,
+        help='Confirm only after reviewing column suggestions. Unmapped core fields remain blank; the dashboard explains which calculations are unavailable.')
+    if allow_absent:
+        absent = [label for field, label in REQUIRED_FIELDS.items() if not mapping.get(field)]
+        st.info('Core fields kept unknown: ' + (', '.join(absent) if absent else 'None — all are mapped'))
+    errors = mapping_errors(raw.columns, mapping, allow_absent=allow_absent)
     for error in errors:
         st.warning(error)
     if errors:
@@ -159,7 +164,7 @@ def prepare_data():
         "Confirm outcome meanings above. Blank values stay unknown and limit only the calculations that need them."
     )
     strict = st.checkbox("Require every row to pass before analysis", value=False, key="strict_" + source_key, help="Off: include records with missing details and use available fields; quarantine invalid values and duplicate IDs. On: block all analysis until every row passes.")
-    signature = (strict, source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
+    signature = (strict, allow_absent, repr(categories), source_key, tuple(mapping.items()), date_order, str(as_of), tuple(outcomes.items()), tuple(owners.items()))
     if as_of is None:
         st.warning("Choose a validation date before checking the file.")
     if st.button("Check data", type="primary", disabled=bool(errors) or as_of is None):
@@ -167,7 +172,7 @@ def prepare_data():
     if errors or as_of is None or st.session_state.get("checked_signature") != signature:
         return
 
-    mapped = apply_choices(standardize_columns(raw, mapping), outcomes, owners)
+    mapped = apply_choices(standardize_columns(raw, mapping, allow_absent=allow_absent), outcomes, owners, categories)
     from src.repair_view import repair_and_validate
     repair_key = sha256(repr(signature).encode()).hexdigest()[:16]
     result = repair_and_validate(mapped, repair_key, date_order.startswith("Day"), as_of)
@@ -179,7 +184,7 @@ def prepare_data():
     col3.metric("Issues found", len(result.issues))
     show_coverage(mapping, ignored)
     if choice_audit:
-        with st.expander("Review applied outcome and owner choices"):
+        with st.expander("Review applied outcome, owner and category choices"):
             st.dataframe(choice_audit, hide_index=True, width="stretch")
     if result.is_valid:
         st.success("✅ Ready for analysis: your data passed all current checks. Dashboard, Action plan and Verification are unlocked.")

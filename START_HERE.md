@@ -207,3 +207,15 @@ When new details become available, upload your **full updated file** and click *
 ### Why a record is excluded
 
 Below the partial-analysis notice, each results tab now lists the excluded source rows, deal IDs, original flagged values and reasons. The excluded-record CSV also carries `exclusion_reason` and `original_flagged_values`. This matters for invalid dates: the standardized date can be blank, but the original invalid text is retained in the reason columns. Missing values alone are still included in default analysis. Use Data setup → Fix flagged records here to enter verified corrections, or reupload a corrected full workbook.
+
+
+### Importing a company export with different headings
+
+1. Upload the file. CSV can use commas, semicolons, tabs or pipes; Excel can contain multiple worksheets. Keep headings in the first row.
+2. Review **Match your columns**. Common synonyms such as CRM ID, Contract Value, Opened On, Funnel Stage and Assigned To are recognized. Currency codes in an amount heading do not prevent a match, but the file must still use one currency; this does not convert currencies.
+3. If a field is unrecognized, expand **Review column suggestions and coverage**. Spelling-based alternatives and sample values help you choose manually. A similar spelling is not proof of meaning. Your selections are preserved and ambiguous matches are not automatically chosen.
+4. If the file genuinely lacks a whole core field, leave it unselected and confirm **My file does not contain some core fields — keep them unknown**. At least two core fields, including Status or Deal Value, must be mapped. Available details still contribute; missing dates or outcomes do not become invented facts.
+5. Confirm the outcome suggestions. Under **Combine equivalent delay reason labels**, approve proposed delay groups when appropriate for your company. This lets matching guidance recognize terms such as “price negotiation”. Stage and delay labels can also be combined manually. Owner-name merging remains separate and optional.
+6. Click **Check data**. Review the included/excluded counts, missing-detail notes and reasons beside the results. Changing an interpretation requires a fresh check and resets the corresponding analysis.
+
+Try `data/test/flexible_business_export.csv` for a six-record fictional example with business synonyms, a semicolon separator, missing details and outcomes needing approval. All six records are included once outcome meanings are confirmed. This is still a sales-pipeline analyzer: unrelated sheets, unsupported numeric formats and unknown business meanings need user review.
