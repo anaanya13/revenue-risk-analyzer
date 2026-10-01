@@ -1,0 +1,7 @@
+CRM ID;Contract Value (CAD);Opened On;Last touch date;Funnel stage;Win / Loss;Assigned to;Hold reason;Follow up due
+TEST-001;12000;2026-01-02;2026-08-01;Quotation;Awaiting decision;ALEX;Price negotiation;2026-10-10
+TEST-002;;2026-03-01;2026-09-01;Quote;Open;Alex;Missing paperwork;2026-10-01
+TEST-003;5000;2026-02-01;2026-08-15;Completed;Converted;Sam;;
+TEST-004;3000;2026-04-01;2026-09-10;Closed;Closed - Lost;Sam;;
+TEST-005;8000;2026-05-01;;Quote;Open;Alex;No response;
+TEST-006;2000;2026-07-01;2026-09-15;Review;;Sam;;

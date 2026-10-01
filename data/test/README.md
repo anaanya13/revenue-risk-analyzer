@@ -25,3 +25,6 @@ The messy file deliberately includes these problems:
 | 13 | Future last activity date |
 
 The saved `scripts/build_test_data.py` script reproduces these files. Run it from the project folder with `.venv/bin/python scripts/build_test_data.py` only when you want to restore the practice files; it replaces these two CSVs. It does not change the original workbook.
+
+
+`flexible_business_export.csv` is a fictional six-record semicolon export. Recognized business headings map automatically. Confirm Awaiting decision → Open, Converted → Won, Closed - Lost → Lost. All six rows are then included: three Open, one Won, one Lost, one unknown outcome. Known total value is 30,000; win rate 50%. One amount, one activity date and one outcome are blank. At September 29 and 30 days, TEST-001 is stalled with 12,000 exposure; TEST-005 has Unknown risk. Optional delay synonyms and stage/owner grouping can be reviewed separately.
