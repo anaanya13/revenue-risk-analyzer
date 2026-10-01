@@ -1,5 +1,10 @@
 # Project progress
 
+## September 30, 2026: visible exclusion reasons
+
+Added the excluded-row reasons directly beneath the partial-analysis notice on every results tab, including original flagged values and instructions for corrections. Excluded-record CSVs now retain both reasons and original problematic values, preventing invalid dates standardized to blank from looking like simple missing values. The latest regional exclusion file contains row 34 (invalid February 30 creation date), rows 59/60 (duplicate OP-3161), row 78 (planned contact before creation) and row 92 (future historical activity). Missing-value inclusion and calculation rules are unchanged. All 106 local tests pass, with coverage for displayed reasons and original-value export. GitHub run 31 passed on Python 3.9 and 3.12.
+
+
 ## September 30, 2026: include records with missing fields
 
 Added default field-level analysis: missing required values no longer exclude a row. Amount averages use recorded values, missing outcomes remain unclassified, and Open deals without activity dates have Unknown risk. Included missing-detail tables and metric-input counts appear in every result tab; downloads and aggregate AI context carry coverage. Reuploading the full updated file replaces the current analysis. Invalid values and duplicate IDs remain quarantined; strict mode is preserved.

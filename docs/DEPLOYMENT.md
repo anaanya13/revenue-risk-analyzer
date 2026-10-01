@@ -99,3 +99,8 @@ The full local suite passes 98 tests. An additional local Streamlit integration 
 Verified on the hosted app: the raw file shows a File uploaded tick, status synonyms are initially unapproved, one checkbox approves the displayed suggestions, seven genuine issues remain, and the correction editor and Apply corrections and recheck control render. Dashboard now explicitly reports that the file is uploaded but blocked by seven issues across seven rows. Synonyms are proposals for the current file, not permanent global business rules. In-app correction application and discard were exercised by the local automated Streamlit tests; no real-world unknown values were guessed.
 
 The hosted corrected workbook also passed with one synonym-approval checkbox and Check data. Dashboard displayed Open pipeline 1,434,650.00 CAD, win rate 57.1% and revenue at risk 292,450.00 CAD. [GitHub run 19](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36657014578) passed the 98-test release. A final context safeguard resets analysis state when applied cell corrections change.
+
+
+## Visible exclusion reasons
+
+Verified the live regional Dashboard after outcome approval: 95/100 rows included and a reason table directly beneath the partial-analysis notice. The table retains original invalid values, including created_date = 2026-02-30, both OP-3161 duplicates, the planned-contact date preceding creation, and future historical activity. CSV exports include exclusion_reason and original_flagged_values. All 106 local tests pass; [GitHub run 31](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36788487625) passed on Python 3.9 and 3.12.
