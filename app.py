@@ -119,6 +119,12 @@ def prepare_data():
     st.write("Check the suggestions below. Each field must use a different column from your file.")
     options = [None] + list(raw.columns)
     suggestions = suggest_mapping(raw.columns)
+    matched = sum(suggestions[field] is not None for field in REQUIRED_FIELDS)
+    st.caption('{} of {} core fields recognized from headings. Review uncertain matches below; future contact and closed dates are different from last activity.'.format(matched, len(REQUIRED_FIELDS)))
+    if st.button('Use suggested column matches', key='restore_mapping_' + source_key):
+        for field, column in suggestions.items():
+            st.session_state['map_{}_{}'.format(source_key, field)] = column
+        st.session_state.pop('checked_signature', None)
     mapping = {}
     for group, title in ((REQUIRED_FIELDS, "Required fields"), (OPTIONAL_FIELDS, "Optional fields")):
         st.markdown("**{}**".format(title))

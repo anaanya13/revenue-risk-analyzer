@@ -219,3 +219,12 @@ Below the partial-analysis notice, each results tab now lists the excluded sourc
 6. Click **Check data**. Review the included/excluded counts, missing-detail notes and reasons beside the results. Changing an interpretation requires a fresh check and resets the corresponding analysis.
 
 Try `data/test/flexible_business_export.csv` for a six-record fictional example with business synonyms, a semicolon separator, missing details and outcomes needing approval. All six records are included once outcome meanings are confirmed. This is still a sales-pipeline analyzer: unrelated sheets, unsupported numeric formats and unknown business meanings need user review.
+
+
+### Informal headings and empty matches
+
+Headings such as Ref #, Rough value (CAD), Added on, Last spoke, Where it's at, How it's going, Rep and Stuck on are now recognized. Matching also handles conservative combinations such as Estimated deal amount and Opportunity added date. Ambiguous headings remain unselected, including a single column that could represent two different fields.
+
+A recognition count above the selectors shows how many core fields were identified. Use **Use suggested column matches** to explicitly restore suggestions if an earlier manual selection is wrong; manual choices are otherwise preserved. Under **Review column suggestions and coverage**, sample values and number/date/outcome counts help identify unfamiliar headings. These value-based alternatives require review: a Closed on or Pulled on date must not silently become Last Activity Date.
+
+For the newer regional test workbook, confirm Signed/SIGNED → Won and Not proceeding → Lost, then click Check data. At the September 29 snapshot date, 94 of 100 records can be analyzed; missing amount/status records are included, and six invalid-date/duplicate records remain listed with reasons. Company, contact-person, location, closed-date, export-date and decorative columns remain in the original file; they are not part of the current pipeline calculations.
