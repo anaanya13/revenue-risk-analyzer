@@ -2,7 +2,7 @@
 from hashlib import sha256
 import pandas as pd
 import streamlit as st
-from src.column_mapper import FIELD_LABELS, mapping_candidates, suggested_alternatives, mapping_basis
+from src.column_mapper import FIELD_LABELS, mapping_candidates, suggested_alternatives, mapping_basis, draft_mapping
 from src.data_cleaner import normalize_status
 from src.import_choices import observed_labels, owner_variant_groups, suggest_outcome, suggest_delay
 
@@ -13,11 +13,16 @@ def review_import(raw, mapping, source_key, include_categories=False):
     with st.expander('Review column suggestions and coverage', expanded=any(not mapping.get(f) for f in ('deal_id','deal_value','created_date','last_activity_date','stage','status'))):
         from src.import_profiles import column_profiles, value_candidates
         profiles = column_profiles(raw)
+        draft, evidence = draft_mapping(raw)
+        st.write("Automatic column draft — why each match was proposed")
+        if evidence:
+            st.dataframe(pd.DataFrame(evidence), hide_index=True, width='stretch')
+        st.caption("These are editable suggestions. Competing matches and strongly conflicting values stay unselected. Your saved manual choices are preserved; use Use suggested column matches to replace them with a fresh draft. Outcome meanings still require your confirmation.")
         rows = []
         for field, label in FIELD_LABELS.items():
-            candidates = mapping_candidates(raw.columns, field)
+            candidates = [r['Source column'] for r in evidence if r['Dashboard field'] == label]
             reason = (mapping_basis(candidates[0], field) if len(candidates) == 1 else
-                      'Several recognized headers; choose manually' if candidates else 'No recognized header; choose manually')
+                      'Several candidate headings; review the draft evidence' if candidates else 'No reliable heading match; choose manually')
             alternatives = suggested_alternatives(raw.columns, field) if not candidates else []
             examples = {str(c): [str(v)[:80] for v in raw[c].head(3)] for c in candidates or [c for c, _ in alternatives]}
             rows.append({'Possible value-compatible columns (review only)': ', '.join(value_candidates(profiles, field)) if not candidates else 'See recognized headings', 'Selected match basis': mapping_basis(mapping.get(field), field), 'Review-only alternatives': ', '.join(str(c) for c, _ in alternatives) or 'None',

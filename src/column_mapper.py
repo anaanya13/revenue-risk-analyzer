@@ -114,6 +114,8 @@ def mapping_basis(column, field):
         return 'Recognized heading or synonym'
     if _phrase_match(column, field):
         return 'Recognized combination of field words'
+    if _semantic_match(column, field):
+        return 'Combined heading concepts; review sample values'
     return 'Manual selection; review its sample values'
 
 
@@ -139,8 +141,10 @@ def _normalize(text):
     return re.sub(r"[^a-z0-9]", "", str(text).casefold())
 
 
-def suggest_mapping(columns):
+def suggest_mapping(columns, frame=None):
     """Suggest only unambiguous matches; the user can change every suggestion."""
+    if frame is not None:
+        return draft_mapping(frame)[0]
     suggested = {field: candidates[0] if len(candidates) == 1 else None
                  for field in FIELD_LABELS
                  for candidates in [mapping_candidates(columns, field)]}
@@ -186,3 +190,128 @@ def standardize_columns(frame, mapping, allow_absent=False):
             if field not in result:
                 result[field] = None
     return result
+
+
+# Small semantic families compose across headings, rather than enumerating exports.
+# Content can support a heading; numbers and dates alone cannot name their purpose.
+def _concepts(column):
+    text = re.sub(r"([a-z])([A-Z])", r"\1 \2", str(column)).casefold()
+    text = text.replace("#", " number ").replace("$", " money ")
+    words = set(re.findall(r"[a-z]+", text))
+    families = {
+        'record': {'deal', 'opportunity', 'opp', 'record', 'crm'},
+        'identifier': {'id', 'identifier', 'ref', 'reference', 'number', 'no', 'num', 'code'},
+        'money': {'amount', 'value', 'revenue', 'money', 'worth', 'size', 'budget'},
+        'estimate': {'estimated', 'estimate', 'expected', 'rough', 'ballpark', 'approx', 'approximate', 'potential'},
+        'start': {'created', 'creation', 'added', 'opened', 'entered', 'logged', 'registered', 'started'},
+        'past': {'last', 'latest', 'recent', 'previous'},
+        'contact': {'contact', 'contacted', 'chat', 'conversation', 'spoke', 'touch', 'touchpoint', 'interaction', 'activity', 'engagement', 'call', 'outreach'},
+        'future': {'next', 'planned', 'scheduled', 'due'},
+        'stage': {'stage', 'phase', 'step', 'milestone'},
+        'outcome': {'status', 'outcome', 'result', 'verdict', 'disposition', 'decision'},
+        'owner': {'owner', 'rep', 'representative', 'salesperson', 'handler', 'assignee'},
+        'product': {'product', 'solution', 'service', 'offering', 'package'},
+        'source': {'source', 'origin', 'channel', 'referral'},
+        'delay': {'blocker', 'bottleneck', 'obstacle', 'delay', 'holdup'},
+        'attempt': {'touches', 'chases', 'attempts', 'followups'},
+    }
+    concepts = {name for name, vocabulary in families.items() if words & vocabulary}
+    if 'follow' in words and 'up' in words:
+        concepts.add('contact')
+        if words & {'next', 'by', 'due', 'scheduled', 'on'}:
+            concepts.add('future')
+        if words & {'count', 'number', 'total', 'times'}:
+            concepts.add('attempt')
+    if {'circle', 'back'} <= words:
+        concepts.update(('future', 'contact'))
+    if 'heard' in words and words & {'via', 'from', 'about'}:
+        concepts.add('source')
+    if 'deal' in words and 'about' in words:
+        concepts.add('product')
+    return words, concepts
+
+
+def _semantic_match(column, field):
+    words, concepts = _concepts(column)
+    if field == 'deal_id':
+        return {'record', 'identifier'} <= concepts and not words & {'quote','invoice','customer','client','contact','order'}
+    if field == 'deal_value':
+        return 'money' in concepts and bool(concepts & {'record','estimate'} or words & {'contract','pipeline','sales'}) and not words & {'discount','weighted','tax','probability','paid','actual','margin','profit','cost'}
+    if field in ('created_date','last_activity_date','next_contact_date'):
+        if words & {'closed','closing','wrapped','export','pulled','updated','modified','invoice','payment'}:
+            return False
+        if field == 'created_date':
+            return 'start' in concepts and not concepts & {'past','future'}
+        if field == 'last_activity_date':
+            return {'past','contact'} <= concepts and 'future' not in concepts
+        return {'future','contact'} <= concepts and 'past' not in concepts
+    if field == 'stage':
+        return 'stage' in concepts and not words & {'payment','invoice','onboarding'}
+    if field == 'status':
+        return 'outcome' in concepts and not words & {'payment','invoice','contact','delivery','support','approval'}
+    if field == 'sales_rep':
+        return 'owner' in concepts and not words & {'client','customer','contact','company'}
+    if field == 'product':
+        return 'product' in concepts and not words & {'id','code','price','cost','number'}
+    if field == 'lead_source':
+        return 'source' in concepts and not words & {'id','code','export','data'}
+    if field == 'follow_ups':
+        return 'attempt' in concepts and not concepts & {'past','future'}
+    if field == 'delay_reason':
+        return 'delay' in concepts and not words & {'days','duration','count'}
+    if field == 'industry':
+        return bool(words & {'industry','sector','vertical'})
+    return False
+
+
+def draft_mapping(frame):
+    """Return a conservative, explainable draft plus evidence for every candidate.
+
+    Unique semantic matches are drafts, not facts. Strong content agreement supports
+    typed roles; a strong contradiction stops automatic selection. Missing/dirty
+    cells remain the validator's responsibility. Ties never pick the first column.
+    """
+    from src.import_profiles import column_profiles
+    profiles = column_profiles(frame).set_index('Source column')
+    evidence = []
+    suggested = {}
+    typed = {'deal_value': 'Number-like cells', 'follow_ups': 'Number-like cells',
+             'created_date': 'Date-like cells', 'last_activity_date': 'Date-like cells',
+             'next_contact_date': 'Date-like cells', 'status': 'Recognized outcome words'}
+    for field in FIELD_LABELS:
+        eligible = []
+        for column in frame.columns:
+            recognized = column in mapping_candidates([column], field)
+            semantic = _semantic_match(column, field)
+            if not (recognized or semantic):
+                continue
+            profile = profiles.loc[str(column)]
+            count = int(profile['Sampled nonblank cells'])
+            role = typed.get(field)
+            ratio = float(profile[role]) / count if role and count else None
+            # Arbitrary business outcome labels must remain available for confirmation.
+            contradiction = role is not None and field != 'status' and count >= 3 and ratio < .5
+            basis = mapping_basis(column, field) if recognized else 'Combined heading concepts'
+            if ratio is not None:
+                basis += '; {} of {} sampled values compatible'.format(int(profile[role]), count)
+            confidence = ('Review: values conflict with heading' if contradiction else
+                          'Strong heading + value evidence' if ratio is not None and ratio >= .8 else
+                          'Heading-based draft; review examples')
+            evidence.append({'Dashboard field': FIELD_LABELS[field], 'Source column': column,
+                             'Evidence': basis, 'Confidence': confidence,
+                             'Sample values': profile['Sample values']})
+            if not contradiction:
+                eligible.append(column)
+        suggested[field] = eligible[0] if len(eligible) == 1 else None
+        if len(eligible) > 1:
+            for row in evidence:
+                if row['Dashboard field'] == FIELD_LABELS[field] and row['Source column'] in eligible:
+                    row['Confidence'] = 'Ambiguous: choose between compatible columns'
+    counts = Counter(c for c in suggested.values() if c is not None)
+    for field, column in suggested.items():
+        if column is not None and counts[column] > 1:
+            suggested[field] = None
+            for row in evidence:
+                if row['Source column'] == column:
+                    row['Confidence'] = 'Ambiguous: same column fits multiple fields'
+    return suggested, evidence
