@@ -120,3 +120,8 @@ Diagnosed the supplied regional_sales_export (1).xlsx: 100 rows, 20 columns, all
 Hosted verification with explicit outcome approval and September 29 analysis date: 94 included, six excluded, two included records with missing details. The dashboard showed open pipeline 1,285,350, win rate 58.5%, and known-value risk exposure 440,300 at a 30-day threshold. Action-plan recommendations, recorded-delay guidance and planned follow-ups rendered. All 451 independent SQL comparisons agreed. Six excluded rows remain explained: the two RS-1100 duplicates and four invalid/date-order records. The private workbook was not modified or published in GitHub. All 117 local tests passed.
 
 The live action-plan download also started successfully. [GitHub run 38](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36945808273) passed for the final code/test release.
+
+
+## October 2, 2026 — semantic column drafting
+
+Published concept-based column drafts with sampled value evidence and reviewable ambiguity. GitHub run 41 passed (commit 5cd7ba7). All 123 local tests passed. Rebooted Streamlit after observing a stale imported mapper during rolling updates. The hosted regional_sales_export_2.xlsx test automatically matched six core and six optional fields; after outcome confirmation, at September 29 it displayed 94 included rows, six explained exclusions, two included incomplete records, the action/delay/follow-up sections, and 451 agreeing calculation comparisons. Original workbook was not committed.

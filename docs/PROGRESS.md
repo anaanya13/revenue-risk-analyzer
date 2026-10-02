@@ -1,5 +1,11 @@
 # Project progress
 
+## October 1, 2026: compositional column drafting
+
+Replaced the app's header-only drafting with shared concept families plus sampled content evidence. Handles camel-case, abbreviations, money symbols, conversational stages/outcomes, owner labels and future-contact phrases. Unique candidates are drafted; conflicting content, competing columns and cross-field collisions remain reviewable. Manual choices and per-file outcome approval are preserved. Evidence and examples are visible in Data setup.
+
+The latest regional export maps all six core and six optional fields; industry is absent. Regression tests cover the schema using fictional records, unseen word combinations, decoy quote/discount/export columns, ambiguity, contradictory values, missing cells and the complete dashboard/action-plan/calculation-check flow. All 123 local tests pass; GitHub run 41 passed. With per-file outcome proposals applied and a September 29 analysis date, the supplied workbook includes 94 of 100 rows (two with missing details), with six duplicate/invalid-date rows explained separately; all 451 independent SQL comparisons agree. Hosted verification confirmed all 12 mappings, the 94-row Dashboard, action/delay/follow-up sections and all 451 agreeing comparisons. A Streamlit reboot cleared stale modules after publication. No new dependency or paid AI call is needed.
+
 ## October 1, 2026: conversational headings and value evidence
 
 Diagnosed the second regional workbook: all six required mappings were blank because informal headings were absent from the vocabulary. Added those headings, conservative field-word combinations, cross-field ambiguity protection, review-only value profiles, a core-recognition counter and an explicit restore-suggestions button. Manual choices remain authoritative. The workbook now maps all six core and five optional fields. With confirmed outcomes at September 29, 94 records are included (two incomplete), six invalid/duplicate rows are excluded with reasons, and all 451 local SQL comparisons agree. All 117 local tests pass. Hosted verification reproduced automatic six-core-field mapping, the 94-row Dashboard, Action-plan download and 451 agreeing SQL comparisons. GitHub run 38 passed. Regression tests use fictional records with equivalent headings, not the private workbook.
