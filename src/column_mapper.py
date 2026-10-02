@@ -61,6 +61,62 @@ for _field, _labels in {
     ALIASES[_field] += _labels
 
 
+
+# Conversational export headings. These map fields, not business outcomes.
+for _field, _labels in {
+    'deal_id': ('ref', 'reference', 'reference number', 'record reference'),
+    'deal_value': ('rough value', 'rough amount', 'estimated contract size', 'approximate value'),
+    'created_date': ('added on', 'date added', 'logged on', 'entered on', 'first logged'),
+    'last_activity_date': ('last spoke', 'last spoken', 'last conversation', 'last reached out'),
+    'stage': ("where it's at", 'where it is at', 'where we are', 'current step'),
+    'status': ("how it's going", 'how it is going', 'final outcome', 'deal result'),
+    'sales_rep': ('rep', 'handled by', 'responsible person'),
+    'product': ('what they want', 'requested solution', 'requested product', 'interested in'),
+    'delay_reason': ('stuck on', 'held up by', 'why stalled', 'what is blocking'),
+    'lead_source': ('how they found us', 'how they heard about us', 'where they came from'),
+    'next_contact_date': ('follow up by', 'followup by', 'contact by', 'reach out by'),
+}.items():
+    ALIASES[_field] += _labels
+
+
+def _phrase_match(column, field):
+    """Conservative word combinations, never fuzzy auto-selection or date guessing."""
+    words = set(re.findall(r'[a-z]+', str(column).casefold()))
+    if field == 'deal_value':
+        return bool(words & {'amount','value','revenue'} and
+                    words & {'deal','opportunity','contract','estimated','expected','potential','rough','approximate','pipeline'} and
+                    not words & {'weighted','actual','booked','paid','tax','probability'})
+    if field == 'created_date':
+        return bool(words & {'created','added','opened','entered','logged'} and
+                    words & {'date','on','at'} and not words & {'last','next','closed','updated','modified'})
+    if field == 'last_activity_date':
+        return bool(words & {'last','latest','recent'} and
+                    words & {'spoke','contact','touch','activity','interaction','conversation','engagement'} and
+                    not words & {'next','planned','scheduled','closed'})
+    if field == 'next_contact_date':
+        return bool(words & {'next','planned','scheduled'} and
+                    words & {'contact','touch','call','outreach','followup'} and not words & {'last','actual','completed'})
+    if field == 'stage':
+        return bool(words & {'stage','phase','step'} and words & {'deal','opportunity','pipeline','sales','funnel'})
+    if field == 'status':
+        return bool(words & {'status','outcome','result'} and words & {'deal','opportunity','sales','pipeline'})
+    if field == 'deal_id':
+        return bool(words & {'id','ref','reference','identifier'} and words & {'deal','opportunity','record','crm'})
+    return False
+
+
+def mapping_basis(column, field):
+    if column is None:
+        return 'Not selected'
+    aliases = {_normalize(v) for v in (field, FIELD_LABELS[field]) + ALIASES[field]}
+    key = _normalize(_heading(column) if field == 'deal_value' else column)
+    if key in aliases or _normalize(column) in aliases:
+        return 'Recognized heading or synonym'
+    if _phrase_match(column, field):
+        return 'Recognized combination of field words'
+    return 'Manual selection; review its sample values'
+
+
 def _heading(text):
     # Currency annotation affects units, not field meaning; never convert amounts.
     return re.sub(r'\b(?:usd|cad|gbp|eur|inr|aud|nzd)\b', '', str(text), flags=re.I)
@@ -85,14 +141,17 @@ def _normalize(text):
 
 def suggest_mapping(columns):
     """Suggest only unambiguous matches; the user can change every suggestion."""
-    return {field: candidates[0] if len(candidates) == 1 else None
-            for field in FIELD_LABELS
-            for candidates in [mapping_candidates(columns, field)]}
+    suggested = {field: candidates[0] if len(candidates) == 1 else None
+                 for field in FIELD_LABELS
+                 for candidates in [mapping_candidates(columns, field)]}
+    counts = Counter(value for value in suggested.values() if value is not None)
+    return {field: value if value is None or counts[value] == 1 else None
+            for field, value in suggested.items()}
 
 
 def mapping_candidates(columns, field):
     aliases = {_normalize(v) for v in (field, FIELD_LABELS[field]) + ALIASES[field]}
-    return [column for column in columns if _normalize(_heading(column) if field == "deal_value" else column) in aliases or _normalize(column) in aliases]
+    return [column for column in columns if _normalize(_heading(column) if field == "deal_value" else column) in aliases or _normalize(column) in aliases or _phrase_match(column, field)]
 
 
 def mapping_errors(columns, mapping, allow_absent=False):

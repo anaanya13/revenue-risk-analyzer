@@ -2,7 +2,7 @@
 from hashlib import sha256
 import pandas as pd
 import streamlit as st
-from src.column_mapper import FIELD_LABELS, mapping_candidates, suggested_alternatives
+from src.column_mapper import FIELD_LABELS, mapping_candidates, suggested_alternatives, mapping_basis
 from src.data_cleaner import normalize_status
 from src.import_choices import observed_labels, owner_variant_groups, suggest_outcome, suggest_delay
 
@@ -11,18 +11,22 @@ def review_import(raw, mapping, source_key, include_categories=False):
     selected = {v for v in mapping.values() if v}
     ignored = [c for c in raw.columns if c not in selected]
     with st.expander('Review column suggestions and coverage', expanded=any(not mapping.get(f) for f in ('deal_id','deal_value','created_date','last_activity_date','stage','status'))):
+        from src.import_profiles import column_profiles, value_candidates
+        profiles = column_profiles(raw)
         rows = []
         for field, label in FIELD_LABELS.items():
             candidates = mapping_candidates(raw.columns, field)
-            reason = ('Recognized header spelling' if len(candidates) == 1 else
+            reason = (mapping_basis(candidates[0], field) if len(candidates) == 1 else
                       'Several recognized headers; choose manually' if candidates else 'No recognized header; choose manually')
             alternatives = suggested_alternatives(raw.columns, field) if not candidates else []
             examples = {str(c): [str(v)[:80] for v in raw[c].head(3)] for c in candidates or [c for c, _ in alternatives]}
-            rows.append({'Review-only alternatives': ', '.join(str(c) for c, _ in alternatives) or 'None',
+            rows.append({'Possible value-compatible columns (review only)': ', '.join(value_candidates(profiles, field)) if not candidates else 'See recognized headings', 'Selected match basis': mapping_basis(mapping.get(field), field), 'Review-only alternatives': ', '.join(str(c) for c, _ in alternatives) or 'None',
                          'Example values (first three rows)': str(examples), 'Dashboard field': label, 'Recognized candidates': ', '.join(candidates) or 'None',
                          'Your selection': mapping.get(field) or 'Not mapped', 'Suggestion basis': reason})
         st.dataframe(pd.DataFrame(rows), hide_index=True, width='stretch')
         st.caption('Recognized headings use business synonyms, punctuation/case normalization and currency annotations on amount headers. Review-only alternatives use spelling similarity, not verified meaning; inspect the examples before choosing a column. Planned contact dates must not be mapped as historical activity. Your manual choices take priority.')
+        st.caption('Value evidence samples up to 200 rows. Numeric/date-like contents do not establish a business meaning; date roles are never chosen from values alone. Full validation runs after Check data.')
+        st.dataframe(profiles, hide_index=True, width='stretch')
         st.write('Ignored source columns: ' + (', '.join(ignored) or 'None'))
         st.caption('Ignored columns are not checked, analyzed or included in standardized downloads. They remain in the original workbook.')
     outcomes, owners, audit = {}, {}, []
