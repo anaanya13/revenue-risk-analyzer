@@ -99,7 +99,7 @@ class InterfaceTests(unittest.TestCase):
 
     def check(self):
         self.app.date_input[0].set_value(AS_OF).run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertEqual(len(self.app.exception), 0)
 
     def test_sample_and_mapping_change_require_fresh_validation(self):
@@ -110,7 +110,7 @@ class InterfaceTests(unittest.TestCase):
         self.assertTrue(any("passed" in message.value for message in self.app.success))
         status = next(widget for widget in self.app.selectbox if widget.label == "Status *")
         status.set_value("Deal ID").run()
-        self.assertTrue(self.app.button[0].disabled)
+        self.assertTrue(next(b for b in self.app.button if b.label == "Check data").disabled)
         self.assertEqual(len(self.app.metric), 0)
 
     def test_messy_data_has_report_and_no_clean_export(self):
@@ -133,7 +133,7 @@ class InterfaceTests(unittest.TestCase):
         self.choose_source("Try sample data")
         self.app.selectbox[0].set_value("Data Dictionary").run()
         self.assertEqual(len(self.app.exception), 0)
-        self.assertTrue(self.app.button[0].disabled)
+        self.assertTrue(next(b for b in self.app.button if b.label == "Check data").disabled)
         self.assertEqual(len(self.app.metric), 0)
 
 

@@ -170,7 +170,7 @@ class ActionInterfaceTests(unittest.TestCase):
         self.app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
         self.app.radio[0].set_value("Try sample data").run()
         self.app.date_input[0].set_value(date(2026, 9, 22)).run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
 
     def test_action_plan_and_successful_independent_check(self):
         self.assertEqual(len(self.app.exception), 0)
@@ -197,7 +197,7 @@ class ActionInterfaceTests(unittest.TestCase):
     def test_invalid_data_has_no_action_plan_or_check(self):
         self.app.radio[0].set_value("Try messy test data").run()
         next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertNotIn("Run calculation check", [b.label for b in self.app.button])
         self.assertNotIn("Download action plan", [b.label for b in self.app.get("download_button")])
 

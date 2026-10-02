@@ -212,7 +212,7 @@ class AnalyticsInterfaceTests(unittest.TestCase):
         self.app.radio[0].set_value("Try sample data").run()
         next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
         self.app.date_input[0].set_value(AS_OF).run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertEqual(len(self.app.exception), 0)
 
     def metric(self, name):
@@ -271,20 +271,20 @@ class AnalyticsInterfaceTests(unittest.TestCase):
         self.assertEqual(self.metric("Matching deals"), "120")
         self.app.date_input[0].set_value(date(2026, 9, 22)).run()
         self.assertEqual(len(self.app.metric), 0)
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.metric("Matching deals"), "120")
 
     def test_alternate_file_missing_optional_fields_and_invalid_file(self):
         self.app.radio[0].set_value("Try alternate column names").run()
         next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.metric("Matching deals"), "12")
         self.assertTrue(any("Map Delay Reason" in info.value for info in self.app.info))
         self.app.radio[0].set_value("Try messy test data").run()
         next(c for c in self.app.checkbox if c.label == "Require every row to pass before analysis").check().run()
-        self.app.button[0].click().run()
+        next(b for b in self.app.button if b.label == "Check data").click().run()
         self.assertEqual(len(self.app.number_input), 0)
         self.assertEqual(len(self.app.sidebar.multiselect), 0)
         self.assertEqual(len(self.app.get("plotly_chart")), 0)
