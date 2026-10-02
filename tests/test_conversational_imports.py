@@ -54,7 +54,7 @@ class ConversationalImportTests(unittest.TestCase):
         with patch('src.data_loader.load_pipeline',return_value=conversational_export()):
             a=AppTest.from_file('app.py',default_timeout=30).run()
             a.radio[0].set_value('Try sample data').run()
-            self.assertIn('6 of 6 core fields recognized', ' '.join(c.value for c in a.caption))
+            self.assertIn('6 of 6 core fields drafted', ' '.join(c.value for c in a.caption))
             next(c for c in a.checkbox if c.label=='Use these suggested outcome meanings for this file').check().run()
             a.date_input[0].set_value(date(2026,9,29)).run()
             next(b for b in a.button if b.label=='Check data').click().run()
