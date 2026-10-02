@@ -111,3 +111,12 @@ Verified the live regional Dashboard after outcome approval: 95/100 rows include
 Published broader business-header synonyms, review-only spelling alternatives with examples, explicit absent-core-field handling, outcome/delay vocabulary proposals, manual stage/delay grouping and comma/semicolon/tab/pipe CSV support. Added the fictional data/test/flexible_business_export.csv. All 113 local tests passed; seven focused flexible-import tests also passed after the compatibility adjustment. Import processing does not call a paid AI service or modify source files.
 
 Live verification: the fictional semicolon export uploaded as six rows and nine columns; all six core headings mapped automatically. Approved outcome and delay suggestions retained all six rows, with three incomplete records, 5/6 recorded amounts, one missing outcome and one Open deal lacking activity. At September 29 and a 30-day threshold, win rate was 50%, known-value exposure was 12,000 and the pricing delay selected Commercial clarification guidance. All 59 independent SQL comparisons agreed. [GitHub run 35](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36824224737) passed on Python 3.9 and 3.12.
+
+
+## October 1: second regional workbook recognition fix
+
+Diagnosed the supplied regional_sales_export (1).xlsx: 100 rows, 20 columns, all six original required mappings unrecognized. The published recognizer now maps all six core fields plus five optional fields, preserving independent meanings for Last spoke, Follow up by, Closed on and Pulled on. Added visible recognition counts, a restore-suggestions action, and review-only value evidence for other unfamiliar headings.
+
+Hosted verification with explicit outcome approval and September 29 analysis date: 94 included, six excluded, two included records with missing details. The dashboard showed open pipeline 1,285,350, win rate 58.5%, and known-value risk exposure 440,300 at a 30-day threshold. Action-plan recommendations, recorded-delay guidance and planned follow-ups rendered. All 451 independent SQL comparisons agreed. Six excluded rows remain explained: the two RS-1100 duplicates and four invalid/date-order records. The private workbook was not modified or published in GitHub. All 117 local tests passed.
+
+The live action-plan download also started successfully. [GitHub run 38](https://github.com/anaanya13/revenue-risk-analyzer/actions/runs/36945808273) passed for the final code/test release.

@@ -1,5 +1,10 @@
 # Project progress
 
+## October 1, 2026: conversational headings and value evidence
+
+Diagnosed the second regional workbook: all six required mappings were blank because informal headings were absent from the vocabulary. Added those headings, conservative field-word combinations, cross-field ambiguity protection, review-only value profiles, a core-recognition counter and an explicit restore-suggestions button. Manual choices remain authoritative. The workbook now maps all six core and five optional fields. With confirmed outcomes at September 29, 94 records are included (two incomplete), six invalid/duplicate rows are excluded with reasons, and all 451 local SQL comparisons agree. All 117 local tests pass. Hosted verification reproduced automatic six-core-field mapping, the 94-row Dashboard, Action-plan download and 451 agreeing SQL comparisons. GitHub run 38 passed. Regression tests use fictional records with equivalent headings, not the private workbook.
+
+
 ## Flexible company exports
 
 Expanded header vocabulary, review-only spelling alternatives with examples, approved delay synonyms and custom stage/delay grouping, explicit absent-core-field handling, and common CSV separators. Added a six-record fictional export covering unfamiliar headings and missing details. Regression checks cover ambiguity, manual mapping persistence, explicit outcomes, missing-column calculations and SQL agreement. All 113 local tests pass, and the focused compatibility check passes all seven flexible-import tests. No paid AI call or new dependency is required. Live verification included all six practice rows, rendered the approved pricing guidance and returned 59 agreeing SQL comparisons. GitHub run 35 passed on Python 3.9 and 3.12. See START_HERE.md for the workflow.

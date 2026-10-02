@@ -144,3 +144,8 @@ Default analysis retains rows whose only issues are missing required values. Str
 ## Flexible business imports
 
 Header vocabulary covers CRM and business synonyms; normalized currency annotations are accepted on amount headings without converting currency. Unmatched headings get review-only spelling alternatives with examples; ambiguous mappings stay unselected and one-to-one mapping checks remain. Whole core fields may be explicitly marked absent, with at least two mapped core fields including amount or status; resulting nulls follow the missing-value rules. CSV separators may be comma, semicolon, tab or pipe. Outcome proposals and delay-group proposals require per-file approval; custom stage/delay grouping is opt-in and audited. Interpretation changes invalidate results. No semantic model/API call is required for imports. Source workbooks remain unchanged.
+
+
+## Conversational field recognition
+
+A curated vocabulary and conservative word-combination rules map informal business headings. More than one candidate for a field, or a column matching multiple fields, prevents automatic selection. Manual mappings are preserved; restoring suggestions is an explicit action and invalidates prior results. Review-only profiles sample up to 200 rows per source column and show nonblank counts, sample values, parseable number/date counts and recognized outcome words. Type-compatible alternatives never assign date roles or outcomes automatically. Full validation still runs over the entire selected file.
