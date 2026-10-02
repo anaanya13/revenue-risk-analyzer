@@ -1,5 +1,11 @@
 # Start here
 
+## Automatic column drafts
+
+Upload your file in Data setup. The app combines heading synonyms and word families with a sample of up to 200 rows to draft the field selections. For example, opportunity references, ballpark amounts, recent chats, verdicts and planned conversations can be recognized across differently worded headings. Expand **Review column suggestions and coverage** to see the evidence, examples and any ambiguity.
+
+Your manual selections stay in place. To replace them with the latest draft, click **Use suggested column matches**. Review outcome meanings (such as Signed → Won) for your business, then click **Check data**. Missing cells remain included with field-level limitations; invalid dates and duplicate references are listed separately with reasons. Date and amount columns are never assigned a business role from their contents alone. Competing matches or strongly conflicting values need your review. Unfamiliar jargon may still need a manual selection; the system does not claim to understand every business vocabulary.
+
 ## New: help while you use the app
 
 - Open **Your dashboard guide — start here** above the tabs at any time. It walks through setup, filters, results, downloads and common questions.
